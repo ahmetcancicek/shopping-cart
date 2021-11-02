@@ -29,6 +29,7 @@ public class Customer {
     @JoinColumn(name = "users_id")
     private User users;
 
+
     public User getUsers() {
         return users;
     }
