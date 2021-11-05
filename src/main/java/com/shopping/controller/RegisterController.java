@@ -1,7 +1,7 @@
 package com.shopping.controller;
 
 import com.shopping.model.Customer;
-import com.shopping.servivce.CustomerService;
+import com.shopping.servivce.impl.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

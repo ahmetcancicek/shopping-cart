@@ -1,4 +1,4 @@
-package com.shopping.servivce;
+package com.shopping.servivce.impl;
 
 import com.shopping.model.Customer;
 import com.shopping.repository.CustomerRepository;

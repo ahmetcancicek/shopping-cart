@@ -3,7 +3,7 @@ package com.shopping.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shopping.model.Customer;
 import com.shopping.model.User;
-import com.shopping.servivce.CustomerService;
+import com.shopping.servivce.impl.CustomerService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 

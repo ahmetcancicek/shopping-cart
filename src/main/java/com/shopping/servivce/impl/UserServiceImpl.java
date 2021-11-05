@@ -1,7 +1,8 @@
-package com.shopping.servivce;
+package com.shopping.servivce.impl;
 
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
+import com.shopping.servivce.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
