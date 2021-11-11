@@ -1,35 +1,45 @@
 package com.shopping.controller;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.RequestBuilder;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 
-@ExtendWith(SpringExtension.class)
-@WebMvcTest(HomeController.class)
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class HomeControllerIntTest {
 
+    @LocalServerPort
+    private int port;
+
     @Autowired
-    private MockMvc mockMvc;
+    private TestRestTemplate restTemplate;
+
+    HttpHeaders headers = new HttpHeaders();
 
     @Test
-    void hello() throws Exception {
-        RequestBuilder request = get("/hello");
-        MvcResult result = mockMvc.perform(request).andReturn();
-        assertEquals("Hello, World", result.getResponse().getContentAsString());
+    public void should_return_message() {
+        ResponseEntity<String> getString = restTemplate.exchange("/hello",
+                HttpMethod.GET,
+                new HttpEntity<>(null, headers),
+                String.class);
+
+        assertEquals("Hello, World",getString.getBody());
     }
 
     @Test
-    public void testHelloWithName() throws Exception{
-        mockMvc.perform(get("/hello?name=Ahmet"))
-                .andExpect(content().string("Hello, Ahmet"));
+    public void should_return_message_when_given_parameter(){
+        ResponseEntity<String> getString = restTemplate.exchange("/hello?name=John",
+                HttpMethod.GET,
+                new HttpEntity<>(null, headers),
+                String.class);
+
+        assertEquals("Hello, John",getString.getBody());
     }
 }
