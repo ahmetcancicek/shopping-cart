@@ -2,13 +2,14 @@ package com.shopping.servivce.impl;
 
 import com.shopping.model.Customer;
 import com.shopping.repository.CustomerRepository;
+import com.shopping.servivce.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CustomerServiceImpl implements CustomerService{
+public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
 

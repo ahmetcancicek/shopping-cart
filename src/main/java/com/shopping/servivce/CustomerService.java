@@ -1,4 +1,4 @@
-package com.shopping.servivce.impl;
+package com.shopping.servivce;
 
 import com.shopping.model.Customer;
 import com.shopping.model.User;
