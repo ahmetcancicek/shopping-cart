@@ -1,18 +1,17 @@
 package com.shopping.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "customer")
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class Customer {
 
     @Id
@@ -25,10 +24,11 @@ public class Customer {
     @Column(name = "last_name",nullable = true)
     private String lastName;
 
+    @Valid
     @OneToOne
     @JoinColumn(name = "users_id")
+    @NotNull(message = "User must not be null!")
     private User users;
-
 
     public User getUsers() {
         return users;

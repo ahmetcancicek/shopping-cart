@@ -1,21 +1,19 @@
 package com.shopping.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Table(name = "users")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@Data
 public class User {
 
     @Id
@@ -30,13 +28,11 @@ public class User {
 
     @Column(name = "username",unique = true,nullable = false)
     @Length(min = 5,message = "Username must have at least 5 characters")
-    @Email(message = "Username must be valid!")
     @NotEmpty(message = "Username must not be null")
     private String username;
 
     @Column(name = "password",unique = true,nullable = false)
     @Length(min = 5,message = "Password must have at least 5 characters")
-    @Email(message = "Password must be valid!")
     @NotEmpty(message = "Password must not be null")
     private String password;
 
