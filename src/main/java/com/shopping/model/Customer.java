@@ -25,8 +25,8 @@ public class Customer {
     private String lastName;
 
     @Valid
-    @OneToOne
-    @JoinColumn(name = "users_id")
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "user_id")
     @NotNull(message = "User must not be null!")
     private User users;
 
