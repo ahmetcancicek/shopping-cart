@@ -14,13 +14,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class HomeControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @Test
-    void should_return_message(){
+    public void should_return_message(){
         HomeController controller = new HomeController();
         String response = controller.hello("World");
         assertEquals("Hello, World", response);

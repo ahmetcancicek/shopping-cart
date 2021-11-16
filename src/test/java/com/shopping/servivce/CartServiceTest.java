@@ -15,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class CartServiceTest {
 
-    ProductRepository productRepository;
-    CartService cartService;
+    private ProductRepository productRepository;
+    private CartService cartService;
 
     @BeforeEach
     void setUp() {

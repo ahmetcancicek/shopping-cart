@@ -20,7 +20,7 @@ class RegistrationControllerIntTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    HttpHeaders headers = new HttpHeaders();
+    private HttpHeaders headers = new HttpHeaders();
 
     @Test
     public void should_be_return_created_customer_when_called_byRegisterCustomer() {

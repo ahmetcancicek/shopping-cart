@@ -21,7 +21,7 @@ class HomeControllerIntTest {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    HttpHeaders headers = new HttpHeaders();
+    private HttpHeaders headers = new HttpHeaders();
 
     @Test
     public void should_return_message() {

@@ -26,16 +26,16 @@ import static org.hamcrest.Matchers.*;
 class RegistrationControllerTest {
 
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @Autowired
-    ObjectMapper mapper;
+    private ObjectMapper mapper;
 
     @MockBean
-    CustomerService customerService;
+    private CustomerService customerService;
 
     @Test
-    void should_return_successful_when_body_isValid() throws Exception {
+    public void should_return_successful_when_body_isValid() throws Exception {
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("First Name")
@@ -60,7 +60,7 @@ class RegistrationControllerTest {
 
 
     @Test
-    void should_return_bad_request_when_body_isNotValid() throws Exception {
+    public void should_return_bad_request_when_body_isNotValid() throws Exception {
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("First Name")
