@@ -21,7 +21,7 @@ public class RegistrationController {
         this.customerService = customerService;
     }
 
-    @RequestMapping(method = RequestMethod.POST)
+    @PostMapping
     public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) {
         return new ResponseEntity<Customer>(customerService.saveCustomer(customer), HttpStatus.CREATED);
     }
