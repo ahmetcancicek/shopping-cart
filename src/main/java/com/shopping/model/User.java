@@ -39,7 +39,7 @@ public class User {
     @Column(name = "active",nullable = false)
     private boolean active;
 
-    @OneToOne(mappedBy = "users")
+    @OneToOne(mappedBy = "users",cascade = CascadeType.ALL)
     private Customer customer;
 
     public User(String email,String username,String password,boolean active){

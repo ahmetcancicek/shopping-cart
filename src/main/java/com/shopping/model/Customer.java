@@ -27,14 +27,5 @@ public class Customer {
     @Valid
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
-    @NotNull(message = "User must not be null!")
     private User users;
-
-    public User getUsers() {
-        return users;
-    }
-
-    public void setUsers(User users) {
-        this.users = users;
-    }
 }
