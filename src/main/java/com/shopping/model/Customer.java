@@ -4,7 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 
 @Table(name = "customer")
 @Entity
@@ -28,4 +27,10 @@ public class Customer {
     @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User users;
+
+    public Customer(String firstName,String lastName,User users){
+        this.firstName=firstName;
+        this.lastName=lastName;
+        this.users = users;
+    }
 }
