@@ -3,6 +3,7 @@ version: '3.1'
 services:
 
   mysql:
+    container_name: shoppingcart-mysql
     image: mysql
     restart: always
     environment:
@@ -13,7 +14,8 @@ services:
     ports:
       - "3306:3306"
 
-  shopping-cart:
+  shoppingcart:
+    container_name: shoppingcart-server
     build:
       context: .
       dockerfile: Dockerfile
