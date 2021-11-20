@@ -1,8 +1,8 @@
-package com.shopping.servivce.impl;
+package com.shopping.service.impl;
 
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
-import com.shopping.servivce.UserService;
+import com.shopping.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

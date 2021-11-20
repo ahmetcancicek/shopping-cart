@@ -1,8 +1,9 @@
-package com.shopping.servivce.impl;
+package com.shopping.service;
 
 import com.shopping.model.Customer;
 import com.shopping.model.User;
 import com.shopping.repository.CustomerRepository;
+import com.shopping.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -17,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
 
 @ExtendWith(MockitoExtension.class)
-class CustomerServiceImplTest {
+class CustomerServiceTest {
 
     @Mock
     private CustomerRepository customerRepository;

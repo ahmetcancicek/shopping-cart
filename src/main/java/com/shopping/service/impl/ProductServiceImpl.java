@@ -1,8 +1,8 @@
-package com.shopping.servivce.impl;
+package com.shopping.service.impl;
 
 import com.shopping.model.Product;
 import com.shopping.repository.ProductRepository;
-import com.shopping.servivce.ProductService;
+import com.shopping.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

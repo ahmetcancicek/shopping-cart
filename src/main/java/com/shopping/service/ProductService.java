@@ -1,4 +1,4 @@
-package com.shopping.servivce;
+package com.shopping.service;
 
 import com.shopping.model.Product;
 import org.springframework.data.domain.Page;

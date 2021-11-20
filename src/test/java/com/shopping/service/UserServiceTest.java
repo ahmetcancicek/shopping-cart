@@ -1,7 +1,8 @@
-package com.shopping.servivce.impl;
+package com.shopping.service;
 
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
+import com.shopping.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

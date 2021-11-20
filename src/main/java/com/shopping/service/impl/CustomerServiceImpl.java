@@ -1,8 +1,8 @@
-package com.shopping.servivce.impl;
+package com.shopping.service.impl;
 
 import com.shopping.model.Customer;
 import com.shopping.repository.CustomerRepository;
-import com.shopping.servivce.CustomerService;
+import com.shopping.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
