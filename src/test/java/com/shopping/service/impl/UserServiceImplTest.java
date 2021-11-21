@@ -1,4 +1,4 @@
-package com.shopping.service;
+package com.shopping.service.impl;
 
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
