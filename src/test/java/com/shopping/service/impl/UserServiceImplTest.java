@@ -29,7 +29,7 @@ class UserServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void findByUsername_ExistingUsername_ShouldReturnUserOfThatUsername() {
+    public void should_return_user_of_that_username_when_called_findByUsername() {
         final User user = User.builder()
                 .username("username")
                 .password("password")
@@ -47,7 +47,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void findByEmail_ExistingEmail_ShouldReturnUserOfThatEmail() {
+    public void should_return_user_of_that_email_when_called_findByEmail() {
         final User user = User.builder()
                 .username("username")
                 .password("password")
@@ -64,8 +64,9 @@ class UserServiceImplTest {
         assertEquals(user.getEmail(), expected.get().getEmail());
     }
 
+
     @Test
-    public void saveUser_ValidUser_ShouldSaveNewUser() {
+    public void it_should_save_user() {
         final User user = User.builder()
                 .username("username")
                 .password("password")
@@ -85,7 +86,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void saveUser_ExistingUserWithEmail_ShouldThrowException() {
+    public void it_should_throw_exception_when_save_user_with_existing_email() {
         final User user = User.builder()
                 .username("username")
                 .password("password")
@@ -103,7 +104,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void saveUser_ExistingUserWithUsername_ShouldThrowException() {
+    public void it_should_throw_exception_when_save_user_with_existing_username() {
         final User user = User.builder()
                 .username("username")
                 .password("password")
@@ -113,7 +114,7 @@ class UserServiceImplTest {
 
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
-        assertThrows(IllegalArgumentException.class,()->{
+        assertThrows(IllegalArgumentException.class, () -> {
             userService.saveUser(user);
         });
 
@@ -121,7 +122,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void deleteUserById_ExistingUserWithId_ShouldDeleteUser() {
+    public void it_should_delete_user_when_delete_user_with_id() {
 
         final Long userId = 1L;
 

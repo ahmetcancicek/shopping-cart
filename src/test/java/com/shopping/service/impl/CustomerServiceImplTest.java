@@ -27,7 +27,7 @@ class CustomerServiceImplTest {
     private CustomerServiceImpl customerService;
 
     @Test
-    void saveCustomer_Valid_ShouldSaveNewCustomer(){
+    void should_save_customer() {
         final User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -48,14 +48,14 @@ class CustomerServiceImplTest {
 
         assertTrue(expected.isPresent());
 
-        assertEquals(customer.getFirstName(),expected.get().getFirstName());
+        assertEquals(customer.getFirstName(), expected.get().getFirstName());
     }
 
 
     @Test
-    void getAllCustomers_NoFilter_ShouldReturnListOfAllCustomers() {
+    void should_return_list_of_all_customers() {
         final User user1 = new User("email@email.com", "username", "password", true);
-        final User user2= new User("email@email.com", "username", "password", true);
+        final User user2 = new User("email@email.com", "username", "password", true);
 
         List<Customer> customers = new ArrayList<>();
         customers.add(new Customer(1L, "John", "Doe", user1));

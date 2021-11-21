@@ -48,41 +48,41 @@ class UserRepositoryTest {
     }
 
     @Test
-    public void saveUser_ValidUser_ShouldSaveNewUser() {
+    public void should_save_user() {
         userRepository.save(user);
 
         Optional<User> fetchedUser = userRepository.findByUsername(user.getUsername());
 
         assertTrue(fetchedUser.isPresent());
 
-        assertEquals(user.getUsername(),fetchedUser.get().getUsername());
+        assertEquals(user.getUsername(), fetchedUser.get().getUsername());
     }
 
     @Test
-    public void findByUsername_ExistingUsername_ShouldReturnUserOfThatUsername(){
+    public void should_return_user_of_that_username_when_called_findByUsername() {
         userRepository.save(user);
 
         Optional<User> fetchedUser = userRepository.findByUsername(user.getUsername());
 
         assertTrue(fetchedUser.isPresent());
 
-        assertEquals(user.getUsername(),fetchedUser.get().getUsername());
+        assertEquals(user.getUsername(), fetchedUser.get().getUsername());
     }
 
     @Test
-    public void findByEmail_ExistingEmail_ShouldReturnUserOfThatEmail(){
+    public void should_return_user_of_that_email_when_called_findByEmail() {
         userRepository.save(user);
 
         Optional<User> fetchedUser = userRepository.findByEmail(user.getEmail());
 
         assertTrue(fetchedUser.isPresent());
 
-        assertEquals(user.getEmail(),fetchedUser.get().getEmail());
+        assertEquals(user.getEmail(), fetchedUser.get().getEmail());
     }
 
 
     @Test
-    public void deleteById_ExistingId_ShouldDeleteUser(){
+    public void should_delete_user() {
         userRepository.save(user);
 
         userRepository.deleteById(user.getId());

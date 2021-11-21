@@ -35,7 +35,7 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    public void saveCustomer_ValidCustomer_ShouldSaveNewCustomer() {
+    public void should_save_customer() {
         customerRepository.save(customer);
 
         Optional<Customer> fetchedCustomer = customerRepository.findById(customer.getId());
@@ -46,7 +46,7 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    public void getAllCustomers_NoFilter_ShouldReturnListOfAllCustomers() {
+    public void should_return_list_of_all_customers() {
         customerRepository.save(customer);
 
         List<Customer> expectedCustomers = customerRepository.findAll();
