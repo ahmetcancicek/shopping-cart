@@ -6,11 +6,15 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
 @Table(name = "cart_item")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CartItem {
 
     @Id
@@ -25,8 +29,8 @@ public class CartItem {
     @Min(value = 0, message = "Quantity must not to be negative number")
     private Integer quantity;
 
-    @Column(name = "price",nullable = false)
-    @DecimalMin(value = "0.00",message = "Price must not to be negative number")
+    @Column(name = "price", nullable = false)
+    @DecimalMin(value = "0.00", message = "Price must not to be negative number")
     private BigDecimal price;
 
     @ManyToOne
