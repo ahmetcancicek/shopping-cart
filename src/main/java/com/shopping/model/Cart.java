@@ -1,6 +1,5 @@
 package com.shopping.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -23,9 +22,8 @@ public class Cart {
     @DecimalMin(value = "0.00", message = "Price must not to be negative number")
     private BigDecimal totalPrice;
 
-    @OneToOne
+    @OneToOne(optional = false)
     @JoinColumn(name = "customer_id")
-    @JsonIgnore
     private Customer customer;
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)

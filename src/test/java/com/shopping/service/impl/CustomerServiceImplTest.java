@@ -57,8 +57,8 @@ class CustomerServiceImplTest {
         final User user2 = new User("email@email.com", "username", "password", true);
 
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer(1L, "John", "Doe", user1));
-        customers.add(new Customer(2L, "July", "Eric", user2));
+        customers.add(new Customer(1L, "John", "Doe", user1, null));
+        customers.add(new Customer(2L, "July", "Eric", user2, null));
 
         given(customerRepository.findAll()).willReturn(customers);
 
