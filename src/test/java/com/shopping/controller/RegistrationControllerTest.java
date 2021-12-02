@@ -43,7 +43,7 @@ class RegistrationControllerTest {
                 .users(new User("email@email.com", "username", "password", true))
                 .build();
 
-        Mockito.when(customerService.saveCustomer(customer)).thenReturn(customer);
+        Mockito.when(customerService.save(customer)).thenReturn(customer);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -68,7 +68,7 @@ class RegistrationControllerTest {
                 .users(new User())
                 .build();
 
-        Mockito.when(customerService.saveCustomer(customer)).thenReturn(customer);
+        Mockito.when(customerService.save(customer)).thenReturn(customer);
 
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)

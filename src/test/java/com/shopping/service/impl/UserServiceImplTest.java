@@ -2,7 +2,6 @@ package com.shopping.service.impl;
 
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
-import com.shopping.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -77,7 +76,7 @@ class UserServiceImplTest {
 
         when(userRepository.save(any(User.class))).thenReturn(user);
 
-        User savedUser = userService.saveUser(user);
+        User savedUser = userService.save(user);
 
         verify(userRepository, times(1)).save(any());
 
@@ -97,7 +96,7 @@ class UserServiceImplTest {
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            userService.saveUser(user);
+            userService.save(user);
         });
 
         verify(userRepository, never()).save(any(User.class));
@@ -115,7 +114,7 @@ class UserServiceImplTest {
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
         assertThrows(IllegalArgumentException.class, () -> {
-            userService.saveUser(user);
+            userService.save(user);
         });
 
         verify(userRepository, never()).save(any(User.class));
@@ -126,8 +125,8 @@ class UserServiceImplTest {
 
         final Long userId = 1L;
 
-        userService.deleteUserById(userId);
-        userService.deleteUserById(userId);
+        userService.deleteById(userId);
+        userService.deleteById(userId);
 
         verify(userRepository, times(2)).deleteById(userId);
     }

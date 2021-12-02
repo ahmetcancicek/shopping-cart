@@ -3,7 +3,6 @@ package com.shopping.service.impl;
 import com.shopping.model.Customer;
 import com.shopping.model.User;
 import com.shopping.repository.CustomerRepository;
-import com.shopping.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -63,7 +62,7 @@ class CustomerServiceImplTest {
 
         given(customerRepository.findAll()).willReturn(customers);
 
-        final List<Customer> expectedCustomers = customerRepository.findAll();
+        final List<Customer> expectedCustomers = customerService.findAll();
 
         assertEquals("John", expectedCustomers.get(0).getFirstName());
     }

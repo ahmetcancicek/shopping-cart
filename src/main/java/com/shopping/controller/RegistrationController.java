@@ -23,6 +23,6 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) {
-        return new ResponseEntity<Customer>(customerService.saveCustomer(customer), HttpStatus.CREATED);
+        return new ResponseEntity<Customer>(customerService.save(customer), HttpStatus.CREATED);
     }
 }
