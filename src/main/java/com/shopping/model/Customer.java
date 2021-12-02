@@ -3,7 +3,7 @@ package com.shopping.model;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Table(name = "customer")
 @Entity
@@ -23,7 +23,7 @@ public class Customer {
     @Column(name = "last_name", nullable = true)
     private String lastName;
 
-    @Valid
+    @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
     private User users;
