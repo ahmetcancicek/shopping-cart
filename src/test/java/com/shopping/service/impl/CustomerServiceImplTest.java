@@ -26,7 +26,7 @@ class CustomerServiceImplTest {
     private CustomerServiceImpl customerService;
 
     @Test
-    void should_save_customer() {
+    void it_should_save_customer() {
         final User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -52,7 +52,7 @@ class CustomerServiceImplTest {
 
 
     @Test
-    void should_return_list_of_all_customers() {
+    void it_should_return_list_of_all_customers() {
         final User user1 = new User("email@email.com", "username", "password", true);
         final User user2 = new User("email@email.com", "username", "password", true);
 

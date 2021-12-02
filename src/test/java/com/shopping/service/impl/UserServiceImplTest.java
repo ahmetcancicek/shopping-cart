@@ -28,7 +28,7 @@ class UserServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void should_return_user_of_that_username_when_called_findByUsername() {
+    public void it_should_return_user_of_that_username_when_called_findByUsername() {
         final User user = User.builder()
                 .username("username")
                 .password("password")
@@ -46,7 +46,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void should_return_user_of_that_email_when_called_findByEmail() {
+    public void it_should_return_user_of_that_email_when_called_findByEmail() {
         final User user = User.builder()
                 .username("username")
                 .password("password")
