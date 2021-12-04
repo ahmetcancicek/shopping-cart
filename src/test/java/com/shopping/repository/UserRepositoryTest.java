@@ -21,22 +21,14 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
     private User user;
-    private Customer customer;
 
     @BeforeEach
     void setUp() {
-        customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .users(user)
-                .build();
-
         user = User.builder()
                 .email("email@email.com")
                 .username("username")
                 .password("password")
                 .active(true)
-                .customer(customer)
                 .build();
     }
 
@@ -44,7 +36,6 @@ class UserRepositoryTest {
     void tearDown() {
         userRepository.deleteAll();
         user = null;
-        customer = null;
     }
 
     @Test
@@ -56,6 +47,11 @@ class UserRepositoryTest {
         assertTrue(fetchedUser.isPresent());
 
         assertEquals(user.getUsername(), fetchedUser.get().getUsername());
+    }
+
+    @Test
+    public void should_throw_exception_when_called_saveUser_with_invalid() {
+
     }
 
     @Test

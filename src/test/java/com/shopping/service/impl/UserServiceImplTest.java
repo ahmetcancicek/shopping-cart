@@ -42,7 +42,7 @@ class UserServiceImplTest {
 
         assertTrue(expected.isPresent());
 
-        assertEquals(user.getUsername(), expected.get().getUsername());
+        assertEquals(user.getUsername(), expected.get().getUsername(), "Username must be equal");
     }
 
     @Test
@@ -60,7 +60,7 @@ class UserServiceImplTest {
 
         assertTrue(expected.isPresent());
 
-        assertEquals(user.getEmail(), expected.get().getEmail());
+        assertEquals(user.getEmail(), expected.get().getEmail(),"Email must be equal");
     }
 
 

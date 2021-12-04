@@ -18,19 +18,20 @@ class CustomerRepositoryTest {
 
     @Autowired
     private CustomerRepository customerRepository;
-    private User user;
     private Customer customer;
 
     @BeforeEach
     void setUp() {
-        user = new User("email@email.com", "username", "password", true);
-        customer = new Customer("John", "Doe", user);
+        customer = Customer.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .users(new User("email@email.com", "username", "password", true))
+                .build();
     }
 
     @AfterEach
     void tearDown() {
         customerRepository.deleteAll();
-        user = null;
         customer = null;
     }
 

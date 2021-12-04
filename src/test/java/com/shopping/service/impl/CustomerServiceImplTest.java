@@ -47,7 +47,7 @@ class CustomerServiceImplTest {
 
         assertTrue(expected.isPresent());
 
-        assertEquals(customer.getFirstName(), expected.get().getFirstName());
+        assertEquals(customer.getFirstName(), expected.get().getFirstName(),"First name must be equal");
     }
 
 
@@ -64,7 +64,7 @@ class CustomerServiceImplTest {
 
         final List<Customer> expectedCustomers = customerService.findAll();
 
-        assertEquals("John", expectedCustomers.get(0).getFirstName());
+        assertEquals("John", expectedCustomers.get(0).getFirstName(),"First name must be equal");
     }
 
 }
