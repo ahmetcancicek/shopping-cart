@@ -1,9 +1,9 @@
 package com.shopping.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
 @Table(name = "customer")
 @Entity
@@ -23,17 +23,23 @@ public class Customer {
     @Column(name = "last_name", nullable = true)
     private String lastName;
 
-    @NotNull
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "user_id")
+    @JoinColumn(name = "user_id", nullable = false)
     private User users;
 
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id")
+    @JsonIgnore
     private Cart cart;
 
     public Customer(String firstName, String lastName, User users) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.users = users;
+    }
+
+    public Customer(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }
