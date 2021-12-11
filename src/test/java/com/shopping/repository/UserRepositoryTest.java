@@ -29,14 +29,9 @@ class UserRepositoryTest {
                 .build();
     }
 
-    @AfterEach
-    void tearDown() {
-
-    }
-
     @Test
     public void should_save_user() {
-        User savedUser = userRepository.save(user);
+        User savedUser = userRepository.saveAndFlush(user);
 
         assertNotNull(savedUser, "Returned must not be null");
         assertEquals(user.getUsername(), savedUser.getUsername(), "Username must be equal");
@@ -44,7 +39,7 @@ class UserRepositoryTest {
 
     @Test
     public void should_return_user_of_that_username_when_called_findByUsername() {
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Optional<User> fetchedUser = userRepository.findByUsername(user.getUsername());
 
@@ -54,7 +49,7 @@ class UserRepositoryTest {
 
     @Test
     public void should_return_user_of_that_email_when_called_findByEmail() {
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
 
         Optional<User> fetchedUser = userRepository.findByEmail(user.getEmail());
 
@@ -65,7 +60,7 @@ class UserRepositoryTest {
 
     @Test
     public void should_delete_user() {
-        userRepository.save(user);
+        userRepository.saveAndFlush(user);
         userRepository.deleteById(user.getId());
     }
 
