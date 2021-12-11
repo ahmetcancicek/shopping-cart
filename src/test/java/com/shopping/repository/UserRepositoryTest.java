@@ -36,12 +36,10 @@ class UserRepositoryTest {
 
     @Test
     public void should_save_user() {
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
-        Optional<User> fetchedUser = userRepository.findByUsername(user.getUsername());
-
-        assertTrue(fetchedUser.isPresent(), "Returned must not be null");
-        assertEquals(user.getUsername(), fetchedUser.get().getUsername(), "Username must be equal");
+        assertNotNull(savedUser, "Returned must not be null");
+        assertEquals(user.getUsername(), savedUser.getUsername(), "Username must be equal");
     }
 
     @Test
