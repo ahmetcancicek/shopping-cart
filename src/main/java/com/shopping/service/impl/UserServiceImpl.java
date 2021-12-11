@@ -35,15 +35,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-
         isExist(user);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
-
         User savedUser = userRepository.save(user);
-
-        log.info("new user has been created: {}", user.getUsername());
+        log.info("new user has been created: {}", user.getId());
 
         return savedUser;
     }
@@ -51,19 +48,20 @@ public class UserServiceImpl implements UserService {
     private void isExist(User user) {
         Optional<User> existing = userRepository.findByEmail(user.getEmail());
         existing.ifPresent(it -> {
-            throw new IllegalArgumentException("user already exists: " + it.getEmail());
+            log.error("user already exists: " + it.getEmail());
+            throw new IllegalArgumentException("user already exists: {}" + it.getEmail());
         });
 
         existing = userRepository.findByUsername(user.getUsername());
         existing.ifPresent(it -> {
-            throw new IllegalArgumentException("user already exists: " + it.getUsername());
+            log.error("user already exists: " + it.getUsername());
+            throw new IllegalArgumentException("user already exists: {}" + it.getUsername());
         });
     }
 
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
-
         log.info("user has been deleted: {}", id);
     }
 }

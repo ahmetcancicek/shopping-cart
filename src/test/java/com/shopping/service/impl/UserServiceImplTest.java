@@ -30,6 +30,7 @@ class UserServiceImplTest {
     @Test
     public void it_should_return_user_of_that_username_when_called_findByUsername() {
         final User user = User.builder()
+                .id(1L)
                 .username("username")
                 .password("password")
                 .email("email@email.com")
@@ -40,14 +41,14 @@ class UserServiceImplTest {
 
         final Optional<User> expected = userService.findByUsername(user.getUsername());
 
-        assertTrue(expected.isPresent());
-
+        assertTrue(expected.isPresent(), "Returned must not be null");
         assertEquals(user.getUsername(), expected.get().getUsername(), "Username must be equal");
     }
 
     @Test
     public void it_should_return_user_of_that_email_when_called_findByEmail() {
         final User user = User.builder()
+                .id(1L)
                 .username("username")
                 .password("password")
                 .email("email@email.com")
@@ -58,35 +59,33 @@ class UserServiceImplTest {
 
         final Optional<User> expected = userService.findByEmail(user.getEmail());
 
-        assertTrue(expected.isPresent());
-
-        assertEquals(user.getEmail(), expected.get().getEmail(),"Email must be equal");
+        assertTrue(expected.isPresent(), "Returned must not be null");
+        assertEquals(user.getEmail(), expected.get().getEmail(), "Email must be equal");
     }
 
 
     @Test
     public void it_should_save_user() {
         final User user = User.builder()
+                .id(1L)
                 .username("username")
                 .password("password")
                 .email("email@email.com")
                 .active(true)
                 .build();
 
-
         when(userRepository.save(any(User.class))).thenReturn(user);
 
         User savedUser = userService.save(user);
 
         verify(userRepository, times(1)).save(any());
-
-        assertNotNull(savedUser);
-
+        assertNotNull(savedUser, "Returned must not be null");
     }
 
     @Test
     public void it_should_throw_exception_when_save_user_with_existing_email() {
         final User user = User.builder()
+                .id(1L)
                 .username("username")
                 .password("password")
                 .email("email@email.com")
@@ -105,6 +104,7 @@ class UserServiceImplTest {
     @Test
     public void it_should_throw_exception_when_save_user_with_existing_username() {
         final User user = User.builder()
+                .id(1L)
                 .username("username")
                 .password("password")
                 .email("email@email.com")
@@ -122,7 +122,6 @@ class UserServiceImplTest {
 
     @Test
     public void it_should_delete_user_when_delete_user_with_id() {
-
         final Long userId = 1L;
 
         userService.deleteById(userId);
