@@ -19,12 +19,12 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "total_price", nullable = false)
+    @Column(name = "total_price",nullable = false)
     @DecimalMin(value = "0.00", message = "Price must not to be negative number")
     private BigDecimal totalPrice;
 
     @OneToOne
-    @JoinColumn(name = "customer_id")
+    @JoinColumn(name = "customer_id", nullable = false)
     @JsonIgnore
     private Customer customer;
 

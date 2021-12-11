@@ -27,8 +27,8 @@ public class Customer {
     @JoinColumn(name = "user_id", nullable = false)
     private User users;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "cart_id")
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinColumn(name = "cart_id", nullable = false)
     @JsonIgnore
     private Cart cart;
 
