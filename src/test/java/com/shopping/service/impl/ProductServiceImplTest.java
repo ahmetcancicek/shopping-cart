@@ -45,8 +45,7 @@ class ProductServiceImplTest {
 
         final Optional<Product> expected = productService.findById(product.getId());
 
-        assertTrue(expected.isPresent());
-
+        assertTrue(expected.isPresent(), "Returned must not be null");
         assertEquals(product.getId(), expected.get().getId(), "Id must be equal");
     }
 
@@ -59,13 +58,11 @@ class ProductServiceImplTest {
         Product savedProduct = productService.save(product);
 
         verify(productRepository, times(1)).save(any());
-
         assertNotNull(savedProduct, "Must not be null");
     }
 
     @Test
     public void should_delete_product_when_delete_product_with_id() {
-
         final Long productId = 1L;
 
         productService.deleteById(productId);
