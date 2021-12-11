@@ -1,14 +1,19 @@
 package com.shopping.service.impl;
 
+import com.shopping.model.Cart;
 import com.shopping.model.Customer;
+import com.shopping.repository.CartRepository;
 import com.shopping.repository.CustomerRepository;
 import com.shopping.service.CustomerService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class CustomerServiceImpl implements CustomerService {
 
@@ -26,7 +31,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        return customerRepository.saveAndFlush(customer);
+        // TODO: Fix cart
+        Customer savedCustomer = customerRepository.saveAndFlush(customer);
+        log.info("new customer has been created: {}", savedCustomer.getFirstName());
+        return savedCustomer;
     }
 
     @Override

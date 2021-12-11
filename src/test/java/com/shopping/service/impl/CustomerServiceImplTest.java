@@ -1,5 +1,6 @@
 package com.shopping.service.impl;
 
+import com.shopping.model.Cart;
 import com.shopping.model.Customer;
 import com.shopping.model.User;
 import com.shopping.repository.CustomerRepository;
@@ -14,7 +15,9 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 class CustomerServiceImplTest {
@@ -26,33 +29,43 @@ class CustomerServiceImplTest {
     private CustomerServiceImpl customerService;
 
     @Test
-    void it_should_save_customer() {
-        final User user = User.builder()
-                .email("email@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
+    void should_save_customer() {
         final Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("John")
                 .lastName("Doe")
-                .users(user)
+                .users(new User("email@email.com", "username", "password", true))
+                .build();
+
+
+        when(customerRepository.saveAndFlush(any(Customer.class))).thenReturn(customer);
+
+        Customer savedCustomer = customerService.save(customer);
+
+        verify(customerRepository, times(1)).saveAndFlush(any());
+        assertNotNull(savedCustomer);
+        assertEquals(customer.getFirstName(), savedCustomer.getFirstName(), "First name must be equal");
+    }
+
+    @Test
+    void should_return_cart_id_when_save_customer() {
+        final Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("John")
+                .lastName("Doe")
+                .users(new User("email@email.com", "username", "password", true))
+                .cart(new Cart())
                 .build();
 
         given(customerRepository.findById(customer.getId())).willReturn(Optional.of(customer));
 
         final Optional<Customer> expected = customerService.findById(customer.getId());
 
-        assertTrue(expected.isPresent());
-
-        assertEquals(customer.getFirstName(), expected.get().getFirstName(),"First name must be equal");
+        assertEquals(customer.getCart().getId(), expected.get().getCart().getId(), "Cart ID must be equal");
     }
 
-
     @Test
-    void it_should_return_list_of_all_customers() {
+    void should_return_list_of_all_customers() {
         final User user1 = new User("email@email.com", "username", "password", true);
         final User user2 = new User("email@email.com", "username", "password", true);
 
@@ -64,7 +77,7 @@ class CustomerServiceImplTest {
 
         final List<Customer> expectedCustomers = customerService.findAll();
 
-        assertEquals("John", expectedCustomers.get(0).getFirstName(),"First name must be equal");
+        assertEquals("John", expectedCustomers.get(0).getFirstName(), "First name must be equal");
     }
 
 }
