@@ -1,10 +1,7 @@
 package com.shopping.repository;
 
-import com.shopping.model.Customer;
 import com.shopping.model.User;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -34,8 +31,7 @@ class UserRepositoryTest {
 
     @AfterEach
     void tearDown() {
-        userRepository.deleteAll();
-        user = null;
+
     }
 
     @Test
@@ -44,14 +40,8 @@ class UserRepositoryTest {
 
         Optional<User> fetchedUser = userRepository.findByUsername(user.getUsername());
 
-        assertTrue(fetchedUser.isPresent());
-
-        assertEquals(user.getUsername(), fetchedUser.get().getUsername());
-    }
-
-    @Test
-    public void should_throw_exception_when_called_saveUser_with_invalid() {
-
+        assertTrue(fetchedUser.isPresent(), "Returned must not be null");
+        assertEquals(user.getUsername(), fetchedUser.get().getUsername(), "Username must be equal");
     }
 
     @Test
@@ -60,9 +50,8 @@ class UserRepositoryTest {
 
         Optional<User> fetchedUser = userRepository.findByUsername(user.getUsername());
 
-        assertTrue(fetchedUser.isPresent());
-
-        assertEquals(user.getUsername(), fetchedUser.get().getUsername());
+        assertTrue(fetchedUser.isPresent(), "Returned must not be null");
+        assertEquals(user.getUsername(), fetchedUser.get().getUsername(), "Username must be equal");
     }
 
     @Test
@@ -71,16 +60,14 @@ class UserRepositoryTest {
 
         Optional<User> fetchedUser = userRepository.findByEmail(user.getEmail());
 
-        assertTrue(fetchedUser.isPresent());
-
-        assertEquals(user.getEmail(), fetchedUser.get().getEmail());
+        assertTrue(fetchedUser.isPresent(), "Returned must not be null");
+        assertEquals(user.getEmail(), fetchedUser.get().getEmail(), "Email must be equal");
     }
 
 
     @Test
     public void should_delete_user() {
         userRepository.save(user);
-
         userRepository.deleteById(user.getId());
     }
 

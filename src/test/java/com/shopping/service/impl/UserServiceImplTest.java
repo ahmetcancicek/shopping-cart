@@ -28,7 +28,7 @@ class UserServiceImplTest {
     private PasswordEncoder passwordEncoder;
 
     @Test
-    public void it_should_return_user_of_that_username_when_called_findByUsername() {
+    public void should_return_user_of_that_username_when_called_findByUsername() {
         final User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -46,7 +46,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void it_should_return_user_of_that_email_when_called_findByEmail() {
+    public void should_return_user_of_that_email_when_called_findByEmail() {
         final User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -65,7 +65,7 @@ class UserServiceImplTest {
 
 
     @Test
-    public void it_should_save_user() {
+    public void should_save_user() {
         final User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -83,7 +83,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void it_should_throw_exception_when_save_user_with_existing_email() {
+    public void should_throw_exception_when_save_user_with_existing_email() {
         final User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -102,7 +102,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void it_should_throw_exception_when_save_user_with_existing_username() {
+    public void should_throw_exception_when_save_user_with_existing_username() {
         final User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -121,7 +121,7 @@ class UserServiceImplTest {
     }
 
     @Test
-    public void it_should_delete_user_when_delete_user_with_id() {
+    public void should_delete_user_when_delete_user_with_id() {
         final Long userId = 1L;
 
         userService.deleteById(userId);
