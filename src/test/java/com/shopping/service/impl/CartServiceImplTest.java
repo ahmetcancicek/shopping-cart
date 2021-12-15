@@ -28,7 +28,7 @@ public class CartServiceImplTest {
     public void should_return_cart_of_that_id_when_called_findById() {
         final Cart cart = Cart.builder()
                 .id(1L)
-                .totalPrice(new BigDecimal("10.0"))
+                .totalPrice(BigDecimal.valueOf(0.00))
                 .build();
 
         given(cartRepository.findById(cart.getId())).willReturn(Optional.of(cart));

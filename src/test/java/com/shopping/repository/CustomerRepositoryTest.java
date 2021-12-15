@@ -38,7 +38,7 @@ class CustomerRepositoryTest {
 
         cart = Cart.builder()
                 .customer(customer)
-                .totalPrice(new BigDecimal(0.00))
+                .totalPrice(BigDecimal.valueOf(0.00))
                 .build();
 
         customer.setCart(cart);
