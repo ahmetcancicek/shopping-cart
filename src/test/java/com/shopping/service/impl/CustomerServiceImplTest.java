@@ -57,11 +57,12 @@ class CustomerServiceImplTest {
                 .cart(new Cart())
                 .build();
 
-        given(customerRepository.findById(customer.getId())).willReturn(Optional.of(customer));
+        when(customerRepository.saveAndFlush(any(Customer.class))).thenReturn(customer);
 
-        final Optional<Customer> expected = customerService.findById(customer.getId());
-
-        assertEquals(customer.getCart().getId(), expected.get().getCart().getId(), "Cart ID must be equal");
+        Customer savedCustomer = customerService.save(customer);
+        verify(customerRepository, times(1)).saveAndFlush(any());
+        assertNotNull(savedCustomer);
+        assertEquals(customer.getCart().getId(), savedCustomer.getCart().getId(), "Cart ID must be equal");
     }
 
     @Test
