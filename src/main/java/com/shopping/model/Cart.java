@@ -19,7 +19,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "total_price",nullable = false)
+    @Column(name = "total_price", nullable = false)
     @DecimalMin(value = "0.00", message = "Price must not to be negative number")
     private BigDecimal totalPrice;
 
@@ -30,4 +30,9 @@ public class Cart {
 
     @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<CartItem> cartItems;
+
+    public Cart(Customer customer, BigDecimal totalPrice) {
+        this.customer = customer;
+        this.totalPrice = totalPrice;
+    }
 }
