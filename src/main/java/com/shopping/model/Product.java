@@ -40,7 +40,6 @@ public class Product {
 
     @Column(name = "quantity")
     @Min(value = 0, message = "Quantity must not to be negative number")
-    @NotEmpty(message = "Quantity must not be empty")
     public Integer quantity;
 
     public Product(String name, String description, BigDecimal price, Integer quantity) {
