@@ -62,7 +62,7 @@ class ProductServiceImplTest {
     }
 
     @Test
-    public void should_delete_product_when_delete_product_with_id() {
+    public void should_delete_product_with_id() {
         final Long productId = 1L;
 
         productService.deleteById(productId);
