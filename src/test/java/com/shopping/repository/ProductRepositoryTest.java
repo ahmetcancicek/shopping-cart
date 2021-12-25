@@ -55,7 +55,7 @@ public class ProductRepositoryTest {
 
     @Test
     public void should_return_list_of_all_products() {
-        productRepository.save(product);
+        productRepository.saveAndFlush(product);
         List<Product> expectedProducts = productRepository.findAll();
 
         assertEquals("Product 1", expectedProducts.get(0).getName(), "Name must be equal");
