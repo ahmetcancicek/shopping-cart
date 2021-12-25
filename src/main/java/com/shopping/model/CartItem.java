@@ -21,10 +21,10 @@ public class CartItem {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
+    @JoinColumn(name = "product_id", nullable = false)
     private Product product;
 
-    @Column(name = "quantity")
+    @Column(name = "quantity", nullable = false)
     @Min(value = 0, message = "Quantity must not to be negative number")
     private Integer quantity;
 
@@ -33,7 +33,14 @@ public class CartItem {
     private BigDecimal price;
 
     @ManyToOne
-    @JoinColumn(name = "cart_id")
+    @JoinColumn(name = "cart_id", nullable = false)
     @JsonIgnore
     private Cart cart;
+
+    public CartItem(Product product, Integer quantity, BigDecimal price, Cart cart) {
+        this.product = product;
+        this.quantity = quantity;
+        this.price = price;
+        this.cart = cart;
+    }
 }
