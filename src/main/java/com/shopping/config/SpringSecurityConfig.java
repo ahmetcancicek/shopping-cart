@@ -13,12 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
-    @Value("${spring.admin.username}")
-    private String adminUsername;
-
-    @Value("${spring.admin.password}")
-    private String adminPassword;
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().httpBasic().disable();
