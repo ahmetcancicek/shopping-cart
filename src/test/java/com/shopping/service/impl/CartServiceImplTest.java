@@ -35,8 +35,7 @@ public class CartServiceImplTest {
 
         final Optional<Cart> expected = cartService.findById(cart.getId());
 
-        assertTrue(expected.isPresent());
-
-        assertEquals(cart.getId(), expected.get().getId(),"Id must be equal");
+        assertTrue(expected.isPresent(), "Returned must not be null");
+        assertEquals(cart.getId(), expected.get().getId(), "Id must be equal");
     }
 }

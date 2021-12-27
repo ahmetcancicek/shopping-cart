@@ -37,7 +37,6 @@ class CustomerServiceImplTest {
                 .users(new User("email@email.com", "username", "password", true))
                 .build();
 
-
         when(customerRepository.saveAndFlush(any(Customer.class))).thenReturn(customer);
 
         Customer savedCustomer = customerService.save(customer);
@@ -60,6 +59,7 @@ class CustomerServiceImplTest {
         when(customerRepository.saveAndFlush(any(Customer.class))).thenReturn(customer);
 
         Customer savedCustomer = customerService.save(customer);
+
         verify(customerRepository, times(1)).saveAndFlush(any());
         assertNotNull(savedCustomer);
         assertEquals(customer.getCart().getId(), savedCustomer.getCart().getId(), "Cart ID must be equal");
