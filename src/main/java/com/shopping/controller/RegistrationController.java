@@ -21,8 +21,9 @@ public class RegistrationController {
         this.customerService = customerService;
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
-    public ResponseEntity<Customer> registerCustomer(@Valid @RequestBody Customer customer) {
-        return new ResponseEntity<Customer>(customerService.save(customer), HttpStatus.CREATED);
+    public Customer registerCustomer(@Valid @RequestBody Customer customer) {
+        return customerService.save(customer);
     }
 }
