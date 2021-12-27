@@ -76,7 +76,7 @@ class RegistrationControllerTest {
                 .content(mapper.writeValueAsString(customer));
 
         mockMvc.perform(mockRequest)
-                .andExpect(status().isBadRequest())
+                .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
 }
