@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 
 @Table(name = "customer")
 @Entity
@@ -23,6 +24,7 @@ public class Customer {
     @Column(name = "last_name", nullable = true)
     private String lastName;
 
+    @Valid
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     private User users;
