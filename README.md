@@ -33,15 +33,15 @@ To deploy this project run
   POST /cart/add/${productId}
 ```
 
-| Parameter | Type   | Description                 |
-| :-------- |:-------|:----------------------------|
-| `productId` | `long` | **Required**. Id of product |
+| Parameter    | Type   | Description                 |
+|:-------------|:-------|:----------------------------|
+| `productId`  | `long` | **Required**. Id of product |
 
 #### Remove product from cart
 
 ```http
   POST /cart/remove/${productId}
 ```
-| Parameter | Type   | Description                 |
-| :-------- |:-------|:----------------------------|
-| `productId` | `long` | **Required**. Id of product |
+| Parameter    | Type   | Description                 |
+|:-------------|:-------|:----------------------------|
+| `productId`  | `long` | **Required**. Id of product |
