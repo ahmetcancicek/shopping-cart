@@ -5,13 +5,16 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.Valid;
+import java.util.HashSet;
+import java.util.Set;
 
 @Table(name = "customer")
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode(exclude = {"cart","addresses"})
 public class Customer {
 
     @Id
@@ -29,10 +32,16 @@ public class Customer {
     @JoinColumn(name = "user_id", nullable = false)
     private User users;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id", nullable = false)
-    @JsonIgnore
     private Cart cart;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<Address> addresses;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Set<PaymentMethod> paymentMethods;
 
     public Customer(String firstName, String lastName, User users) {
         this.firstName = firstName;
@@ -43,5 +52,22 @@ public class Customer {
     public Customer(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
+    }
+
+    public void addPaymentMethod(PaymentMethod paymentMethod) {
+        if (paymentMethods == null) {
+            paymentMethods = new HashSet<>();
+        }
+
+        paymentMethod.setCustomer(this);
+        paymentMethods.add(paymentMethod);
+    }
+
+    public void addAddress(Address address) {
+        if (addresses == null)
+            addresses = new HashSet<>();
+
+        address.setCustomer(this);
+        addresses.add(address);
     }
 }

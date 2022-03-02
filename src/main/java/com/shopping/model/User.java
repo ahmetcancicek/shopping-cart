@@ -6,13 +6,15 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
+@Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
-@Data
+@EqualsAndHashCode(exclude = {"cart", "addresses"})
 public class User {
 
     @Id
@@ -35,8 +37,8 @@ public class User {
     @NotEmpty(message = "Password must not be empty")
     private String password;
 
-    @Column(name = "active", nullable = false)
-    private boolean active;
+    @Column(name = "active")
+    private boolean active = false;
 
     @OneToOne(mappedBy = "users")
     private Customer customer;
