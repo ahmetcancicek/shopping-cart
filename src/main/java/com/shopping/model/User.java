@@ -6,7 +6,6 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
-import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -14,7 +13,6 @@ import java.util.Set;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = {"cart", "addresses"})
 public class User {
 
     @Id
@@ -40,7 +38,7 @@ public class User {
     @Column(name = "active")
     private boolean active = false;
 
-    @OneToOne(mappedBy = "users")
+    @OneToOne(mappedBy = "user")
     private Customer customer;
 
     public User(String email, String username, String password, boolean active) {

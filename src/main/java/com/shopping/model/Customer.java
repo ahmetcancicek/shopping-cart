@@ -30,7 +30,7 @@ public class Customer {
     @Valid
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
-    private User users;
+    private User user;
 
     @JsonIgnore
     @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -43,10 +43,10 @@ public class Customer {
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<PaymentMethod> paymentMethods;
 
-    public Customer(String firstName, String lastName, User users) {
+    public Customer(String firstName, String lastName, User user) {
         this.firstName = firstName;
         this.lastName = lastName;
-        this.users = users;
+        this.user = user;
     }
 
     public Customer(String firstName, String lastName) {
