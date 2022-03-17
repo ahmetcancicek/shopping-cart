@@ -59,9 +59,18 @@ class UserRepositoryTest {
 
 
     @Test
-    public void should_delete_user() {
+    public void should_delete_user_when_called_deleteById() {
         userRepository.saveAndFlush(user);
         userRepository.deleteById(user.getId());
     }
 
+    @Test
+    public void should_throw_exception_when_save_user_with_existing_email() {
+
+    }
+
+    @Test
+    public void should_throw_exception_when_save_user_with_existing_username() {
+
+    }
 }

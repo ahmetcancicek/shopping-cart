@@ -35,12 +35,12 @@ class RegistrationControllerTest {
     private CustomerService customerService;
 
     @Test
-    public void should_return_successful_when_body_isValid() throws Exception {
+    public void should_return_successful_when_request_save_customer_with_body_isValid() throws Exception {
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("First Name")
                 .lastName("Last Name")
-                .users(new User("email@email.com", "username", "password", true))
+                .user(new User("email@email.com", "username", "password", true))
                 .build();
 
         Mockito.when(customerService.save(customer)).thenReturn(customer);
@@ -58,14 +58,40 @@ class RegistrationControllerTest {
                 .andExpect(jsonPath("$.firstName", is("First Name")));
     }
 
-
     @Test
-    public void should_return_bad_request_when_body_isNotValid() throws Exception {
+    public void should_return_bad_request_when_request_save_customer_with_existing_username() throws Exception {
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("First Name")
                 .lastName("Last Name")
-                .users(new User())
+                .user(new User("email@email.com", "username", "password", true))
+                .build();
+
+        Mockito.when(customerService.save(customer)).thenReturn(customer);
+
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(customer));
+
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isCreated())
+                .andDo(print())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.id", is(1)));
+
+        // TODO: We should done
+    }
+
+
+    @Test
+
+    public void should_return_client_error_when_request_save_customer_with_body_isNotValid() throws Exception {
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("First Name")
+                .lastName("Last Name")
+                .user(new User())
                 .build();
 
         Mockito.when(customerService.save(customer)).thenReturn(customer);

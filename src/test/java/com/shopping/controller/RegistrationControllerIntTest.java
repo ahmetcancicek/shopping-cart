@@ -27,7 +27,7 @@ class RegistrationControllerIntTest {
         Customer customer = Customer.builder()
                 .firstName("First Name")
                 .lastName("Last Name")
-                .users(new User("email@email.com", "username", "password", true))
+                .user(new User("email@email.com", "username", "password", true))
                 .build();
 
 

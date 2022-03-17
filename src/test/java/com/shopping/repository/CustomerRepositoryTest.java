@@ -33,7 +33,7 @@ class CustomerRepositoryTest {
         customer = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .users(new User("email@email.com", "username", "password", true))
+                .user(new User("email@email.com", "username", "password", true))
                 .build();
 
         cart = Cart.builder()

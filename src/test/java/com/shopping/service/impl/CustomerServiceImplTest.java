@@ -34,7 +34,7 @@ class CustomerServiceImplTest {
                 .id(1L)
                 .firstName("John")
                 .lastName("Doe")
-                .users(new User("email@email.com", "username", "password", true))
+                .user(new User("email@email.com", "username", "password", true))
                 .build();
 
         when(customerRepository.saveAndFlush(any(Customer.class))).thenReturn(customer);
@@ -52,7 +52,7 @@ class CustomerServiceImplTest {
                 .id(1L)
                 .firstName("John")
                 .lastName("Doe")
-                .users(new User("email@email.com", "username", "password", true))
+                .user(new User("email@email.com", "username", "password", true))
                 .cart(new Cart())
                 .build();
 
@@ -71,14 +71,58 @@ class CustomerServiceImplTest {
         final User user2 = new User("email@email.com", "username", "password", true);
 
         List<Customer> customers = new ArrayList<>();
-        customers.add(new Customer(1L, "John", "Doe", user1, null));
-        customers.add(new Customer(2L, "July", "Eric", user2, null));
+        customers.add(new Customer().builder().id(1L).firstName("John").lastName("Doe").user(user1).build());
+        customers.add(new Customer().builder().id(2L).firstName("July").lastName("Eric").user(user2).build());
 
         given(customerRepository.findAll()).willReturn(customers);
 
         final List<Customer> expectedCustomers = customerService.findAll();
 
         assertEquals("John", expectedCustomers.get(0).getFirstName(), "First name must be equal");
+    }
+
+    @Test
+    void should_return_customer_when_called_findById() {
+        final Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("John")
+                .lastName("Doe")
+                .user(new User("email@email.com", "username", "password", true))
+                .cart(new Cart())
+                .build();
+
+        given(customerRepository.findById(customer.getId())).willReturn(Optional.of(customer));
+
+        final Optional<Customer> expected = customerService.findById(customer.getId());
+
+        assertTrue(expected.isPresent(), "Returned must not be null");
+        assertEquals(customer.getFirstName(), expected.get().getFirstName(), "Firstname must be equal");
+    }
+
+    @Test
+    void should_return_customer_when_called_findByUser() {
+        final User user = User.builder()
+                .id(1L)
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
+        final Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("John")
+                .lastName("Doe")
+                .user(user)
+                .cart(new Cart())
+                .build();
+
+        given(customerRepository.findByUser(customer.getUser())).willReturn(Optional.of(customer));
+
+        final Optional<Customer> expected = customerService.findByUser(customer.getUser());
+
+        assertTrue(expected.isPresent(), "Returned must not be null");
+        assertEquals(customer.getFirstName(), expected.get().getFirstName(), "Firstname mut be equal");
     }
 
 }
