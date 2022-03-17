@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
-@Table(name = "order")
+@Table(name = "orders")
 @Entity
 @Data
 @Builder
@@ -43,7 +43,7 @@ public class Order {
     @DecimalMin(value = "0.00", message = "Price must not to be negative number")
     private BigDecimal totalPrice;
 
-    @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "order")
     private Set<Payment> payments;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
