@@ -24,16 +24,22 @@ class RegistrationControllerIntTest {
 
     @Test
     public void should_be_return_created_customer_when_called_byRegisterCustomer() {
+        User user = User.builder()
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
         Customer customer = Customer.builder()
                 .firstName("First Name")
                 .lastName("Last Name")
-                .user(new User("email@email.com", "username", "password", true))
+                .user(user)
                 .build();
-
 
         ResponseEntity<Customer> postCustomer = restTemplate.exchange("/registration",
                 HttpMethod.POST,
-                new HttpEntity<>(customer,headers),
+                new HttpEntity<>(customer, headers),
                 Customer.class);
 
         assertNotNull(postCustomer);

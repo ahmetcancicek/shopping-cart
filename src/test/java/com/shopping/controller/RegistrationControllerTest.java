@@ -36,11 +36,18 @@ class RegistrationControllerTest {
 
     @Test
     public void should_return_successful_when_request_save_customer_with_body_isValid() throws Exception {
+        User user = User.builder()
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("First Name")
                 .lastName("Last Name")
-                .user(new User("email@email.com", "username", "password", true))
+                .user(user)
                 .build();
 
         Mockito.when(customerService.save(customer)).thenReturn(customer);
@@ -60,11 +67,19 @@ class RegistrationControllerTest {
 
     @Test
     public void should_return_bad_request_when_request_save_customer_with_existing_username() throws Exception {
+        User user = User.builder()
+                .id(1L)
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("First Name")
                 .lastName("Last Name")
-                .user(new User("email@email.com", "username", "password", true))
+                .user(user)
                 .build();
 
         Mockito.when(customerService.save(customer)).thenReturn(customer);
@@ -79,8 +94,8 @@ class RegistrationControllerTest {
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)));
-
-        // TODO: We should done
+//
+//        // TODO: We should done
     }
 
 
