@@ -2,6 +2,7 @@ package com.shopping.service.impl;
 
 import com.shopping.model.Cart;
 import com.shopping.model.Customer;
+import com.shopping.model.User;
 import com.shopping.repository.CartRepository;
 import com.shopping.repository.CustomerRepository;
 import com.shopping.service.CustomerService;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Slf4j
-@Service
+@Service("customerService")
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
@@ -31,14 +32,23 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        // TODO: Fix cart
-        Customer savedCustomer = customerRepository.saveAndFlush(customer);
+        if (customer.getCart() == null)
+            customer.setCart(Cart.builder().customer(customer).build());
+
+        Customer savedCustomer = customerRepository.save(customer);
+
         log.info("new customer has been created: {}", savedCustomer.getFirstName());
+
         return savedCustomer;
     }
 
     @Override
     public Optional<Customer> findById(Long id) {
         return customerRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Customer> findByUser(User user) {
+        return customerRepository.findByUser(user);
     }
 }
