@@ -95,7 +95,7 @@ class UserServiceImplTest {
 
     @Test
     public void should_throw_exception_when_save_user_with_existing_email() {
-        final User user = User.builder()
+        User user = User.builder()
                 .id(1L)
                 .username("username")
                 .password("password")
@@ -114,7 +114,7 @@ class UserServiceImplTest {
 
     @Test
     public void should_throw_exception_when_save_user_with_existing_username() {
-        final User user = User.builder()
+        User user = User.builder()
                 .id(1L)
                 .username("username")
                 .password("password")
