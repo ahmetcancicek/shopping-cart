@@ -14,7 +14,6 @@ import java.util.Set;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(exclude = {"cart","addresses"})
 public class Customer {
 
     @Id
@@ -28,12 +27,12 @@ public class Customer {
     private String lastName;
 
     @Valid
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(mappedBy = "customer", cascade = CascadeType.ALL)
     @JoinColumn(name = "cart_id", nullable = false)
     private Cart cart;
 
@@ -42,17 +41,6 @@ public class Customer {
 
     @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<PaymentMethod> paymentMethods;
-
-    public Customer(String firstName, String lastName, User user) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.user = user;
-    }
-
-    public Customer(String firstName, String lastName) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-    }
 
     public void addPaymentMethod(PaymentMethod paymentMethod) {
         if (paymentMethods == null) {
