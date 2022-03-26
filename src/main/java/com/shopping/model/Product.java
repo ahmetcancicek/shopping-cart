@@ -41,11 +41,4 @@ public class Product {
     @Column(name = "quantity")
     @Min(value = 0, message = "Quantity must not to be negative number")
     public Integer quantity;
-
-    public Product(String name, String description, BigDecimal price, Integer quantity) {
-        this.name = name;
-        this.description = description;
-        this.price = price;
-        this.quantity = quantity;
-    }
 }
