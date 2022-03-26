@@ -30,7 +30,7 @@ public class User {
     @NotEmpty(message = "Username must not be empty")
     private String username;
 
-    @Column(name = "password", unique = true, nullable = false)
+    @Column(name = "password", nullable = false)
     @Length(min = 5, message = "Password must have at least 5 characters")
     @NotEmpty(message = "Password must not be empty")
     private String password;
