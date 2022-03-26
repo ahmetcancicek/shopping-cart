@@ -31,7 +31,7 @@ class UserRepositoryTest {
 
     @Test
     public void should_save_user() {
-        final User user = User.builder()
+        User user = User.builder()
                 .email("email@email.com")
                 .username("username")
                 .password("password")
@@ -50,7 +50,7 @@ class UserRepositoryTest {
 
     @Test
     public void should_return_user_of_that_username_when_called_findByUsername() {
-        final User user = User.builder()
+        User user = User.builder()
                 .email("email@email.com")
                 .username("username")
                 .password("password")
@@ -68,7 +68,7 @@ class UserRepositoryTest {
 
     @Test
     public void should_return_user_of_that_email_when_called_findByEmail() {
-        final User user = User.builder()
+        User user = User.builder()
                 .email("email@email.com")
                 .username("username")
                 .password("password")

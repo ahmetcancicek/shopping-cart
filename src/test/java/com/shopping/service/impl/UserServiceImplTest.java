@@ -2,7 +2,6 @@ package com.shopping.service.impl;
 
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -10,11 +9,9 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import java.util.Optional;
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -133,7 +130,7 @@ class UserServiceImplTest {
 
     @Test
     public void should_delete_user_when_called_deleteById() {
-        final Long userId = 1L;
+        Long userId = 1L;
 
         userService.deleteById(userId);
         userService.deleteById(userId);
