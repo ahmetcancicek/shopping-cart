@@ -1,5 +1,6 @@
 package com.shopping.service.impl;
 
+import com.shopping.exception.UserAlreadyExistsException;
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -102,7 +103,7 @@ class UserServiceImplTest {
 
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(UserAlreadyExistsException.class, () -> {
             userService.save(user);
         });
 
@@ -121,7 +122,7 @@ class UserServiceImplTest {
 
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
-        assertThrows(IllegalArgumentException.class, () -> {
+        assertThrows(UserAlreadyExistsException.class, () -> {
             userService.save(user);
         });
 

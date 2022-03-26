@@ -1,5 +1,7 @@
 package com.shopping.service.impl;
 
+import com.shopping.exception.UserAlreadyExistsException;
+import com.shopping.exception.UserNotFoundException;
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.UserService;
@@ -49,13 +51,13 @@ public class UserServiceImpl implements UserService {
         Optional<User> existing = userRepository.findByEmail(user.getEmail());
         existing.ifPresent(it -> {
             log.error("user already exists: " + it.getEmail());
-            throw new IllegalArgumentException("user already exists: {}" + it.getEmail());
+            throw new UserAlreadyExistsException("user already exists: {}" + it.getEmail());
         });
 
         existing = userRepository.findByUsername(user.getUsername());
         existing.ifPresent(it -> {
             log.error("user already exists: " + it.getUsername());
-            throw new IllegalArgumentException("user already exists: {}" + it.getUsername());
+            throw new UserAlreadyExistsException("user already exists: {}" + it.getUsername());
         });
     }
 
