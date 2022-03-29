@@ -5,12 +5,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Null;
 import java.math.BigDecimal;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "cart")
@@ -49,19 +45,22 @@ public class Cart {
     }
 
     public Optional<CartItem> findItem(Product product) {
-        if (items==null)
+        if (items == null)
             return Optional.empty();
 
-        // TODO: Return value
-        return null;
+        return items.stream()
+                .filter(cartItem -> Objects.equals(cartItem.getProduct(), product))
+                .findFirst();
     }
 
     public void removeItem(CartItem item) {
-        // TODO: Method body
+        if (items != null)
+            items.removeIf(cartItem -> Objects.equals(cartItem.getId(), item.getId()));
     }
 
     public void updateItem(CartItem item) {
-        // TODO: Method body
+        removeItem(item);
+        addItem(item);
     }
 
     public boolean isEmpty() {
