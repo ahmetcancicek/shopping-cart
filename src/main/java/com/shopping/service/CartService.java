@@ -21,6 +21,8 @@ public interface CartService {
 
     void addItemToCart(Customer customer, Product product, int quantity);
 
+    void addItemToCart(Long customerId, Long productId, int quantity);
+
     void addItemToCart(Long customerId, Long productId);
 
     void removeAllCartItems(Customer customer);
