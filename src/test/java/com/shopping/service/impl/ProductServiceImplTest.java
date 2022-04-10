@@ -2,9 +2,11 @@ package com.shopping.service.impl;
 
 import com.shopping.model.Product;
 import com.shopping.repository.ProductRepository;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -15,6 +17,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -30,27 +33,19 @@ class ProductServiceImplTest {
     @InjectMocks
     private ProductServiceImpl productService;
 
-    @Test
-    public void should_return_product_of_that_id_when_called_findById() {
-        Product product = Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .description("Description")
-                .price(BigDecimal.valueOf(10.0))
-                .quantity(10)
-                .build();
-
-        given(productRepository.findById(product.getId())).willReturn(Optional.of(product));
-
-        Optional<Product> expected = productService.findById(product.getId());
-
-        verify(productRepository, times(1)).findById(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(product.getId(), expected.get().getId(), "Id must be equal");
+    public static Stream<Arguments> product_requests() {
+        return Stream.of(
+                Arguments.of(1L, "Product 1", "Description", BigDecimal.valueOf(10.0), 10),
+                Arguments.of(2L, "Product 2", "Description", BigDecimal.valueOf(5), 1),
+                Arguments.of(3L, "Product 3", "Description", BigDecimal.valueOf(2), 2),
+                Arguments.of(4L, "Product 4", "Description", BigDecimal.valueOf(12.13), 5),
+                Arguments.of(5L, "Product 5", "Description", BigDecimal.valueOf(2.3), 20)
+        );
     }
 
     @Test
-    public void should_save_product() {
+    public void it_should_save_product() {
+        // given
         Product product = Product.builder()
                 .id(1L)
                 .name("Product 1")
@@ -61,25 +56,77 @@ class ProductServiceImplTest {
 
         when(productRepository.save(any(Product.class))).thenReturn(product);
 
+        // when
         Product savedProduct = productService.save(product);
 
+        // then
+        verify(productRepository, times(1)).save(any());
+        assertNotNull(savedProduct, "Must not be null");
+        assertEquals(product.getId(), savedProduct.getId(), "Id must be equal");
+    }
+
+
+    @ParameterizedTest
+    @MethodSource("product_requests")
+    public void it_should_save_products(Long id, String name, String description, BigDecimal price, Integer quantity) {
+        // given
+        Product product = Product.builder()
+                .id(id)
+                .name(name)
+                .description(description)
+                .price(price)
+                .quantity(quantity)
+                .build();
+
+        when(productRepository.save(any(Product.class))).thenReturn(product);
+
+        // when
+        Product savedProduct = productService.save(product);
+
+        // then
         verify(productRepository, times(1)).save(any());
         assertNotNull(savedProduct, "Must not be null");
         assertEquals(product.getId(), savedProduct.getId(), "Id must be equal");
     }
 
     @Test
-    public void should_delete_product_with_id() {
+    public void it_should_return_product_of_that_id() {
+        // given
+        Product product = Product.builder()
+                .id(1L)
+                .name("Product 1")
+                .description("Description")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
+                .build();
+
+        given(productRepository.findById(product.getId())).willReturn(Optional.of(product));
+
+        // when
+        Optional<Product> expected = productService.findById(product.getId());
+
+        // then
+        verify(productRepository, times(1)).findById(any());
+        assertTrue(expected.isPresent(), "Returned must not be null");
+        assertEquals(product.getId(), expected.get().getId(), "Id must be equal");
+    }
+
+    @Test
+    public void it_should_delete_product_with_id() {
+        // given
         Long productId = 1L;
 
+        // when
         productService.deleteById(productId);
         productService.deleteById(productId);
 
+        // then
         verify(productRepository, times(2)).deleteById(productId);
     }
 
     @Test
-    public void should_return_list_of_all_products() {
+    public void it_should_return_list_of_all_products() {
+        // given
         Product productOne = Product.builder()
                 .id(1L)
                 .name("Product 1")
@@ -102,14 +149,18 @@ class ProductServiceImplTest {
 
         given(productRepository.findAll()).willReturn(products);
 
+        // when
         List<Product> expectedProducts = productService.findAll();
+
+        // then
         verify(productRepository, times(1)).findAll();
         assertNotNull(expectedProducts, "List must not be null");
         assertEquals("Product 1", expectedProducts.get(0).getName(), "Name must be equal");
     }
 
     @Test
-    public void should_return_list_of_products_with_pageable() {
+    public void it_should_return_list_of_products_with_pageable() {
+        // given
         Product productOne = Product.builder()
                 .id(1L)
                 .name("Product 1")
@@ -135,7 +186,10 @@ class ProductServiceImplTest {
 
         Mockito.when(productRepository.findAll(any(Pageable.class))).thenReturn(productPage);
 
+        // when
         Page<Product> expectedProducts = productService.findAll(firstPageWithTwoElements);
+
+        // then
         verify(productRepository, times(1)).findAll(firstPageWithTwoElements);
         assertNotNull(expectedProducts, "List must not be null");
         assertEquals(2, expectedProducts.getTotalElements(), "Total element must be equal");
