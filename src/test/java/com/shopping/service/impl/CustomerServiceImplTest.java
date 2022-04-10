@@ -1,19 +1,21 @@
 package com.shopping.service.impl;
 
+import com.shopping.exception.UserAlreadyExistsException;
 import com.shopping.model.*;
 import com.shopping.repository.CustomerRepository;
+import com.shopping.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.validation.ConstraintViolation;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -25,11 +27,15 @@ class CustomerServiceImplTest {
     @Mock
     private CustomerRepository customerRepository;
 
+    @Mock
+    private UserRepository userRepository;
+
     @InjectMocks
     private CustomerServiceImpl customerService;
 
     @Test
-    void should_save_customer() {
+    void it_should_save_customer() {
+        // given
         User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -44,23 +50,21 @@ class CustomerServiceImplTest {
                 .user(user)
                 .build();
 
-        Cart cart = Cart.builder()
-                .customer(customer)
-                .build();
+        when(customerRepository.save(any())).thenReturn(customer);
 
-        customer.setCart(cart);
-
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
-
+        // when
         Customer savedCustomer = customerService.save(customer);
 
+        // then
         verify(customerRepository, times(1)).save(any());
+        assertNotNull(savedCustomer, "Entity must not be null");
         assertEquals(customer.getId(), savedCustomer.getId(), "Id must be equal");
         assertEquals(customer.getFirstName(), savedCustomer.getFirstName(), "First name must be equal");
     }
 
     @Test
-    void should_save_customer_with_payment_and_address() {
+    void it_should_save_customer_with_payment_and_address() {
+        // given
         User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -72,10 +76,6 @@ class CustomerServiceImplTest {
                 .firstName("John")
                 .lastName("Doe")
                 .user(user)
-                .build();
-
-        Cart cart = Cart.builder()
-                .customer(customer)
                 .build();
 
         PaymentMethod paymentMethod = PaymentMethod.builder()
@@ -91,42 +91,84 @@ class CustomerServiceImplTest {
                 .street("XY56Y")
                 .build();
 
-        customer.setCart(cart);
         customer.addPaymentMethod(paymentMethod);
         customer.addAddress(address);
 
+        when(customerRepository.save(any())).thenReturn(customer);
 
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
-
+        // when
         Customer savedCustomer = customerService.save(customer);
 
-        for (PaymentMethod p : savedCustomer.getPaymentMethods()) {
-            assertEquals(paymentMethod.getName(), p.getName(), "PaymentMethod name must be equal");
-        }
-
-        for (Address a : savedCustomer.getAddresses()) {
-            assertEquals(address.getCity(), a.getCity(), "City must be equal");
-        }
-
+        // then
         verify(customerRepository, times(1)).save(any());
+        assertNotNull(savedCustomer, "Saved customer must not be null");
         assertEquals(customer.getId(), savedCustomer.getId(), "Id must be equal");
         assertEquals(customer.getFirstName(), savedCustomer.getFirstName(), "First name must be equal");
+        assertNotNull(customer.getAddresses(), "Address must not be null");
+        assertNotNull(customer.getPaymentMethods(), "Payment Methods must not be null");
+    }
+
+    @Test
+    public void it_should_throw_exception_when_save_customer_with_existing_email() {
+        // given
+        User user = User.builder()
+                .email("email@email.com")
+                .username("username")
+                .password("password")
+                .active(true)
+                .build();
+
+        Customer customer = Customer.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .user(user)
+                .build();
+
+        when(userRepository.findByEmail(any())).thenReturn(Optional.of(user));
+
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            customerService.save(customer);
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(UserAlreadyExistsException.class);
+        verifyNoInteractions(customerRepository);
 
     }
 
     @Test
-    public void should_throw_exception_when_save_customer_with_existing_email() {
+    public void it_should_throw_exception_when_save_customer_with_existing_username() {
+        // given
+        User user = User.builder()
+                .email("email@email.com")
+                .username("username")
+                .password("password")
+                .active(true)
+                .build();
 
+        Customer customer = Customer.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .user(user)
+                .build();
+
+        when(userRepository.findByUsername(any())).thenReturn(Optional.of(user));
+
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            customerService.save(customer);
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(UserAlreadyExistsException.class);
+        verifyNoInteractions(customerRepository);
     }
 
-    @Test
-    public void should_throw_exception_when_save_customer_with_existing_username() {
-
-    }
-
 
     @Test
-    void should_return_cart_id_when_save_customer() {
+    void it_should_return_cart_id_when_save_customer() {
+        // given
         User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -139,27 +181,23 @@ class CustomerServiceImplTest {
                 .firstName("John")
                 .lastName("Doe")
                 .user(user)
+                .cart(null)
                 .build();
 
-        Cart cart = Cart.builder()
-                .id(1L)
-                .customer(customer)
-                .build();
-
-        customer.setCart(cart);
-
-        when(customerRepository.save(any(Customer.class))).thenReturn(customer);
-
+        // when
+        when(customerRepository.save(any())).thenReturn(customer);
         Customer savedCustomer = customerService.save(customer);
 
+        // then
         verify(customerRepository, times(1)).save(any());
-        assertNotNull(customer.getCart().getId(), "CartId must not be null");
+        assertNotNull(savedCustomer, "Saved customer must not be null");
+        assertNotNull(customer.getCart(), "Cart must not be null");
         assertEquals(customer.getFirstName(), savedCustomer.getFirstName(), "First Name must be equal");
-        assertEquals(customer.getCart().getId(), savedCustomer.getCart().getId(), "Cart ID must be equal");
     }
 
     @Test
-    void should_return_list_of_all_customers() {
+    void it_should_return_list_of_all_customers() {
+        // given
         User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -183,17 +221,20 @@ class CustomerServiceImplTest {
         customers.add(customerOne);
         customers.add(customerTwo);
 
+        // when
         given(customerRepository.findAll()).willReturn(customers);
-
         final List<Customer> expectedCustomers = customerService.findAll();
 
+        // then
         verify(customerRepository, times(1)).findAll();
+        assertNotNull(expectedCustomers, "List must not be null");
         assertEquals(customerOne.getFirstName(), expectedCustomers.get(0).getFirstName(), "First Name must be equal");
         assertEquals(customerTwo.getFirstName(), expectedCustomers.get(1).getFirstName(), "First Name must be equal");
     }
 
     @Test
-    void should_return_customer_when_called_findById() {
+    void it_should_return_customer_of_that_id() {
+        // given
         User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -209,17 +250,21 @@ class CustomerServiceImplTest {
                 .cart(new Cart())
                 .build();
 
-        given(customerRepository.findById(customer.getId())).willReturn(Optional.of(customer));
+        given(customerRepository.findById(any())).willReturn(Optional.of(customer));
 
-        Optional<Customer> expected = customerService.findById(customer.getId());
+        // when
+        Optional<Customer> expectedCustomer = customerService.findById(customer.getId());
 
+        // then
         verify(customerRepository, times(1)).findById(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(customer.getFirstName(), expected.get().getFirstName(), "Firstname must be equal");
+        assertNotNull(expectedCustomer, "Entity must not be null");
+        assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
+        assertEquals(customer.getFirstName(), expectedCustomer.get().getFirstName(), "Firstname must be equal");
     }
 
     @Test
-    void should_return_customer_when_called_findByUser() {
+    void it_should_return_customer_of_that_user() {
+        // given
         User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -236,14 +281,15 @@ class CustomerServiceImplTest {
                 .cart(new Cart())
                 .build();
 
-        given(customerRepository.findByUser(customer.getUser())).willReturn(Optional.of(customer));
+        given(customerRepository.findByUser(any())).willReturn(Optional.of(customer));
 
-        Optional<Customer> expected = customerService.findByUser(customer.getUser());
+        // when
+        Optional<Customer> expectedCustomer = customerService.findByUser(customer.getUser());
 
+        // then
         verify(customerRepository, times(1)).findByUser(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(customer.getFirstName(), expected.get().getFirstName(), "Firstname mut be equal");
+        assertNotNull(expectedCustomer, "Entity must not be null");
+        assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
+        assertEquals(customer.getFirstName(), expectedCustomer.get().getFirstName(), "Firstname mut be equal");
     }
-
-
 }
