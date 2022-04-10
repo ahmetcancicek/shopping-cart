@@ -10,10 +10,10 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import javax.validation.Validation;
-import javax.validation.Validator;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -30,10 +30,9 @@ class UserServiceImplTest {
     @Mock
     private PasswordEncoder passwordEncoder;
 
-    private final Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
-
     @Test
-    public void should_return_user_of_that_username_when_called_findByUsername() {
+    public void it_should_save_user() {
+        // given
         User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -41,58 +40,21 @@ class UserServiceImplTest {
                 .email("email@email.com")
                 .active(true)
                 .build();
-
-        given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
-
-        Optional<User> expected = userService.findByUsername(user.getUsername());
-
-        verify(userRepository, times(1)).findByUsername(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(user.getUsername(), expected.get().getUsername(), "Username must be equal");
-    }
-
-    @Test
-    public void should_return_user_of_that_email_when_called_findByEmail() {
-        User user = User.builder()
-                .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
-                .active(true)
-                .build();
-
-        given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
-
-        Optional<User> expected = userService.findByEmail(user.getEmail());
-
-        verify(userRepository, times(1)).findByEmail(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(user.getEmail(), expected.get().getEmail(), "Email must be equal");
-    }
-
-
-    @Test
-    public void should_save_user() {
-        User user = User.builder()
-                .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
-                .active(true)
-                .build();
-
         when(userRepository.save(any(User.class))).thenReturn(user);
 
+        // when
         User savedUser = userService.save(user);
 
+        // then
         verify(userRepository, times(1)).save(any());
         assertNotNull(savedUser, "Returned must not be null");
-        assertEquals(user.getEmail(), savedUser.getEmail(), "Email must be equal");
+        assertEquals(savedUser.getEmail(), user.getEmail(), "Email must be equal");
 
     }
 
     @Test
-    public void should_throw_exception_when_save_user_with_existing_email() {
+    public void it_should_return_user_of_that_username() {
+        // given
         User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -100,42 +62,90 @@ class UserServiceImplTest {
                 .email("email@email.com")
                 .active(true)
                 .build();
-
-        given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
-
-        assertThrows(UserAlreadyExistsException.class, () -> {
-            userService.save(user);
-        });
-
-        verify(userRepository, never()).save(any(User.class));
-    }
-
-    @Test
-    public void should_throw_exception_when_save_user_with_existing_username() {
-        User user = User.builder()
-                .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
-                .active(true)
-                .build();
-
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
-        assertThrows(UserAlreadyExistsException.class, () -> {
-            userService.save(user);
-        });
+        // when
+        Optional<User> expected = userService.findByUsername(user.getUsername());
 
-        verify(userRepository, never()).save(any(User.class));
+        // then
+        verify(userRepository, times(1)).findByUsername(any());
+        assertTrue(expected.isPresent(), "Returned must not be null");
+        assertEquals(expected.get().getUsername(), user.getUsername(), "Username must be equal");
     }
 
     @Test
-    public void should_delete_user_when_called_deleteById() {
+    public void it_should_return_user_of_that_email() {
+        // given
+        User user = User.builder()
+                .id(1L)
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        // when
+        Optional<User> expected = userService.findByEmail(user.getEmail());
+
+        // then
+        verify(userRepository, times(1)).findByEmail(any());
+        assertTrue(expected.isPresent(), "Returned must not be null");
+        assertEquals(expected.get().getEmail(), user.getEmail(), "Email must be equal");
+    }
+
+    @Test
+    public void it_should_throw_exception_when_save_user_with_existing_email() {
+        // given
+        User user = User.builder()
+                .id(1L)
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            userService.save(user);
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(UserAlreadyExistsException.class);
+    }
+
+    @Test
+    public void it_should_throw_exception_when_save_user_with_existing_username() {
+        // given
+        User user = User.builder()
+                .id(1L)
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            userService.save(user);
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(UserAlreadyExistsException.class);
+    }
+
+    @Test
+    public void it_should_delete_user() {
+        // given
         Long userId = 1L;
 
+        // when
         userService.deleteById(userId);
         userService.deleteById(userId);
 
+        // then
         verify(userRepository, times(2)).deleteById(userId);
     }
 }
