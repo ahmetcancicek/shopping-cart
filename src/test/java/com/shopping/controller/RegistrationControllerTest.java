@@ -35,7 +35,8 @@ class RegistrationControllerTest {
     private CustomerService customerService;
 
     @Test
-    public void should_return_successful_when_request_save_customer_with_body_isValid() throws Exception {
+    public void it_should_register_customer() throws Exception {
+        // given
         User user = User.builder()
                 .username("username")
                 .password("password")
@@ -52,11 +53,13 @@ class RegistrationControllerTest {
 
         Mockito.when(customerService.save(customer)).thenReturn(customer);
 
+        // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(customer));
 
+        // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
                 .andDo(print())
@@ -66,7 +69,26 @@ class RegistrationControllerTest {
     }
 
     @Test
-    public void should_return_bad_request_when_request_save_customer_with_existing_username() throws Exception {
+    public void it_should_delete_customer() {
+        // given
+
+        // when
+
+        // then
+    }
+
+    @Test
+    public void it_should_return_bad_request_when_request_delete_customer_with_does_not_existing(){
+        // given
+
+        // when
+
+        // then
+    }
+
+    @Test
+    public void it_should_return_bad_request_when_request_register_customer_with_existing_username() throws Exception {
+        // given
         User user = User.builder()
                 .id(1L)
                 .username("username")
@@ -84,24 +106,24 @@ class RegistrationControllerTest {
 
         Mockito.when(customerService.save(customer)).thenReturn(customer);
 
+        // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(customer));
 
+        // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
                 .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$.id", is(1)));
-//
-//        // TODO: We should done
     }
 
 
     @Test
-
-    public void should_return_client_error_when_request_save_customer_with_body_isNotValid() throws Exception {
+    public void it_should_return_client_error_when_request_save_customer_with_body_isNotValid() throws Exception {
+        // given
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("First Name")
@@ -111,13 +133,16 @@ class RegistrationControllerTest {
 
         Mockito.when(customerService.save(customer)).thenReturn(customer);
 
+        // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(customer));
 
+        // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().is4xxClientError())
                 .andDo(print());
     }
+
 }

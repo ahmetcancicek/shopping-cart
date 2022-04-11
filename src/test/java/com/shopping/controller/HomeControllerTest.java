@@ -18,7 +18,7 @@ class HomeControllerTest {
     private ObjectMapper mapper;
 
     @Test
-    public void should_return_message(){
+    public void it_should_return_message() {
         HomeController controller = new HomeController();
         String response = controller.hello("World");
         assertEquals("Hello, World", response);

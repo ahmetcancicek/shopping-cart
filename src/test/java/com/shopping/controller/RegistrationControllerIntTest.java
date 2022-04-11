@@ -23,7 +23,8 @@ class RegistrationControllerIntTest {
     private HttpHeaders headers = new HttpHeaders();
 
     @Test
-    public void should_be_return_created_customer_when_called_byRegisterCustomer() {
+    public void it_should_register_customer() {
+        // given
         User user = User.builder()
                 .username("username")
                 .password("password")
@@ -37,15 +38,16 @@ class RegistrationControllerIntTest {
                 .user(user)
                 .build();
 
+        // when
         ResponseEntity<Customer> postCustomer = restTemplate.exchange("/registration",
                 HttpMethod.POST,
                 new HttpEntity<>(customer, headers),
                 Customer.class);
 
+        // then
         assertNotNull(postCustomer);
         assertEquals(postCustomer.getStatusCode(), HttpStatus.CREATED);
         assertEquals(postCustomer.getBody().getFirstName(), "First Name");
 
     }
-
 }

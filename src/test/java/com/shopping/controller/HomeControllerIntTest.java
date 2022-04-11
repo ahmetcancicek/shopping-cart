@@ -24,22 +24,22 @@ class HomeControllerIntTest {
     private HttpHeaders headers = new HttpHeaders();
 
     @Test
-    public void should_return_message() {
+    public void it_should_return_message() {
         ResponseEntity<String> getString = restTemplate.exchange("/hello",
                 HttpMethod.GET,
                 new HttpEntity<>(null, headers),
                 String.class);
 
-        assertEquals("Hello, World",getString.getBody());
+        assertEquals("Hello, World", getString.getBody());
     }
 
     @Test
-    public void should_return_message_when_given_parameter(){
+    public void it_should_return_message_when_given_parameter() {
         ResponseEntity<String> getString = restTemplate.exchange("/hello?name=John",
                 HttpMethod.GET,
                 new HttpEntity<>(null, headers),
                 String.class);
 
-        assertEquals("Hello, John",getString.getBody());
+        assertEquals("Hello, John", getString.getBody());
     }
 }

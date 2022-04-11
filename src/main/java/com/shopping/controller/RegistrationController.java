@@ -11,7 +11,6 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/registration")
 public class RegistrationController {
 
     private final CustomerService customerService;
@@ -22,8 +21,13 @@ public class RegistrationController {
     }
 
     @ResponseStatus(HttpStatus.CREATED)
-    @PostMapping
+    @PostMapping("/registration")
     public Customer registerCustomer(@Valid @RequestBody Customer customer) {
         return customerService.save(customer);
+    }
+
+    @DeleteMapping("/registration/{customerId}")
+    public void deleteCustomer(@PathVariable String customerId) {
+
     }
 }
