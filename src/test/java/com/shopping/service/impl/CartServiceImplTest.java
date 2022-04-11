@@ -187,4 +187,29 @@ public class CartServiceImplTest {
         assertEquals(0, customer.getCart().getItems().size());
 
     }
+
+    @Test
+    void it_should_add_item_with_the_number_of_items() {
+        // TODO:
+    }
+
+    @Test
+    void it_should_increase_the_count_of_the_cart_items_when_adds_the_same_product() {
+        // TODO:
+    }
+
+    @Test
+    void it_should_decrease_the_count_of_that_cart_items_when_exist_items() {
+        // TODO:
+    }
+
+    @Test
+    void it_should_throw_error_when_add_item_to_cart_with_does_not_exist_customer() {
+        // TODO:
+    }
+
+    @Test
+    void it_should_throw_error_when_add_item_to_cart_with_does_not_exist_product() {
+        // TODO:
+    }
 }
