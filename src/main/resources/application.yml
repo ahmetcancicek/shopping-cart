@@ -1,0 +1,24 @@
+server:
+  port: 8090
+
+spring:
+  security:
+    user:
+      name: admin
+      password: admin
+  datasource:
+    url: "jdbc:mysql://${MYSQL_HOST:localhost}:3306/shopping_cart"
+    username: "user"
+    password: "password"
+    driver-class-name: "com.mysql.jdbc.Driver"
+    hikari:
+      connection-timeout: 60000
+      maximum-pool-size: 5
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: "org.hibernate.dialect.MySQL5Dialect"
+
