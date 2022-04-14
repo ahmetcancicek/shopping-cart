@@ -3,6 +3,20 @@ Repository contains basic shopping-cart application to show restful service impl
 
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 
+## Development
+
+To test the application
+
+```bash
+mvn clean test
+```
+
+To build and run the application
+
+```bash
+
+```
+
 ## Deployment
 
 To deploy this project run
@@ -15,7 +29,7 @@ To deploy this project run
 
 #### Register customer
 
-```http
+```http request
   POST /registration
 ```
 
@@ -26,6 +40,12 @@ To deploy this project run
 | `email`      | `string`  | **Required**. Email of customer    |
 | `username`   | `string`  | **Required**. Username of customer |
 | `password`   | `string`  | **Required**. Password of customer |
+
+#### Delete customer
+
+```http request
+    DELETE /registration/{customerId}
+```
 
 #### Add product to cart 
 
