@@ -16,6 +16,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.Optional;
+
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -51,7 +54,7 @@ class RegistrationControllerTest {
                 .user(user)
                 .build();
 
-        Mockito.when(customerService.save(customer)).thenReturn(customer);
+        when(customerService.save(customer)).thenReturn(customer);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
@@ -69,21 +72,55 @@ class RegistrationControllerTest {
     }
 
     @Test
-    public void it_should_delete_customer() {
+    public void it_should_delete_customer() throws Exception {
         // given
+        User user = User.builder()
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("First Name")
+                .lastName("Last Name")
+                .user(user)
+                .build();
+
+        when(customerService.findById(1L)).thenReturn(Optional.of(customer));
 
         // when
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/registration/{customerId}", "1");
 
         // then
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isOk())
+                .andDo(print());
+
     }
 
     @Test
-    public void it_should_return_bad_request_when_request_delete_customer_with_does_not_existing(){
+    public void it_should_return_bad_request_when_request_delete_customer_with_does_not_existing() {
         // given
+        User user = User.builder()
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
 
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("First Name")
+                .lastName("Last Name")
+                .user(user)
+                .build();
         // when
 
         // then
+
+        // TODO:
     }
 
     @Test
@@ -104,20 +141,12 @@ class RegistrationControllerTest {
                 .user(user)
                 .build();
 
-        Mockito.when(customerService.save(customer)).thenReturn(customer);
+        when(customerService.save(customer)).thenReturn(customer);
 
         // when
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(customer));
 
         // then
-        mockMvc.perform(mockRequest)
-                .andExpect(status().isCreated())
-                .andDo(print())
-                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(1)));
+        // TODO:
     }
 
 
@@ -131,7 +160,7 @@ class RegistrationControllerTest {
                 .user(new User())
                 .build();
 
-        Mockito.when(customerService.save(customer)).thenReturn(customer);
+        when(customerService.save(customer)).thenReturn(customer);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
