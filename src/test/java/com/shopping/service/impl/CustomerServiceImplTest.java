@@ -63,6 +63,19 @@ class CustomerServiceImplTest {
     }
 
     @Test
+    void it_should_delete_customer() {
+        // given
+        Long customerId = 1L;
+
+        // when
+        customerService.deleteById(customerId);
+        customerService.deleteById(customerId);
+
+        // then
+        verify(customerRepository, times(2)).deleteById(any());
+    }
+
+    @Test
     void it_should_save_customer_with_payment_and_address() {
         // given
         User user = User.builder()
