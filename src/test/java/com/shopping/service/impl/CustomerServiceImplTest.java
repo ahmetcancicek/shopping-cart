@@ -1,6 +1,7 @@
 package com.shopping.service.impl;
 
 import com.shopping.exception.UserAlreadyExistsException;
+import com.shopping.exception.UserNotFoundException;
 import com.shopping.model.*;
 import com.shopping.repository.CustomerRepository;
 import com.shopping.repository.UserRepository;
@@ -65,14 +66,39 @@ class CustomerServiceImplTest {
     @Test
     void it_should_delete_customer() {
         // given
-        Long customerId = 1L;
+        User user = User.builder()
+                .email("email@email.com")
+                .username("username")
+                .password("password")
+                .active(true)
+                .build();
+
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("John")
+                .lastName("Doe")
+                .user(user)
+                .build();
+
+
+        when(customerRepository.findById(any())).thenReturn(Optional.of(customer));
 
         // when
-        customerService.deleteById(customerId);
-        customerService.deleteById(customerId);
+        customerService.deleteById(1L);
 
         // then
-        verify(customerRepository, times(2)).deleteById(any());
+        verify(customerRepository, times(1)).deleteById(any());
+    }
+
+    @Test
+    void it_should_throw_exception_when_delete_customer() {
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            customerService.deleteById(1L);
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(UserNotFoundException.class);
     }
 
     @Test
