@@ -1,7 +1,6 @@
 package com.shopping.service.impl;
 
 import com.shopping.exception.UserAlreadyExistsException;
-import com.shopping.exception.UserNotFoundException;
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.UserService;
@@ -12,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Service("userService")
+@Service
 @Slf4j
 public class UserServiceImpl implements UserService {
 
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
         User savedUser = userRepository.save(user);
-        log.info("new user has been created: {}", user.getId());
+        log.info("new user has been created with ID: {}", user.getId());
 
         return savedUser;
     }
@@ -50,20 +49,20 @@ public class UserServiceImpl implements UserService {
     private void isExist(User user) {
         Optional<User> existing = userRepository.findByEmail(user.getEmail());
         existing.ifPresent(it -> {
-            log.error("user already exists: " + it.getEmail());
-            throw new UserAlreadyExistsException("user already exists: {}" + it.getEmail());
+            log.error("user already exists with this email: {} ", it.getEmail());
+            throw new UserAlreadyExistsException("user already exists with email: {}" + it.getEmail());
         });
 
         existing = userRepository.findByUsername(user.getUsername());
         existing.ifPresent(it -> {
-            log.error("user already exists: " + it.getUsername());
-            throw new UserAlreadyExistsException("user already exists: {}" + it.getUsername());
+            log.error("user already exists with this username: {} ", it.getUsername());
+            throw new UserAlreadyExistsException("user already exists with username: {}" + it.getUsername());
         });
     }
 
     @Override
     public void deleteById(Long id) {
         userRepository.deleteById(id);
-        log.info("user has been deleted: {}", id);
+        log.info("user has been deleted with ID: {}", id);
     }
 }

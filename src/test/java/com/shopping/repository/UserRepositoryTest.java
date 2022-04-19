@@ -2,12 +2,12 @@ package com.shopping.repository;
 
 
 import com.shopping.model.User;
-import org.junit.After;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -16,6 +16,8 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -33,11 +35,6 @@ class UserRepositoryTest {
     @Container
     public static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql");
 
-    @After
-    public void clear() {
-        this.testEntityManager.clear();
-    }
-
     @Test
     public void it_should_db_run() {
         assertTrue(mysql.isRunning(), "MySQL in not running");
@@ -52,13 +49,10 @@ class UserRepositoryTest {
                 .active(true)
                 .build();
 
-        Object userId = testEntityManager.persistAndGetId(user);
-        testEntityManager.flush();
+        User createdUser = userRepository.save(user);
+        User expectedUser = testEntityManager.find(User.class, createdUser.getId());
 
-        Optional<User> createdUser = userRepository.findById((Long) userId);
-
-        assertTrue(createdUser.isPresent(), "Returned must not be null");
-        assertEquals("username", createdUser.get().getUsername(), "Username must be equal");
+        assertEquals("username", expectedUser.getUsername(), "Username must be equal");
 
         testEntityManager.remove(user);
         testEntityManager.flush();
@@ -108,12 +102,50 @@ class UserRepositoryTest {
 
     @Test
     public void it_should_throw_exception_when_save_user_with_existing_email() {
-        // TODO:
+        User userOne = User.builder()
+                .username("usernameOne")
+                .password("passwordOne")
+                .email("email@email.com")
+                .active(true)
+                .build();
+        testEntityManager.persistAndFlush(userOne);
+
+        User userTwo = User.builder()
+                .username("usernameTwo")
+                .password("passwordTwo")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
+        Throwable throwable = catchThrowable(() -> {
+            userRepository.saveAndFlush(userTwo);
+        });
+
+        assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     public void it_should_throw_exception_when_save_user_with_existing_username() {
-        // TODO:
+        User userOne = User.builder()
+                .username("username")
+                .password("passwordOne")
+                .email("emailOne@email.com")
+                .active(true)
+                .build();
+        testEntityManager.persistAndFlush(userOne);
+
+        User userTwo = User.builder()
+                .username("username")
+                .password("passwordTwo")
+                .email("emailTwo@email.com")
+                .active(true)
+                .build();
+
+        Throwable throwable = catchThrowable(() -> {
+            userRepository.saveAndFlush(userTwo);
+        });
+
+        assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
@@ -137,7 +169,7 @@ class UserRepositoryTest {
     @DynamicPropertySource
     public static void properties(DynamicPropertyRegistry registry) {
         registry.add("spring.jpa.hibernate.dll-auto", () -> "create-drop");
-        registry.add("spring.jpa-database-platform", () -> "org.hibernate.dialect.MySQL5InnoDBDialect");
+        registry.add("spring.jpa.properties.hibernate.dialect", () -> "org.hibernate.dialect.MySQL8Dialect");
         registry.add("spring.datasource.url", mysql::getJdbcUrl);
         registry.add("spring.datasource.username", mysql::getUsername);
         registry.add("spring.datasource.password", mysql::getPassword);
