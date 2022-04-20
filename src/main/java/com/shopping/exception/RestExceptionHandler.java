@@ -11,7 +11,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(UserNotFoundException.class)
+    @ExceptionHandler(UserAlreadyExistsException.class)
     protected ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         // TODO: Add message
         ErrorResponse errorResponse = ErrorResponse.builder()
@@ -21,6 +21,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
+    @ExceptionHandler(UserNotFoundException.class)
     protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
         // TODO: Add message
 
