@@ -16,7 +16,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         // TODO: Add message
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message("")
-                .status(HttpStatus.BAD_GATEWAY)
+                .status(HttpStatus.BAD_REQUEST)
                 .build();
         return buildResponseEntity(errorResponse);
     }
@@ -36,7 +36,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         // TODO: Add constraint validation errors list
         ErrorResponse errorResponse = ErrorResponse.builder()
                 .message("Validation error")
-                .status(HttpStatus.BAD_GATEWAY)
+                .status(HttpStatus.BAD_REQUEST)
                 .build();
         return buildResponseEntity(ErrorResponse.builder().build());
     }
