@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        isExist(user);
+        isExisted(user);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
@@ -46,17 +46,15 @@ public class UserServiceImpl implements UserService {
         return savedUser;
     }
 
-    private void isExist(User user) {
-        Optional<User> existing = userRepository.findByEmail(user.getEmail());
-        existing.ifPresent(it -> {
-            log.error("user already exists with this email: {} ", it.getEmail());
-            throw new UserAlreadyExistsException("user already exists with email: {}" + it.getEmail());
+    private void isExisted(User user) {
+        userRepository.findByEmail(user.getEmail()).ifPresent((it) -> {
+            log.error("user already exists with email: {}", it.getEmail());
+            throw new UserAlreadyExistsException("user already exists with email: {" + it.getEmail() + "}");
         });
 
-        existing = userRepository.findByUsername(user.getUsername());
-        existing.ifPresent(it -> {
-            log.error("user already exists with this username: {} ", it.getUsername());
-            throw new UserAlreadyExistsException("user already exists with username: {}" + it.getUsername());
+        userRepository.findByUsername(user.getUsername()).ifPresent((it) -> {
+            log.error("user already exists with username: {}" + it.getUsername());
+            throw new UserAlreadyExistsException("user already exists with username: {" + it.getUsername() + "}");
         });
     }
 
