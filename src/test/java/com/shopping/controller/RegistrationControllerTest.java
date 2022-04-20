@@ -5,7 +5,6 @@ import com.shopping.model.Customer;
 import com.shopping.model.User;
 import com.shopping.service.CustomerService;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -16,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -88,7 +86,7 @@ class RegistrationControllerTest {
                 .user(user)
                 .build();
 
-        when(customerService.findById(1L)).thenReturn(Optional.of(customer));
+        when(customerService.findById(1L)).thenReturn(customer);
 
         // when
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/registration/{customerId}", "1");

@@ -74,15 +74,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addItemToCart(Long customerId, Long productId, int quantity) {
-        Optional<Customer> optionalCustomer = customerService.findById(customerId);
-        if (optionalCustomer.isEmpty())
-            throw new UserNotFoundException("customer does not exist with this customerId");
+        Customer customer = customerService.findById(customerId);
+
 
         Optional<Product> optionalProduct = productService.findById(productId);
         if (optionalProduct.isEmpty())
             throw new ProductNotFoundException("product does not exit with this productId");
 
-        updateCart(optionalCustomer.get(), optionalProduct.get(), quantity);
+        updateCart(customer, optionalProduct.get(), quantity);
     }
 
     @Override
@@ -92,9 +91,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeAllCartItems(Customer customer) {
-        Optional<Customer> optionalCustomer = customerService.findById(customer.getId());
-        if (optionalCustomer.isEmpty())
-            throw new UserNotFoundException("customer does not exist with this customerId");
+        customer = customerService.findById(customer.getId());
 
         customer.getCart().getItems().removeIf(cartItem -> cartItem.getId() != null);
 
@@ -116,9 +113,7 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeItem(Customer customer, Product product) {
-        Optional<Customer> optionalCustomer = customerService.findById(customer.getId());
-        if (optionalCustomer.isEmpty())
-            throw new UserNotFoundException("customer does not exist with this customerId");
+        customer = customerService.findById(customer.getId());
 
         Optional<Product> optionalProduct = productService.findById(product.getId());
         if (optionalProduct.isEmpty())

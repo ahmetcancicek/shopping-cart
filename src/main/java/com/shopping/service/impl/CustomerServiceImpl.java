@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -35,7 +34,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        isExist(customer.getUser());
+        isExisted(customer.getUser());
 
         if (customer.getCart() == null)
             customer.setCart(Cart.builder().customer(customer).build());
@@ -45,29 +44,27 @@ public class CustomerServiceImpl implements CustomerService {
         return savedCustomer;
     }
 
-    private void isExist(User user) {
-        Optional<User> existing = userRepository.findByEmail(user.getEmail());
-        existing.ifPresent(it -> {
-            log.error("user already exists: " + it.getEmail());
-            throw new UserAlreadyExistsException("user already exists: {" + it.getEmail() + "}");
+    private void isExisted(User user) {
+        userRepository.findByEmail(user.getEmail()).ifPresent((it) -> {
+            log.error("user already exists with email: {}", it.getEmail());
+            throw new UserAlreadyExistsException("user already exists with email: {" + it.getEmail() + "}");
         });
 
-        existing = userRepository.findByUsername(user.getUsername());
-        existing.ifPresent(it -> {
-            log.error("user already exists: " + it.getUsername());
-            throw new UserAlreadyExistsException("user already exists: {" + it.getUsername() + "}");
+        userRepository.findByUsername(user.getUsername()).ifPresent((it) -> {
+            log.error("user already exists with username: {}" + it.getUsername());
+            throw new UserAlreadyExistsException("user already exists with username: {" + it.getUsername() + "}");
         });
     }
 
 
     @Override
-    public Optional<Customer> findById(Long id) {
-        return customerRepository.findById(id);
+    public Customer findById(Long id) {
+        return customerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("user does not exists with id: {" + id + "}"));
     }
 
     @Override
-    public Optional<Customer> findByUser(User user) {
-        return customerRepository.findByUser(user);
+    public Customer findByUser(User user) {
+        return customerRepository.findByUser(user).orElseThrow(() -> new UserNotFoundException("user does not exist"));
     }
 
     @Override

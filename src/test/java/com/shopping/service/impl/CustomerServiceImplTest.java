@@ -292,13 +292,12 @@ class CustomerServiceImplTest {
         given(customerRepository.findById(any())).willReturn(Optional.of(customer));
 
         // when
-        Optional<Customer> expectedCustomer = customerService.findById(customer.getId());
+        Customer expectedCustomer = customerService.findById(customer.getId());
 
         // then
         verify(customerRepository, times(1)).findById(any());
         assertNotNull(expectedCustomer, "Entity must not be null");
-        assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
-        assertEquals(customer.getFirstName(), expectedCustomer.get().getFirstName(), "Firstname must be equal");
+        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname must be equal");
     }
 
     @Test
@@ -323,12 +322,11 @@ class CustomerServiceImplTest {
         given(customerRepository.findByUser(any())).willReturn(Optional.of(customer));
 
         // when
-        Optional<Customer> expectedCustomer = customerService.findByUser(customer.getUser());
+        Customer expectedCustomer = customerService.findByUser(customer.getUser());
 
         // then
         verify(customerRepository, times(1)).findByUser(any());
         assertNotNull(expectedCustomer, "Entity must not be null");
-        assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
-        assertEquals(customer.getFirstName(), expectedCustomer.get().getFirstName(), "Firstname mut be equal");
+        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname mut be equal");
     }
 }
