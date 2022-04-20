@@ -59,6 +59,23 @@ class UserRepositoryTest {
     }
 
     @Test
+    public void it_should_return_user_of_that_id() {
+        User user = User.builder()
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
+        Object id = testEntityManager.persistAndGetId(user);
+
+        Optional<User> expectedUser = userRepository.findById((Long) id);
+
+        assertTrue(expectedUser.isPresent(), "Returned must not be null");
+        assertEquals("username", expectedUser.get().getUsername(), "Username must be equal");
+    }
+
+    @Test
     public void it_should_return_user_of_that_username() {
         User user = User.builder()
                 .username("username")
@@ -69,10 +86,10 @@ class UserRepositoryTest {
 
         testEntityManager.persistAndFlush(user);
 
-        Optional<User> createdUser = userRepository.findByUsername("username");
+        Optional<User> expectedUser = userRepository.findByUsername("username");
 
-        assertTrue(createdUser.isPresent(), "Returned must not be null");
-        assertEquals("username", createdUser.get().getUsername(), "Username must be equal");
+        assertTrue(expectedUser.isPresent(), "Returned must not be null");
+        assertEquals("username", expectedUser.get().getUsername(), "Username must be equal");
 
         testEntityManager.remove(user);
         testEntityManager.flush();
@@ -90,10 +107,10 @@ class UserRepositoryTest {
 
         testEntityManager.persistAndFlush(user);
 
-        Optional<User> createdUser = userRepository.findByEmail("email@email.com");
+        Optional<User> expectedUser = userRepository.findByEmail("email@email.com");
 
-        assertTrue(createdUser.isPresent(), "Returned must not be null");
-        assertEquals("email@email.com", createdUser.get().getEmail(), "Email must be equal");
+        assertTrue(expectedUser.isPresent(), "Returned must not be null");
+        assertEquals("email@email.com", expectedUser.get().getEmail(), "Email must be equal");
 
         testEntityManager.remove(user);
         testEntityManager.flush();
