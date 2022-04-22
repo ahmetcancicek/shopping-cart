@@ -22,13 +22,11 @@ public class RegistrationController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/registration")
     public Customer registerCustomer(@Valid @RequestBody Customer customer) {
-        // TODO: Check If it is null
         return customerService.save(customer);
     }
 
-    @ResponseStatus(HttpStatus.OK)
     @DeleteMapping("/registration/{customerId}")
-    public void deleteCustomer(@PathVariable String customerId)  {
+    public void deleteCustomer(@PathVariable String customerId) {
         customerService.deleteById(Long.valueOf(customerId));
     }
 }

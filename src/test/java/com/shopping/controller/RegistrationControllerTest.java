@@ -1,6 +1,8 @@
 package com.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shopping.exception.UserAlreadyExistsException;
+import com.shopping.exception.UserNotFoundException;
 import com.shopping.model.Customer;
 import com.shopping.model.User;
 import com.shopping.service.CustomerService;
@@ -16,11 +18,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 
+
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.hamcrest.Matchers.*;
 
 @WebMvcTest(RegistrationController.class)
 @AutoConfigureMockMvc
@@ -63,10 +66,9 @@ class RegistrationControllerTest {
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
-                .andDo(print())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id", is(1)))
-                .andExpect(jsonPath("$.firstName", is("First Name")));
+                .andExpect(jsonPath("$.id").value(1))
+                .andExpect(jsonPath("$.firstName").value("First Name"));
     }
 
     @Test
@@ -89,17 +91,17 @@ class RegistrationControllerTest {
         when(customerService.findById(1L)).thenReturn(customer);
 
         // when
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.delete("/registration/{customerId}", "1");
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/registration/{customerId}", "1");
 
         // then
         mockMvc.perform(requestBuilder)
-                .andExpect(status().isOk())
-                .andDo(print());
+                .andExpect(status().isOk());
 
     }
 
     @Test
-    public void it_should_return_bad_request_when_request_delete_customer_with_does_not_existing() {
+    public void it_should_return_bad_request_when_delete_customer_with_does_not_existing() throws Exception {
         // given
         User user = User.builder()
                 .username("username")
@@ -114,18 +116,24 @@ class RegistrationControllerTest {
                 .lastName("Last Name")
                 .user(user)
                 .build();
+
+        doThrow(new UserNotFoundException("user does not exist")).when(customerService).deleteById(any());
+
         // when
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .delete("/registration/{customerId}", "1");
 
         // then
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andReturn();
 
-        // TODO:
     }
 
     @Test
-    public void it_should_return_bad_request_when_request_register_customer_with_existing_username() throws Exception {
+    public void it_should_return_bad_request_when_register_customer_with_existing() throws Exception {
         // given
         User user = User.builder()
-                .id(1L)
                 .username("username")
                 .password("password")
                 .email("email@email.com")
@@ -139,17 +147,22 @@ class RegistrationControllerTest {
                 .user(user)
                 .build();
 
-        when(customerService.save(customer)).thenReturn(customer);
+        when(customerService.save(any())).thenThrow(new UserAlreadyExistsException("user already exist"));
 
         // when
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
+                .post("/registration")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(mapper.writeValueAsString(customer));
 
         // then
-        // TODO:
+        mockMvc.perform(requestBuilder)
+                .andExpect(status().isBadRequest())
+                .andReturn();
     }
 
-
     @Test
-    public void it_should_return_client_error_when_request_save_customer_with_body_isNotValid() throws Exception {
+    public void it_should_return_client_error_when_register_customer_with_body_isNotValid() throws Exception {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
@@ -158,7 +171,6 @@ class RegistrationControllerTest {
                 .user(new User())
                 .build();
 
-        when(customerService.save(customer)).thenReturn(customer);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
@@ -168,8 +180,7 @@ class RegistrationControllerTest {
 
         // then
         mockMvc.perform(mockRequest)
-                .andExpect(status().is4xxClientError())
-                .andDo(print());
+                .andExpect(status().is4xxClientError());
     }
 
 }
