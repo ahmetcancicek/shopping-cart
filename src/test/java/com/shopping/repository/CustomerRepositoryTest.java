@@ -63,6 +63,27 @@ class CustomerRepositoryTest {
     }
 
     @Test
+    public void it_should_delete_customer() {
+        User user = User.builder()
+                .email("email@email.com")
+                .username("username")
+                .password("password")
+                .active(true)
+                .build();
+
+        Customer customer = Customer.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .user(user)
+                .build();
+
+        Object customerId = testEntityManager.persistAndGetId(customer);
+        customerRepository.deleteById((Long) customerId);
+
+        assertNull(testEntityManager.find(Customer.class, customerId),"Returned must be null");
+    }
+
+    @Test
     public void it_should_save_customer_with_payment_and_address() {
         User user = User.builder()
                 .email("email@email.com")

@@ -1,6 +1,7 @@
 package com.shopping.repository;
 
 
+import com.shopping.model.Customer;
 import com.shopping.model.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -178,9 +179,7 @@ class UserRepositoryTest {
         userRepository.deleteById((Long) userId);
         testEntityManager.flush();
 
-        Optional<User> deleteUser = userRepository.findById((Long) userId);
-
-        assertFalse(deleteUser.isPresent(), "Returned must be null");
+        assertNull(testEntityManager.find(User.class, userId), "Returned must be null");
     }
 
     @DynamicPropertySource
