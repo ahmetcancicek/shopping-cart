@@ -10,7 +10,8 @@ import java.util.*;
 
 @Entity
 @Table(name = "cart")
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
