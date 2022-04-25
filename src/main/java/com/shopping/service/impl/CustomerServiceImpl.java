@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -37,10 +38,10 @@ public class CustomerServiceImpl implements CustomerService {
         isExisted(customer.getUser());
 
         if (customer.getCart() == null)
-            customer.setCart(Cart.builder().customer(customer).build());
+            customer.setCart(Cart.builder().customer(customer).totalPrice(BigDecimal.ZERO).build());
 
         Customer savedCustomer = customerRepository.save(customer);
-        log.info("new customer has been created: {}", savedCustomer.getFirstName());
+        log.info("new customer has been created with username: {}", savedCustomer.getUser().getUsername());
         return savedCustomer;
     }
 
