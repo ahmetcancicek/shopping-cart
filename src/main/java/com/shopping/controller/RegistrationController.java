@@ -25,8 +25,8 @@ public class RegistrationController {
         return customerService.save(customer);
     }
 
-    @DeleteMapping("/registration/{customerId}")
-    public void deleteCustomer(@PathVariable String customerId) {
+    @DeleteMapping("/registration/{id}")
+    public void deleteCustomer(@PathVariable("id") String customerId) {
         customerService.deleteById(Long.valueOf(customerId));
     }
 }

@@ -92,7 +92,7 @@ class RegistrationControllerTest {
 
         // when
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/registration/{customerId}", "1");
+                .delete("/registration/{id}", "1");
 
         // then
         mockMvc.perform(requestBuilder)
@@ -121,7 +121,7 @@ class RegistrationControllerTest {
 
         // when
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/registration/{customerId}", "1");
+                .delete("/registration/{id}", "1");
 
         // then
         mockMvc.perform(requestBuilder)
