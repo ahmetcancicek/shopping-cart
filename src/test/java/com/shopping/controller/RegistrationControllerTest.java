@@ -101,7 +101,7 @@ class RegistrationControllerTest {
     }
 
     @Test
-    public void it_should_return_bad_request_when_delete_customer_with_does_not_existing() throws Exception {
+    public void it_should_return_bad_request_when_delete_customer_with_does_not_exist() throws Exception {
         // given
         User user = User.builder()
                 .username("username")
