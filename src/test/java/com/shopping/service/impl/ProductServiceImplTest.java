@@ -9,7 +9,6 @@ import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.*;
 
@@ -103,31 +102,18 @@ class ProductServiceImplTest {
         given(productRepository.findById(product.getId())).willReturn(Optional.of(product));
 
         // when
-        Optional<Product> expected = productService.findById(product.getId());
+        Product expectedProduct = productService.findById(product.getId());
 
         // then
         verify(productRepository, times(1)).findById(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(product.getId(), expected.get().getId(), "Id must be equal");
+        assertNotNull(expectedProduct, "Returned must not be null");
+        assertEquals(product.getId(), expectedProduct.getId(), "Id must be equal");
     }
 
     @Test
     public void it_should_delete_product_with_id() {
         // given
-        Long productId = 1L;
-
-        // when
-        productService.deleteById(productId);
-        productService.deleteById(productId);
-
-        // then
-        verify(productRepository, times(2)).deleteById(productId);
-    }
-
-    @Test
-    public void it_should_return_list_of_all_products() {
-        // given
-        Product productOne = Product.builder()
+        Product product = Product.builder()
                 .id(1L)
                 .name("Product 1")
                 .description("Description")
@@ -135,17 +121,33 @@ class ProductServiceImplTest {
                 .quantity(10)
                 .build();
 
-        Product productTwo = Product.builder()
+        when(productRepository.findById(any())).thenReturn(Optional.of(product));
+
+        // when
+        productService.deleteById(1L);
+
+        // then
+        verify(productRepository, times(1)).deleteById(any());
+    }
+
+    @Test
+    public void it_should_return_list_of_all_products() {
+        // given
+        List<Product> products = new ArrayList<>();
+        products.add(Product.builder()
+                .id(1L)
+                .name("Product 1")
+                .description("Description")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10).build());
+
+        products.add(Product.builder()
                 .id(2L)
                 .name("Product 2")
                 .description("Description")
                 .price(BigDecimal.valueOf(5.0))
                 .quantity(2)
-                .build();
-
-        List<Product> products = new ArrayList<>();
-        products.add(productOne);
-        products.add(productTwo);
+                .build());
 
         given(productRepository.findAll()).willReturn(products);
 
@@ -161,36 +163,33 @@ class ProductServiceImplTest {
     @Test
     public void it_should_return_list_of_products_with_pageable() {
         // given
-        Product productOne = Product.builder()
+        List<Product> products = new ArrayList<>();
+        products.add(Product.builder()
                 .id(1L)
                 .name("Product 1")
                 .description("Description")
                 .price(BigDecimal.valueOf(10.0))
-                .quantity(10)
-                .build();
+                .quantity(10).build());
 
-        Product productTwo = Product.builder()
+        products.add(Product.builder()
                 .id(2L)
                 .name("Product 2")
                 .description("Description")
                 .price(BigDecimal.valueOf(5.0))
                 .quantity(2)
-                .build();
+                .build());
 
-        List<Product> products = new ArrayList<>();
-        products.add(productOne);
-        products.add(productTwo);
-
-        Pageable firstPageWithTwoElements = PageRequest.of(0, 2);
-        Page<Product> productPage = new PageImpl<>(products.subList(0, 2), firstPageWithTwoElements, products.size());
-
-        Mockito.when(productRepository.findAll(any(Pageable.class))).thenReturn(productPage);
+        Page<Product> productPage = new PageImpl<>(
+                products.subList(0, 2),
+                PageRequest.of(0, 2),
+                products.size());
+        when(productRepository.findAll(any(Pageable.class))).thenReturn(productPage);
 
         // when
-        Page<Product> expectedProducts = productService.findAll(firstPageWithTwoElements);
+        Page<Product> expectedProducts = productService.findAll(PageRequest.of(0, 2));
 
         // then
-        verify(productRepository, times(1)).findAll(firstPageWithTwoElements);
+        verify(productRepository, times(1)).findAll(PageRequest.of(0, 2));
         assertNotNull(expectedProducts, "List must not be null");
         assertEquals(2, expectedProducts.getTotalElements(), "Total element must be equal");
     }

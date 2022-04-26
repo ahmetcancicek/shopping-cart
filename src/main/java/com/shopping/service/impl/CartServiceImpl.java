@@ -77,11 +77,9 @@ public class CartServiceImpl implements CartService {
         Customer customer = customerService.findById(customerId);
 
 
-        Optional<Product> optionalProduct = productService.findById(productId);
-        if (optionalProduct.isEmpty())
-            throw new ProductNotFoundException("product does not exit with this productId");
+        Product product = productService.findById(productId);
 
-        updateCart(customer, optionalProduct.get(), quantity);
+        updateCart(customer, product, quantity);
     }
 
     @Override
@@ -115,11 +113,7 @@ public class CartServiceImpl implements CartService {
     public void removeItem(Customer customer, Product product) {
         customer = customerService.findById(customer.getId());
 
-        Optional<Product> optionalProduct = productService.findById(product.getId());
-        if (optionalProduct.isEmpty())
-            throw new ProductNotFoundException("product does not exist with this productId");
-
-        Long productId = optionalProduct.get().getId();
+        Long productId = productService.findById(product.getId()).getId();
         customer.getCart().getItems().removeIf(cartItem -> cartItem.getProduct().getId().equals(productId));
     }
 

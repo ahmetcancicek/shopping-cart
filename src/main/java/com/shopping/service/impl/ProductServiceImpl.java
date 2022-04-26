@@ -1,5 +1,6 @@
 package com.shopping.service.impl;
 
+import com.shopping.exception.ProductNotFoundException;
 import com.shopping.model.Product;
 import com.shopping.model.User;
 import com.shopping.repository.ProductRepository;
@@ -11,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -25,22 +25,22 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> findById(Long id) {
-        return productRepository.findById(id);
+    public Product findById(Long id) {
+        return productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("product does not exist"));
     }
 
     @Override
     public Product save(Product product) {
         Product savedProduct = productRepository.save(product);
-        log.info("new product has been created: {}", savedProduct.getId());
-
+        log.info("new product has been created with ID: {}", savedProduct.getId());
         return savedProduct;
     }
 
     @Override
     public void deleteById(Long id) {
+        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("product does not exist"));
         productRepository.deleteById(id);
-        log.info("product has been deleted: {}", id);
+        log.info("product has been deleted: {}", product.toString());
     }
 
     @Override

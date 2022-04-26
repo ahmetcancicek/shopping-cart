@@ -135,7 +135,7 @@ public class CartServiceImplTest {
         Long customerId = customer.getId();
         Long productId = product.getId();
         when(customerService.findById(any())).thenReturn(customer);
-        when(productService.findById(any())).thenReturn(Optional.of(product));
+        when(productService.findById(any())).thenReturn(product);
         when(cartRepository.save(any())).thenReturn(cart);
         when(cartRepository.findByCustomer(any())).thenReturn(Optional.of(cart));
 
@@ -178,7 +178,7 @@ public class CartServiceImplTest {
     void it_should_remove_item_from_cart() {
         // given
         when(customerService.findById(any())).thenReturn(customer);
-        when(productService.findById(any())).thenReturn(Optional.ofNullable(product));
+        when(productService.findById(any())).thenReturn(product);
 
         // when
         cartService.removeItem(customer, product);
