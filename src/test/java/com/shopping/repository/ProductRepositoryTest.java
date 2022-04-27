@@ -21,6 +21,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 
 
@@ -94,6 +96,29 @@ public class ProductRepositoryTest {
     }
 
     @Test
+    public void it_should_update_products() {
+        // given
+        Product product = Product.builder()
+                .name("Product 1")
+                .description("Description")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
+                .build();
+
+        Product savedProduct = testEntityManager.persist(product);
+
+        // when
+        savedProduct.setQuantity(2);
+        productRepository.save(savedProduct);
+
+        // then
+        assertEquals(2, savedProduct.getQuantity(), "Quantity must be equal");
+
+        testEntityManager.remove(savedProduct);
+        testEntityManager.flush();
+    }
+
+    @Test
     public void it_should_return_product_of_that_id() {
         // given
         Product product = Product.builder()
@@ -132,6 +157,17 @@ public class ProductRepositoryTest {
 
         // then
         assertNull(testEntityManager.find(Customer.class, id), "Returned must be null");
+    }
+
+    @Test
+    public void it_should_throw_exception_when_delete_product_that_does_not_exist() {
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            productRepository.deleteById(1L);
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(Exception.class);
     }
 
     @Test
