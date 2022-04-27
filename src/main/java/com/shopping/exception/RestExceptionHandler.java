@@ -21,8 +21,8 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorResponse);
     }
 
-    @ExceptionHandler(UserNotFoundException.class)
-    protected ResponseEntity<Object> handleUserNotFoundException(UserNotFoundException ex) {
+    @ExceptionHandler({UserNotFoundException.class, ProductNotFoundException.class})
+    protected ResponseEntity<Object> handleNotFoundException(Exception ex) {
         // TODO: Add message
 
         ErrorResponse errorResponse = ErrorResponse.builder()
