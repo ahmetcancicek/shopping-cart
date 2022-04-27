@@ -11,6 +11,8 @@ public interface ProductService {
 
     Product save(Product product);
 
+    Product update(Product product);
+
     void deleteById(Long id);
 
     List<Product> findAll();

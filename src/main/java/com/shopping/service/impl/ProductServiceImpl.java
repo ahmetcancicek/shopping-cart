@@ -37,8 +37,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    public Product update(Product product) {
+        Product expectedProduct = findById(product.getId());
+        Product updatedProduct = productRepository.save(product);
+        log.info("product has ben updated: {}", updatedProduct.toString());
+        return updatedProduct;
+    }
+
+    @Override
     public void deleteById(Long id) {
-        Product product = productRepository.findById(id).orElseThrow(() -> new ProductNotFoundException("product does not exist"));
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ProductNotFoundException("product does not exist: {" + id + "}"));
         productRepository.deleteById(id);
         log.info("product has been deleted: {}", product.toString());
     }
