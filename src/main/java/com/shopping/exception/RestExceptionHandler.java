@@ -1,6 +1,6 @@
 package com.shopping.exception;
 
-import com.shopping.dto.ErrorResponse;
+import com.shopping.dto.ErrorMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -14,35 +14,35 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     protected ResponseEntity<Object> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
         // TODO: Add message
-        ErrorResponse errorResponse = ErrorResponse.builder()
+        ErrorMessage errorMessage = ErrorMessage.builder()
                 .message("")
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
-        return buildResponseEntity(errorResponse);
+        return buildResponseEntity(errorMessage);
     }
 
     @ExceptionHandler({UserNotFoundException.class, ProductNotFoundException.class})
     protected ResponseEntity<Object> handleNotFoundException(Exception ex) {
         // TODO: Add message
 
-        ErrorResponse errorResponse = ErrorResponse.builder()
+        ErrorMessage errorMessage = ErrorMessage.builder()
                 .message("")
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
-        return buildResponseEntity(errorResponse);
+        return buildResponseEntity(errorMessage);
     }
 
     @ExceptionHandler(javax.validation.ConstraintViolationException.class)
     protected ResponseEntity<Object> handleConstraintViolation(javax.validation.ConstraintViolationException ex) {
         // TODO: Add constraint validation errors list
-        ErrorResponse errorResponse = ErrorResponse.builder()
+        ErrorMessage errorMessage = ErrorMessage.builder()
                 .message("Validation error")
                 .status(HttpStatus.BAD_REQUEST)
                 .build();
-        return buildResponseEntity(ErrorResponse.builder().build());
+        return buildResponseEntity(ErrorMessage.builder().build());
     }
 
-    private ResponseEntity<Object> buildResponseEntity(ErrorResponse errorResponse) {
-        return new ResponseEntity<>(errorResponse, errorResponse.getStatus());
+    private ResponseEntity<Object> buildResponseEntity(ErrorMessage errorMessage) {
+        return new ResponseEntity<>(errorMessage, errorMessage.getStatus());
     }
 }
