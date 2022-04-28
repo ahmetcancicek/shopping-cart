@@ -33,13 +33,17 @@ To deploy this project run
   POST /registration
 ```
 
-| Parameter    | Type      | Description                        |
-|:-------------|:----------|:-----------------------------------|
-| `firstName`  | `string`  | **Required**. Name of customer     |
-| `lastName`   | `string`  | **Required**. Surname of customer  |
-| `email`      | `string`  | **Required**. Email of customer    |
-| `username`   | `string`  | **Required**. Username of customer |
-| `password`   | `string`  | **Required**. Password of customer |
+| Parameter    | Type      | Description                           |
+|:-------------|:----------|:--------------------------------------|
+| `firstName`  | `string`  | **Not Required**. Name of customer    |
+| `lastName`   | `string`  | **Not Required**. Surname of customer |
+| `email`      | `string`  | **Required**. Email of customer       |
+| `username`   | `string`  | **Required**. Username of customer    |
+| `password`   | `string`  | **Required**. Password of customer    |
+
+```curl
+curl -X POST
+```
 
 #### Delete customer
 
@@ -47,21 +51,88 @@ To deploy this project run
     DELETE /registration/{customerId}
 ```
 
-#### Add product to cart 
+| Parameter | Type      | Description                  |
+|:----------|:----------|:-----------------------------|
+| `id`      | `string`  | **Required**. Id of customer |
 
-```http
-  POST /cart/add/${productId}
+```curl
+curl -X DELETE 'localhost:8090/registration/{id}'
 ```
 
-| Parameter    | Type   | Description                 |
-|:-------------|:-------|:----------------------------|
-| `productId`  | `long` | **Required**. Id of product |
 
-#### Remove product from cart
+#### Add product
 
-```http
-  POST /cart/remove/${productId}
+```http request
+    POST /products
 ```
-| Parameter    | Type   | Description                 |
-|:-------------|:-------|:----------------------------|
-| `productId`  | `long` | **Required**. Id of product |
+
+| Parameter     | Type      | Description                              |
+|:--------------|:----------|:-----------------------------------------|
+| `name`        | `string`  | **Required**. Name of product            |
+| `description` | `string`  | **Not Required**. Description of product |
+| `price`       | `number`  | **Required**. Price of product           |
+| `quantity`    | `number`  | **Required**. Quantity of customer       |
+
+```curl
+curl -X POST
+```
+
+
+#### Get product
+
+```http request
+    GET /products/{id}
+```
+
+| Parameter | Type      | Description                 |
+|:----------|:----------|:----------------------------|
+| `id`      | `string`  | **Required**. Id of product |
+
+```curl
+curl -X GET 'localhost:8090/products/{id}'
+```
+
+
+#### Get products
+
+```http request
+    GET /products
+```
+
+```curl
+curl -X GET 'localhost:8090/products'
+```
+
+#### Delete product
+
+```http request
+    DELETE /products/{id}
+```
+
+| Parameter | Type      | Description                 |
+|:----------|:----------|:----------------------------|
+| `id`      | `string`  | **Required**. Id of product |
+
+```curl
+curl -X DELETE 'localhost:8090/products/{id}'
+```
+
+
+#### Update product
+
+```http request
+    PUT /products
+```
+
+| Parameter     | Type      | Description                              |
+|:--------------|:----------|:-----------------------------------------|
+| `id`          | `number`  | **Required**. Name of product            |
+| `name`        | `string`  | **Required**. Name of product            |
+| `description` | `string`  | **Not Required**. Description of product |
+| `price`       | `number`  | **Required**. Price of product           |
+| `quantity`    | `number`  | **Required**. Quantity of customer       |
+
+
+```curl
+curl -X PUT
+```
