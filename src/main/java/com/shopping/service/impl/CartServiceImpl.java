@@ -36,13 +36,9 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public Optional<Cart> findByUsername(String username) {
-        Optional<User> user = userService.findByUsername(username);
-        if (user.isEmpty()) {
-            log.error("user does not exists: {}" + username);
-            throw new UserNotFoundException("user does not exists: {" + username + "}");
-        }
+        User user = userService.findByUsername(username);
 
-        return findByCustomer(user.get().getCustomer());
+        return findByCustomer(user.getCustomer());
     }
 
     @Override

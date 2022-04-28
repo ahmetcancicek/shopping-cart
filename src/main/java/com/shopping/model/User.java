@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(of = {"id", "email", "username"})
+@EqualsAndHashCode(exclude = {"password","active","customer"})
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

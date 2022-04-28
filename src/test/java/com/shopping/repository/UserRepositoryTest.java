@@ -182,6 +182,15 @@ class UserRepositoryTest {
         assertNull(testEntityManager.find(User.class, userId), "Returned must be null");
     }
 
+    @Test
+    public void it_should_throw_exception_when_user_that_does_not_exist() {
+        Throwable throwable = catchThrowable(() -> {
+            userRepository.deleteById(12823L);
+        });
+
+        assertThat(throwable).isInstanceOf(Exception.class);
+    }
+
     @DynamicPropertySource
     public static void properties(DynamicPropertyRegistry registry) {
         registry.add("spring.jpa.hibernate.dll-auto", () -> "create-drop");

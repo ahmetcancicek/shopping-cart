@@ -87,7 +87,7 @@ public class CartServiceImplTest {
     void it_should_return_cart_of_that_username() {
         // given
         String username = user.getUsername();
-        when(userService.findByUsername(any(String.class))).thenReturn(Optional.of(user));
+        when(userService.findByUsername(any(String.class))).thenReturn(user);
         when(cartRepository.findByCustomer(any(Customer.class))).thenReturn(Optional.of(cart));
 
         // when

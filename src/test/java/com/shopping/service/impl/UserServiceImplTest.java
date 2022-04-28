@@ -1,6 +1,7 @@
 package com.shopping.service.impl;
 
 import com.shopping.exception.UserAlreadyExistsException;
+import com.shopping.exception.UserNotFoundException;
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -65,12 +66,12 @@ class UserServiceImplTest {
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
         // when
-        Optional<User> expected = userService.findByUsername(user.getUsername());
+        User expectedUser = userService.findByUsername(user.getUsername());
 
         // then
         verify(userRepository, times(1)).findByUsername(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(expected.get().getUsername(), user.getUsername(), "Username must be equal");
+        assertNotNull(expectedUser, "Returned must not be null");
+        assertEquals(expectedUser.getUsername(), user.getUsername(), "Username must be equal");
     }
 
     @Test
@@ -86,12 +87,12 @@ class UserServiceImplTest {
         when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
 
         // when
-        Optional<User> expected = userService.findByEmail(user.getEmail());
+        User expectedUser = userService.findByEmail(user.getEmail());
 
         // then
         verify(userRepository, times(1)).findByEmail(any());
-        assertTrue(expected.isPresent(), "Returned must not be null");
-        assertEquals(expected.get().getEmail(), user.getEmail(), "Email must be equal");
+        assertNotNull(expectedUser, "Returned must not be null");
+        assertEquals(expectedUser.getEmail(), user.getEmail(), "Email must be equal");
     }
 
     @Test
@@ -139,13 +140,31 @@ class UserServiceImplTest {
     @Test
     public void it_should_delete_user() {
         // given
-        Long userId = 1L;
+        User user = User.builder()
+                .id(1L)
+                .email("email@email.com")
+                .username("username")
+                .password("password")
+                .active(true)
+                .build();
+
+        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
 
         // when
-        userService.deleteById(userId);
-        userService.deleteById(userId);
+        userService.deleteById(1L);
 
         // then
-        verify(userRepository, times(2)).deleteById(userId);
+        verify(userRepository, times(1)).deleteById(any());
+    }
+
+    @Test
+    public void it_should_throw_exception_when_user_that_does_not_exist() {
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            userService.deleteById(1L);
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(UserNotFoundException.class);
     }
 }
