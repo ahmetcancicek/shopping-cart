@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> {
-            log.info("user does not exist with username: {}", username);
+            log.error("user does not exist with username: {}", username);
             return new UserNotFoundException(String.format("user does not exist with username: {%s}", username));
         });
     }
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> {
-            log.info("user does not exist with email: {}", email);
+            log.error("user does not exist with email: {}", email);
             return new UserNotFoundException(String.format("user does not exist with email: {%s}", email));
         });
     }
@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id) {
         userRepository.findById(id).orElseThrow(() -> {
-            log.info("user does not exist with id: {}", id);
+            log.error("user does not exist with id: {}", id);
             return new UserNotFoundException(String.format("user does not exist with id: {%d}", id));
         });
         userRepository.deleteById(id);
