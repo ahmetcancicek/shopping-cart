@@ -59,8 +59,8 @@ class RegistrationControllerIntTest {
         Customer createdCustomer = response.getBody();
 
         // then
-        assertNotNull(createdCustomer);
-        assertEquals(HttpStatus.CREATED, response.getStatusCode());
+        assertNotNull(createdCustomer,"Returned must be equal");
+        assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Status code must be equal");
         assertEquals("Lucy Car", String.format("%s %s", createdCustomer.getFirstName(), createdCustomer.getLastName()));
         ;
     }
@@ -75,7 +75,7 @@ class RegistrationControllerIntTest {
                 "1000");
 
         // then
-        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
     }
 
     @Test
@@ -88,7 +88,7 @@ class RegistrationControllerIntTest {
                 "1232000");
 
         // then
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
     }
 
     @Test
@@ -116,7 +116,7 @@ class RegistrationControllerIntTest {
                 Customer.class);
 
         // then
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
     }
 
     @Test
@@ -142,7 +142,7 @@ class RegistrationControllerIntTest {
                 Customer.class);
 
         // then
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
     }
 
     @Test
@@ -168,7 +168,7 @@ class RegistrationControllerIntTest {
                 Customer.class);
 
         // then
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
+        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
     }
 
     @DynamicPropertySource
