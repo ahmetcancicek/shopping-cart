@@ -1,12 +1,11 @@
 package com.shopping.service.impl;
 
-import com.shopping.exception.UserAlreadyExistsException;
-import com.shopping.exception.UserNotFoundException;
+import com.shopping.exception.AlreadyExistsElementException;
+import com.shopping.exception.NoSuchElementFoundException;
 import com.shopping.model.Cart;
 import com.shopping.model.Customer;
 import com.shopping.model.User;
 import com.shopping.repository.CustomerRepository;
-import com.shopping.repository.UserRepository;
 import com.shopping.service.CustomerService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +19,10 @@ import java.util.List;
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public CustomerServiceImpl(CustomerRepository customerRepository, UserRepository userRepository) {
+    public CustomerServiceImpl(CustomerRepository customerRepository) {
         this.customerRepository = customerRepository;
-        this.userRepository = userRepository;
     }
 
     @Override
@@ -35,7 +32,10 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Customer save(Customer customer) {
-        isExisted(customer.getUser());
+        customerRepository.findByUser(customer.getUser()).ifPresent((it) -> {
+            log.error("user already exists");
+            throw new AlreadyExistsElementException("user already exists");
+        });
 
         if (customer.getCart() == null)
             customer.setCart(Cart.builder().customer(customer).totalPrice(BigDecimal.ZERO).build());
@@ -45,35 +45,26 @@ public class CustomerServiceImpl implements CustomerService {
         return savedCustomer;
     }
 
-    private void isExisted(User user) {
-        userRepository.findByEmail(user.getEmail()).ifPresent((it) -> {
-            log.error("user already exists with email: {}", it.getEmail());
-            throw new UserAlreadyExistsException("user already exists with email: {" + it.getEmail() + "}");
-        });
-
-        userRepository.findByUsername(user.getUsername()).ifPresent((it) -> {
-            log.error("user already exists with username: {}" + it.getUsername());
-            throw new UserAlreadyExistsException("user already exists with username: {" + it.getUsername() + "}");
-        });
-    }
-
-
     @Override
     public Customer findById(Long id) {
-        return customerRepository.findById(id).orElseThrow(() -> new UserNotFoundException("user does not exists with id: {" + id + "}"));
+        return customerRepository.findById(id).orElseThrow(() -> {
+            log.error("customer does not exist with id: {}", id);
+            return new NoSuchElementFoundException(String.format("customer does not exist with id: {%d}", id));
+        });
     }
 
     @Override
     public Customer findByUser(User user) {
-        return customerRepository.findByUser(user).orElseThrow(() -> new UserNotFoundException("user does not exist"));
+        return customerRepository.findByUser(user).orElseThrow(() -> {
+            log.error("customer does not exist");
+            return new NoSuchElementFoundException(String.format("customer does not exist"));
+        });
     }
 
     @Override
-    public void deleteById(Long customerId) {
-        Customer customer = customerRepository.findById(customerId)
-                .orElseThrow(() -> new UserNotFoundException("customer does not exist: {" + customerId + "}"));
-
-        customerRepository.deleteById(customerId);
+    public void deleteById(Long id) {
+        Customer customer = findById(id);
+        customerRepository.deleteById(id);
         log.info("customer has been deleted: {}", customer.toString());
     }
 }
