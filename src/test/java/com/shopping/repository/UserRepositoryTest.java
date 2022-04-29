@@ -1,7 +1,6 @@
 package com.shopping.repository;
 
 
-import com.shopping.model.Customer;
 import com.shopping.model.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,6 +56,22 @@ class UserRepositoryTest {
 
         testEntityManager.remove(user);
         testEntityManager.flush();
+    }
+
+    @Test
+    public void it_should_delete_user() {
+        User user = User.builder()
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .build();
+
+        Object userId = testEntityManager.persistAndGetId(user);
+        userRepository.deleteById((Long) userId);
+        testEntityManager.flush();
+
+        assertNull(testEntityManager.find(User.class, userId), "Returned must be null");
     }
 
     @Test
@@ -164,22 +179,6 @@ class UserRepositoryTest {
         });
 
         assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
-    }
-
-    @Test
-    public void it_should_delete_user() {
-        User user = User.builder()
-                .username("username")
-                .password("password")
-                .email("email@email.com")
-                .active(true)
-                .build();
-
-        Object userId = testEntityManager.persistAndGetId(user);
-        userRepository.deleteById((Long) userId);
-        testEntityManager.flush();
-
-        assertNull(testEntityManager.find(User.class, userId), "Returned must be null");
     }
 
     @Test

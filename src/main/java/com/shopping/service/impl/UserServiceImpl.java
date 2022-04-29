@@ -1,7 +1,7 @@
 package com.shopping.service.impl;
 
-import com.shopping.exception.UserAlreadyExistsException;
-import com.shopping.exception.UserNotFoundException;
+import com.shopping.exception.AlreadyExistsElementException;
+import com.shopping.exception.NoSuchElementFoundException;
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.UserService;
@@ -9,8 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -29,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> {
             log.error("user does not exist with username: {}", username);
-            return new UserNotFoundException(String.format("user does not exist with username: {%s}", username));
+            return new NoSuchElementFoundException(String.format("user does not exist with username: {%s}", username));
         });
     }
 
@@ -37,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> {
             log.error("user does not exist with email: {}", email);
-            return new UserNotFoundException(String.format("user does not exist with email: {%s}", email));
+            return new NoSuchElementFoundException(String.format("user does not exist with email: {%s}", email));
         });
     }
 
@@ -56,12 +54,12 @@ public class UserServiceImpl implements UserService {
     private void isExisted(User user) {
         userRepository.findByEmail(user.getEmail()).ifPresent((it) -> {
             log.error("user already exists with email: {}", it.getEmail());
-            throw new UserAlreadyExistsException("user already exists with email: {" + it.getEmail() + "}");
+            throw new AlreadyExistsElementException("user already exists with email: {" + it.getEmail() + "}");
         });
 
         userRepository.findByUsername(user.getUsername()).ifPresent((it) -> {
             log.error("user already exists with username: {}" + it.getUsername());
-            throw new UserAlreadyExistsException("user already exists with username: {" + it.getUsername() + "}");
+            throw new AlreadyExistsElementException("user already exists with username: {" + it.getUsername() + "}");
         });
     }
 
@@ -69,7 +67,7 @@ public class UserServiceImpl implements UserService {
     public void deleteById(Long id) {
         userRepository.findById(id).orElseThrow(() -> {
             log.error("user does not exist with id: {}", id);
-            return new UserNotFoundException(String.format("user does not exist with id: {%d}", id));
+            return new NoSuchElementFoundException(String.format("user does not exist with id: {%d}", id));
         });
         userRepository.deleteById(id);
         log.info("user has been deleted with ID: {}", id);
