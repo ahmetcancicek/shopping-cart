@@ -1,7 +1,9 @@
 package com.shopping.service.impl;
 
+import com.shopping.dto.CustomerPayload;
 import com.shopping.exception.AlreadyExistsElementException;
 import com.shopping.exception.NoSuchElementFoundException;
+import com.shopping.mapper.CustomerMapper;
 import com.shopping.model.Cart;
 import com.shopping.model.Customer;
 import com.shopping.model.User;
@@ -26,45 +28,50 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public List<Customer> findAll() {
-        return customerRepository.findAll();
+    public List<CustomerPayload> findAll() {
+        return CustomerMapper.INSTANCE.toCustomerPayloads(customerRepository.findAll());
     }
 
     @Override
-    public Customer save(Customer customer) {
-        customerRepository.findByUser(customer.getUser()).ifPresent((it) -> {
-            log.error("user already exists");
-            throw new AlreadyExistsElementException("user already exists");
+    public CustomerPayload save(CustomerPayload customerPayload) {
+        customerRepository.findByUser_Email(customerPayload.getEmail()).ifPresent((it) -> {
+            log.error("customer already exists with email: {}", customerPayload.getEmail());
+            throw new AlreadyExistsElementException("customer already exists with email: {" + customerPayload.getEmail() + "}");
         });
 
-        if (customer.getCart() == null)
-            customer.setCart(Cart.builder().customer(customer).totalPrice(BigDecimal.ZERO).build());
+        customerRepository.findByUser_Username(customerPayload.getUsername()).ifPresent((it) -> {
+            log.error("customer already exists with username: {}", customerPayload.getUsername());
+            throw new AlreadyExistsElementException("customer already exists with username: {" + customerPayload.getUsername() + "}");
+        });
+
+        Customer customer = CustomerMapper.INSTANCE.toCustomer(customerPayload);
+        customer.setCart(Cart.builder().customer(customer).totalPrice(BigDecimal.ZERO).build());
 
         Customer savedCustomer = customerRepository.save(customer);
         log.info("new customer has been created with username: {}", savedCustomer.getUser().getUsername());
-        return savedCustomer;
+        return CustomerMapper.INSTANCE.toCustomerPayload(savedCustomer);
     }
 
     @Override
-    public Customer findById(Long id) {
-        return customerRepository.findById(id).orElseThrow(() -> {
+    public CustomerPayload findById(Long id) {
+        return CustomerMapper.INSTANCE.toCustomerPayload(customerRepository.findById(id).orElseThrow(() -> {
             log.error("customer does not exist with id: {}", id);
             return new NoSuchElementFoundException(String.format("customer does not exist with id: {%d}", id));
-        });
+        }));
     }
 
     @Override
-    public Customer findByUser(User user) {
-        return customerRepository.findByUser(user).orElseThrow(() -> {
+    public CustomerPayload findByUser(User user) {
+        return CustomerMapper.INSTANCE.toCustomerPayload(customerRepository.findByUser(user).orElseThrow(() -> {
             log.error("customer does not exist");
             return new NoSuchElementFoundException(String.format("customer does not exist"));
-        });
+        }));
     }
 
     @Override
     public void deleteById(Long id) {
-        Customer customer = findById(id);
+        CustomerPayload customerPayload = findById(id);
         customerRepository.deleteById(id);
-        log.info("customer has been deleted: {}", customer.toString());
+        log.info("customer has been deleted: {}", customerPayload.toString());
     }
 }

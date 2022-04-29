@@ -40,22 +40,23 @@ class CustomerRepositoryTest {
 
     @Test
     public void it_should_save_customer() {
-        User user = User.builder()
-                .email("email@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
+        // given
         Customer customer = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .user(user)
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
+        // when
         Customer savedCustomer = customerRepository.save(customer);
         Customer expectedCustomer = testEntityManager.find(Customer.class, savedCustomer.getId());
 
+        // then
         assertEquals("John", expectedCustomer.getFirstName());
 
         testEntityManager.remove(customer);
@@ -64,59 +65,58 @@ class CustomerRepositoryTest {
 
     @Test
     public void it_should_delete_customer() {
-        User user = User.builder()
-                .email("email@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
+        // given
         Customer customer = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .user(user)
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
+        // when
         Object customerId = testEntityManager.persistAndGetId(customer);
         customerRepository.deleteById((Long) customerId);
 
-        assertNull(testEntityManager.find(Customer.class, customerId),"Returned must be null");
+        // then
+        assertNull(testEntityManager.find(Customer.class, customerId), "Returned must be null");
     }
 
     @Test
     public void it_should_save_customer_with_payment_and_address() {
-        User user = User.builder()
-                .email("email@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
+        // given
         Customer customer = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .user(user)
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
-        PaymentMethod paymentMethod = PaymentMethod.builder()
+        customer.addPaymentMethod(PaymentMethod.builder()
                 .name("My PayPal Account")
                 .paymentType(PaymentType.PAYPAL)
-                .build();
+                .build());
 
-        Address address = Address.builder()
+        customer.addAddress(Address.builder()
                 .city("New York")
                 .zipCode("34000")
                 .stateCode("01")
                 .zipCode("0101")
                 .street("XY56Y")
-                .build();
+                .build());
 
-        customer.addPaymentMethod(paymentMethod);
-        customer.addAddress(address);
-
+        // when
         Customer savedCustomer = customerRepository.save(customer);
         Customer expectedCustomer = testEntityManager.find(Customer.class, savedCustomer.getId());
 
+        // then
         assertEquals(1, expectedCustomer.getPaymentMethods().size());
         assertEquals(1, expectedCustomer.getAddresses().size());
 
@@ -126,97 +126,94 @@ class CustomerRepositoryTest {
 
     @Test
     public void it_should_throw_exception_when_save_customer_with_existing_email() {
-        User userOne = User.builder()
-                .email("email@email.com")
-                .username("usernameOne")
-                .password("password")
-                .active(true)
-                .build();
-
+        // given
         Customer customerOne = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .user(userOne)
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("usernameOne")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
         testEntityManager.persistAndFlush(customerOne);
 
-
-        User userTwo = User.builder()
-                .email("email@email.com")
-                .username("usernameTwo")
-                .password("password")
-                .active(true)
-                .build();
-
         Customer customerTwo = Customer.builder()
                 .firstName("Lucy")
                 .lastName("Doe")
-                .user(userTwo)
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("usernameTwo")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
+        // when
         Throwable throwable = catchThrowable(() -> {
             customerRepository.saveAndFlush(customerTwo);
         });
 
+        // then
         assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     public void it_should_throw_exception_when_save_customer_with_existing_username() {
-        User userOne = User.builder()
-                .email("emailOne@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
+        // given
         Customer customerOne = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .user(userOne)
+                .user(User.builder()
+                        .email("emailOne@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
         testEntityManager.persistAndFlush(customerOne);
 
-
-        User userTwo = User.builder()
-                .email("emailTwo@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
         Customer customerTwo = Customer.builder()
                 .firstName("Lucy")
                 .lastName("Doe")
-                .user(userTwo)
+                .user(User.builder()
+                        .email("emailTwo@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
+        // when
         Throwable throwable = catchThrowable(() -> {
             customerRepository.saveAndFlush(customerTwo);
         });
 
+        // then
         assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
     }
 
     @Test
     public void it_should_return_list_of_all_customers() {
-        User user = User.builder()
-                .email("email@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
+        // given
         Customer customer = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .user(user)
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
+        // when
         testEntityManager.persistAndFlush(customer);
 
+        // then
         assertEquals(1, customerRepository.findAll().size());
 
         testEntityManager.remove(customer);
@@ -225,23 +222,24 @@ class CustomerRepositoryTest {
 
     @Test
     public void it_should_return_customer_of_that_id() {
-        User user = User.builder()
-                .email("email@email.com")
-                .username("username")
-                .password("password")
-                .active(true)
-                .build();
-
+        // given
         Customer customer = Customer.builder()
                 .firstName("John")
                 .lastName("Doe")
-                .user(user)
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
                 .build();
 
         Object id = testEntityManager.persistAndGetId(customer);
 
+        // when
         Optional<Customer> expectedCustomer = customerRepository.findById((Long) id);
 
+        // then
         assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
         assertEquals("John", expectedCustomer.get().getFirstName(), "First Name must be equal");
 
@@ -251,6 +249,7 @@ class CustomerRepositoryTest {
 
     @Test
     public void it_should_return_customer_of_that_user() {
+        // given
         User user = User.builder()
                 .email("email@email.com")
                 .username("username")
@@ -266,8 +265,10 @@ class CustomerRepositoryTest {
 
         testEntityManager.persistAndFlush(customer);
 
+        // when
         Optional<Customer> expectedCustomer = customerRepository.findByUser(user);
 
+        // then
         assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
         assertEquals("John", expectedCustomer.get().getFirstName(), "First Name must be equal");
 
