@@ -23,6 +23,11 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @Column(name = "serial_number", nullable = false, unique = true)
+    @Length(min = 3, message = "Serial number have at least 3 characters")
+    @NotEmpty(message = "Serial number must not be empty")
+    private String serialNumber;
+
     @Column(name = "name", nullable = false)
     @Length(min = 3, message = "Name must have at least 5 characters")
     @NotEmpty(message = "Name must not be empty")
