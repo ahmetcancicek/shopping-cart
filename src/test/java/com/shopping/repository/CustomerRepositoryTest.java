@@ -64,7 +64,7 @@ class CustomerRepositoryTest {
     }
 
     @Test
-    public void it_should_delete_customer() {
+    public void it_should_delete_customer_of_that_id() {
         // given
         Customer customer = Customer.builder()
                 .firstName("John")
@@ -80,6 +80,28 @@ class CustomerRepositoryTest {
         // when
         Object customerId = testEntityManager.persistAndGetId(customer);
         customerRepository.deleteById((Long) customerId);
+
+        // then
+        assertNull(testEntityManager.find(Customer.class, customerId), "Returned must be null");
+    }
+
+    @Test
+    public void it_should_delete_customer_of_that_username() {
+        // given
+        Customer customer = Customer.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
+                .build();
+
+        // when
+        Object customerId = testEntityManager.persistAndGetId(customer);
+        customerRepository.deleteByUser_Username(customer.getUser().getUsername());
 
         // then
         assertNull(testEntityManager.find(Customer.class, customerId), "Returned must be null");
@@ -270,10 +292,61 @@ class CustomerRepositoryTest {
 
         // then
         assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
-        assertEquals("John", expectedCustomer.get().getFirstName(), "First Name must be equal");
+        assertEquals(customer.getFirstName(), expectedCustomer.get().getFirstName(), "First Name must be equal");
 
         testEntityManager.remove(customer);
         testEntityManager.flush();
+    }
+
+    @Test
+    public void it_should_return_customer_of_that_email() {
+        // given
+        Customer customer = Customer.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
+                .build();
+
+        testEntityManager.persistAndFlush(customer);
+
+        // when
+        Optional<Customer> expectedCustomer = customerRepository.findByUser_Email(customer.getUser().getEmail());
+
+        // then
+        assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
+        assertEquals(customer.getUser().getEmail(), expectedCustomer.get().getUser().getEmail(), "Email must be equal");
+
+        testEntityManager.remove(customer);
+        testEntityManager.flush();
+    }
+
+    @Test
+    public void it_should_return_customer_of_that_username() {
+        // given
+        Customer customer = Customer.builder()
+                .firstName("John")
+                .lastName("Doe")
+                .user(User.builder()
+                        .email("email@email.com")
+                        .username("username")
+                        .password("password")
+                        .active(true)
+                        .build())
+                .build();
+
+        testEntityManager.persistAndFlush(customer);
+
+        // when
+        Optional<Customer> expectedCustomer = customerRepository.findByUser_Username(customer.getUser().getUsername());
+
+        // then
+        assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCustomer.get().getUser().getUsername());
     }
 
     @DynamicPropertySource

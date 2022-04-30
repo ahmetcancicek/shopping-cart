@@ -1,5 +1,6 @@
 package com.shopping.service.impl;
 
+import com.shopping.dto.CustomerPayload;
 import com.shopping.exception.AlreadyExistsElementException;
 import com.shopping.exception.NoSuchElementFoundException;
 import com.shopping.mapper.CustomerMapper;
@@ -32,16 +33,16 @@ class CustomerServiceImplTest {
     private CustomerServiceImpl customerService;
 
     @Test
-    void it_should_save_customer() {
+    public void it_should_save_customer() {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
                         .id(1L)
-                        .email("email@email.com")
-                        .username("username")
+                        .email("billking@email.com")
+                        .username("billking")
                         .password("password")
                         .active(true)
                         .build())
@@ -61,15 +62,15 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void it_should_delete_customer() {
+    public void it_should_delete_customer_of_that_id() {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
+                        .email("billking@email.com")
+                        .username("billking")
                         .password("password")
                         .active(true)
                         .build())
@@ -85,7 +86,31 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void it_should_throw_exception_when_delete_customer() {
+    public void it_should_delete_customer_of_that_username() {
+        // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Bill")
+                .lastName("Doe")
+                .user(User.builder()
+                        .email("billking@email.com")
+                        .username("billking")
+                        .password("AD^32fN")
+                        .active(true)
+                        .build())
+                .build();
+
+        given(customerRepository.findByUser_Username(any())).willReturn(Optional.of(customer));
+
+        // when
+        customerService.deleteByUsername("billking");
+
+        // then
+        verify(customerRepository, times(1)).deleteByUser_Username("billking");
+    }
+
+    @Test
+    void it_should_throw_exception_when_delete_customer_of_that_id() {
         // when
         Throwable throwable = catchThrowable(() -> {
             customerService.deleteById(1L);
@@ -96,16 +121,27 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void it_should_save_customer_with_payment_and_address() {
+    void it_should_throw_exception_when_delete_customer_of_that_username() {
+        // when
+        Throwable throwable = catchThrowable(() -> {
+            customerService.deleteByUsername("billking");
+        });
+
+        // then
+        assertThat(throwable).isInstanceOf(NoSuchElementFoundException.class);
+    }
+
+    @Test
+    public void it_should_save_customer_with_payment_and_address() {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
                         .id(1L)
-                        .email("email@email.com")
-                        .username("username")
+                        .email("billking@email.com")
+                        .username("billking")
                         .password("password")
                         .active(true)
                         .build())
@@ -143,11 +179,11 @@ class CustomerServiceImplTest {
     public void it_should_throw_exception_when_save_customer_with_existing_email() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
+                        .email("billking@email.com")
+                        .username("billking")
                         .password("password")
                         .active(true)
                         .build())
@@ -163,6 +199,7 @@ class CustomerServiceImplTest {
         });
 
         // then
+        verify(customerRepository, times(1)).findByUser_Email(any());
         assertThat(throwable).isInstanceOf(AlreadyExistsElementException.class);
     }
 
@@ -171,12 +208,12 @@ class CustomerServiceImplTest {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
                         .id(1L)
-                        .email("email@email.com")
-                        .username("username")
+                        .email("billking@email.com")
+                        .username("billking")
                         .password("password")
                         .active(true)
                         .build())
@@ -192,19 +229,20 @@ class CustomerServiceImplTest {
         });
 
         // then
+        verify(customerRepository, times(1)).findByUser_Username(any());
         assertThat(throwable).isInstanceOf(AlreadyExistsElementException.class);
     }
 
     @Test
-    void it_should_return_list_of_all_customers() {
+    public void it_should_return_list_of_all_customers() {
         // given
         List<Customer> customers = new ArrayList<>();
         customers.add(Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
+                        .email("billking@email.com")
+                        .username("billking")
                         .password("password")
                         .active(true)
                         .build())
@@ -214,8 +252,8 @@ class CustomerServiceImplTest {
                 .firstName("July")
                 .lastName("Eric")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
+                        .email("julyeric@email.com")
+                        .username("julyeric")
                         .password("password")
                         .active(true)
                         .build())
@@ -229,20 +267,20 @@ class CustomerServiceImplTest {
         // then
         verify(customerRepository, times(1)).findAll();
         assertNotNull(expectedCustomers, "List must not be null");
-        assertEquals("John", expectedCustomers.get(0).getFirstName(), "First Name must be equal");
+        assertEquals("Bill", expectedCustomers.get(0).getFirstName(), "First Name must be equal");
         assertEquals("July", expectedCustomers.get(1).getFirstName(), "First Name must be equal");
     }
 
     @Test
-    void it_should_return_customer_of_that_id() {
+    public void it_should_return_customer_of_that_id() {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
+                        .email("billking@email.com")
+                        .username("billking")
                         .password("password")
                         .active(true)
                         .build())
@@ -261,17 +299,17 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void it_should_return_customer_of_that_user() {
+    public void it_should_return_customer_of_that_user() {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("Bill")
+                .lastName("King")
                 .user(User.builder()
                         .id(1L)
-                        .username("username")
+                        .username("billking")
                         .password("password")
-                        .email("email@email.com")
+                        .email("billking@email.com")
                         .active(true)
                         .build())
                 .cart(new Cart())
@@ -286,5 +324,59 @@ class CustomerServiceImplTest {
         verify(customerRepository, times(1)).findByUser(any());
         assertNotNull(expectedCustomer, "Entity must not be null");
         assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname mut be equal");
+    }
+
+    @Test
+    public void it_should_return_customer_of_that_email() {
+        // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Bill")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .username("billking")
+                        .password("password")
+                        .email("billking@email.com")
+                        .active(true)
+                        .build())
+                .cart(new Cart())
+                .build();
+
+        given(customerRepository.findByUser_Email(any())).willReturn(Optional.of(customer));
+
+        // when
+        CustomerPayload customerPayload = customerService.findByEmail(customer.getUser().getEmail());
+
+        // then
+        verify(customerRepository, times(1)).findByUser_Email(any());
+        assertEquals(customer.getUser().getEmail(), customerPayload.getEmail(), "Email must be equal");
+    }
+
+    @Test
+    public void it_should_return_customer_of_that_username() {
+        // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Bill")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .username("billking")
+                        .password("password")
+                        .email("billking@email.com")
+                        .active(true)
+                        .build())
+                .cart(new Cart())
+                .build();
+
+        given(customerRepository.findByUser_Username("billking")).willReturn(Optional.of(customer));
+
+        // when
+        CustomerPayload customerPayload = customerService.findByUsername(customer.getUser().getUsername());
+
+        // then
+        verify(customerRepository, times(1)).findByUser_Username(any());
+        assertEquals(customer.getUser().getUsername(), customerPayload.getUsername(), "Username must be equal");
     }
 }

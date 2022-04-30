@@ -10,5 +10,11 @@ public interface CustomerService {
     CustomerPayload save(CustomerPayload customer);
     CustomerPayload findById(Long id);
     CustomerPayload findByUser(User user);
+
+    CustomerPayload findByUsername(String username);
+
+    CustomerPayload findByEmail(String email);
     void deleteById(Long id);
+
+    void deleteByUsername(String username);
 }
