@@ -1,7 +1,5 @@
 package com.shopping.service.impl;
 
-import com.shopping.exception.ProductNotFoundException;
-import com.shopping.exception.UserNotFoundException;
 import com.shopping.model.*;
 import com.shopping.repository.CartRepository;
 import com.shopping.service.CartService;
@@ -70,12 +68,13 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void addItemToCart(Long customerId, Long productId, int quantity) {
-        Customer customer = customerService.findById(customerId);
-
-
-        Product product = productService.findById(productId);
-
-        updateCart(customer, product, quantity);
+        // TODO: Fix
+//        Customer customer = customerService.findById(customerId);
+//
+//
+//        Product product = productService.findById(productId);
+//
+//        updateCart(customer, product, quantity);
     }
 
     @Override
@@ -85,12 +84,14 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeAllCartItems(Customer customer) {
-        customer = customerService.findById(customer.getId());
+        // TODO: Fix
 
-        customer.getCart().getItems().removeIf(cartItem -> cartItem.getId() != null);
-
-        cartRepository.save(customer.getCart());
-        log.info("all items of the cart has been deleted: {}", customer.getCart().getId());
+//        customer = customerService.findById(customer.getId());
+//
+//        customer.getCart().getItems().removeIf(cartItem -> cartItem.getId() != null);
+//
+//        cartRepository.save(customer.getCart());
+//        log.info("all items of the cart has been deleted: {}", customer.getCart().getId());
     }
 
     @Override
@@ -107,10 +108,11 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public void removeItem(Customer customer, Product product) {
-        customer = customerService.findById(customer.getId());
-
-        Long productId = productService.findById(product.getId()).getId();
-        customer.getCart().getItems().removeIf(cartItem -> cartItem.getProduct().getId().equals(productId));
+        // TODO:
+//        customer = customerService.findById(customer.getId());
+//
+//        Long productId = productService.findById(product.getId()).getId();
+//        customer.getCart().getItems().removeIf(cartItem -> cartItem.getProduct().getId().equals(productId));
     }
 
     private void updateCart(Customer customer, Product product, int quantity) {
