@@ -8,7 +8,7 @@ Repository contains basic shopping-cart application to show restful service impl
 To test the application
 
 ```bash
-mvn clean test
+
 ```
 
 To build and run the application
@@ -42,21 +42,23 @@ To deploy this project run
 | `password`   | `string`  | **Required**. Password of customer    |
 
 ```curl
-curl -X POST
+curl -X POST localhost:8090/registration \
+-H 'Content-Type: application/json' \
+-d '{"firstName":"Bill","lastName":"King","username":"billking","email":"billking@email.com","password":"adj3q8afb"}' 
 ```
 
 #### Delete customer
 
 ```http request
-    DELETE /registration/{customerId}
+    DELETE /registration/{username}
 ```
 
-| Parameter | Type      | Description                  |
-|:----------|:----------|:-----------------------------|
-| `id`      | `string`  | **Required**. Id of customer |
+| Parameter    | Type      | Description                           |
+|:-------------|:----------|:--------------------------------------|
+| `username`   | `string`  | **Required**. Username of customer    |
 
 ```curl
-curl -X DELETE 'localhost:8090/registration/{id}'
+curl -X DELETE 'localhost:8090/registration/billking'
 ```
 
 
@@ -75,64 +77,4 @@ curl -X DELETE 'localhost:8090/registration/{id}'
 
 ```curl
 curl -X POST
-```
-
-
-#### Get product
-
-```http request
-    GET /products/{id}
-```
-
-| Parameter | Type      | Description                 |
-|:----------|:----------|:----------------------------|
-| `id`      | `string`  | **Required**. Id of product |
-
-```curl
-curl -X GET 'localhost:8090/products/{id}'
-```
-
-
-#### Get products
-
-```http request
-    GET /products
-```
-
-```curl
-curl -X GET 'localhost:8090/products'
-```
-
-#### Delete product
-
-```http request
-    DELETE /products/{id}
-```
-
-| Parameter | Type      | Description                 |
-|:----------|:----------|:----------------------------|
-| `id`      | `string`  | **Required**. Id of product |
-
-```curl
-curl -X DELETE 'localhost:8090/products/{id}'
-```
-
-
-#### Update product
-
-```http request
-    PUT /products
-```
-
-| Parameter     | Type      | Description                              |
-|:--------------|:----------|:-----------------------------------------|
-| `id`          | `number`  | **Required**. Name of product            |
-| `name`        | `string`  | **Required**. Name of product            |
-| `description` | `string`  | **Not Required**. Description of product |
-| `price`       | `number`  | **Required**. Price of product           |
-| `quantity`    | `number`  | **Required**. Quantity of customer       |
-
-
-```curl
-curl -X PUT
 ```
