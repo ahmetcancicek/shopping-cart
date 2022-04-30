@@ -88,19 +88,11 @@ class RegistrationControllerTest {
     @Test
     public void it_should_return_bad_request_when_delete_customer_with_does_not_exist() throws Exception {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
-                .firstName("Bruce")
-                .lastName("King")
-                .email("bruce@email.com")
-                .username("bruceking")
-                .password("ADl362AMA")
-                .build();
-
         doThrow(new NoSuchElementFoundException("user does not exist")).when(customerService).deleteByUsername(any());
 
         // when
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .delete("/registration/{username}", customerPayload.getUsername());
+                .delete("/registration/{username}", "bruceking");
 
         // then
         mockMvc.perform(requestBuilder)
