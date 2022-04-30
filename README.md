@@ -76,5 +76,46 @@ curl -X DELETE 'localhost:8090/registration/billking'
 | `quantity`    | `number`  | **Required**. Quantity of customer       |
 
 ```curl
-curl -X POST
+curl -X POST 'localhost:8090/products/' \
+-H 'Content-Type: application/json' \
+-d '{"serialNumber":"KAV319","name":"iPhone 14","description":"Apple iPhone 14","price":1000,"quantity":100}'
+```
+
+#### Get product
+
+```http request
+    GET /products/{serialNumber}
+```
+
+| Parameter     | Type      | Description                         |
+|:--------------|:----------|:------------------------------------|
+| `serialNumber` | `string`  | **Required**. Unique Key of product |
+
+```curl
+curl -X GET 'localhost:8090/products/KAV319'
+
+```
+
+#### Get products
+
+```http request
+    GET /products
+```
+
+```curl
+curl -X GET 'localhost:8090/products'
+```
+
+#### Delete product
+
+```http request
+    DELETE /products/{serialNumber}
+```
+
+| Parameter     | Type      | Description                         |
+|:--------------|:----------|:------------------------------------|
+| `serialNumber` | `string`  | **Required**. Unique Key of product |
+
+```curl
+curl -X DELETE 'localhost:8090/products/KAV319'
 ```
