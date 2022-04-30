@@ -1,5 +1,6 @@
 package com.shopping.controller;
 
+import com.shopping.dto.ProductPayload;
 import com.shopping.model.Product;
 import com.shopping.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,28 +21,28 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<Product> getProducts() {
+    public List<ProductPayload> getProducts() {
         return productService.findAll();
     }
 
-    @GetMapping("/products/{id}")
-    public Product getProduct(@PathVariable String id) {
-        return productService.findById(Long.valueOf(id));
+    @GetMapping("/products/{serialNumber}")
+    public ProductPayload getProduct(@PathVariable String serialNumber) {
+        return productService.findBySerialNumber(serialNumber);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/products")
-    public Product addProduct(@Valid @RequestBody Product product) {
-        return productService.save(product);
+    public ProductPayload addProduct(@Valid @RequestBody ProductPayload productPayload) {
+        return productService.save(productPayload);
     }
 
-    @DeleteMapping("/products/{id}")
-    public void deleteProduct(@PathVariable String id) {
-        productService.deleteById(Long.valueOf(id));
+    @DeleteMapping("/products/{serialNumber}")
+    public void deleteProduct(@PathVariable String serialNumber) {
+        productService.deleteBySerialNumber(serialNumber);
     }
 
     @PutMapping("/products")
-    public Product updateProduct(@Valid @RequestBody Product product) {
-        return productService.update(product);
+    public ProductPayload updateProduct(@Valid @RequestBody ProductPayload productPayload) {
+        return productService.update(productPayload);
     }
 }

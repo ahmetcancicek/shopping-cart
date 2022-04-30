@@ -42,11 +42,11 @@ public class ProductRepositoryTest {
 
     public static Stream<Arguments> product_request() {
         return Stream.of(
-                Arguments.of("Product 1", "Description", BigDecimal.valueOf(10.0), 10),
-                Arguments.of("Product 2", "Description", BigDecimal.valueOf(5), 1),
-                Arguments.of("Product 3", "Description", BigDecimal.valueOf(2), 2),
-                Arguments.of("Product 4", "Description", BigDecimal.valueOf(12.13), 5),
-                Arguments.of("Product 5", "Description", BigDecimal.valueOf(2.3), 20)
+                Arguments.of("Egg", "KL412BA", "Description", BigDecimal.valueOf(10.0), 10),
+                Arguments.of("Salt", "TBA374", "Description", BigDecimal.valueOf(5), 1),
+                Arguments.of("Juice", "PDV2382", "Description", BigDecimal.valueOf(2), 2),
+                Arguments.of("Cola", "LASGB32", "Description", BigDecimal.valueOf(12.13), 5),
+                Arguments.of("Bread", "KLAS452", "Description", BigDecimal.valueOf(2.3), 20)
         );
     }
 
@@ -54,8 +54,9 @@ public class ProductRepositoryTest {
     public void it_should_save_product() {
         // given
         Product product = Product.builder()
-                .name("Product 1")
-                .description("Description")
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
                 .price(BigDecimal.valueOf(10.0))
                 .quantity(10)
                 .build();
@@ -74,10 +75,11 @@ public class ProductRepositoryTest {
 
     @ParameterizedTest
     @MethodSource("product_request")
-    public void it_should_save_products(String name, String description, BigDecimal price, Integer quantity) {
+    public void it_should_save_products(String name, String serialNumber, String description, BigDecimal price, Integer quantity) {
         // given
         Product product = Product.builder()
                 .name(name)
+                .serialNumber(serialNumber)
                 .description(description)
                 .price(price)
                 .quantity(quantity)
@@ -96,11 +98,12 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void it_should_update_products() {
+    public void it_should_update_product() {
         // given
         Product product = Product.builder()
-                .name("Product 1")
-                .description("Description")
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
                 .price(BigDecimal.valueOf(10.0))
                 .quantity(10)
                 .build();
@@ -122,8 +125,9 @@ public class ProductRepositoryTest {
     public void it_should_return_product_of_that_id() {
         // given
         Product product = Product.builder()
-                .name("Product 1")
-                .description("Description")
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
                 .price(BigDecimal.valueOf(10.0))
                 .quantity(10)
                 .build();
@@ -140,13 +144,36 @@ public class ProductRepositoryTest {
         testEntityManager.flush();
     }
 
-
     @Test
-    public void it_should_delete_product_with_id() {
+    public void it_should_return_product_of_that_serialNumber() {
         // given
         Product product = Product.builder()
-                .name("Product 1")
-                .description("Description")
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
+                .build();
+        Object id = testEntityManager.persistAndGetId(product);
+
+        // when
+        Optional<Product> expectedProduct = productRepository.findBySerialNumber(product.getSerialNumber());
+
+        // then
+        assertTrue(expectedProduct.isPresent(), "Returned must not be null");
+        assertEquals(product.getSerialNumber(), product.getSerialNumber(), "Serial number must be equal");
+
+        testEntityManager.remove(product);
+        testEntityManager.flush();
+    }
+
+    @Test
+    public void it_should_delete_product_of_that_id() {
+        // given
+        Product product = Product.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
                 .price(BigDecimal.valueOf(10.0))
                 .quantity(10)
                 .build();
@@ -156,7 +183,26 @@ public class ProductRepositoryTest {
         productRepository.deleteById((Long) id);
 
         // then
-        assertNull(testEntityManager.find(Customer.class, id), "Returned must be null");
+        assertNull(testEntityManager.find(Product.class, id), "Returned must be null");
+    }
+
+    @Test
+    public void it_should_delete_product_of_that_serialNumber() {
+        // given
+        Product product = Product.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
+                .build();
+        Object id = testEntityManager.persistAndGetId(product);
+
+        // when
+        productRepository.deleteBySerialNumber(product.getSerialNumber());
+
+        // then
+        assertNull(testEntityManager.find(Product.class, id), "Returned must be null");
     }
 
     @Test
@@ -174,8 +220,9 @@ public class ProductRepositoryTest {
     public void it_should_return_list_of_all_products() {
         // given
         Product product = Product.builder()
-                .name("Product 1")
-                .description("Description")
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
                 .price(BigDecimal.valueOf(10.0))
                 .quantity(10)
                 .build();

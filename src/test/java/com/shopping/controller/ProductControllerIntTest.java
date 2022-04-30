@@ -1,5 +1,6 @@
 package com.shopping.controller;
 
+import com.shopping.dto.ProductPayload;
 import com.shopping.model.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,76 +41,78 @@ public class ProductControllerIntTest {
     @Test
     public void it_should_add_product() {
         // given
-        Product product = Product.builder()
-                .name("Product 1")
-                .quantity(5)
-                .price(BigDecimal.valueOf(12.50))
+        ProductPayload productPayload = ProductPayload.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
                 .build();
 
         // when
-        ResponseEntity<Product> response = restTemplate.exchange("/products",
+        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products",
                 HttpMethod.POST,
-                new HttpEntity<>(product, headers),
-                Product.class);
+                new HttpEntity<>(productPayload, headers),
+                ProductPayload.class);
 
-        Product createdProduct = response.getBody();
+        ProductPayload createdProductPayload = response.getBody();
 
         // then
-        assertNotNull(createdProduct, "Returned must not be null");
+        assertNotNull(createdProductPayload, "Returned must not be null");
         assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Status code must be equal");
-        assertEquals(5, createdProduct.getQuantity(), "Quantity must be equal");
+        assertEquals(productPayload.quantity, createdProductPayload.getQuantity(), "Quantity must be equal");
     }
 
     @Test
-    public void it_should_delete_product_of_that_id() {
+    public void it_should_delete_product_of_that_serialNumber() {
         // when
-        ResponseEntity<Void> response = restTemplate.exchange("/products/{id}",
+        ResponseEntity<Void> response = restTemplate.exchange("/products/{serialNumber}",
                 HttpMethod.DELETE,
                 HttpEntity.EMPTY,
                 Void.class,
-                "3000");
+                "PADMA232");
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
     }
 
     @Test
-    public void it_should_return_bad_request_when_delete_product_of_that_id_does_not_exist() {
+    public void it_should_return_bad_request_when_delete_product_of_that_serialNumber_does_not_exist() {
         // when
-        ResponseEntity<Void> response = restTemplate.exchange("/products/{id}",
+        ResponseEntity<Void> response = restTemplate.exchange("/products/{serialNumber}",
                 HttpMethod.DELETE,
                 HttpEntity.EMPTY,
                 Void.class,
-                "39139839");
+                "MADJ349");
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
     }
 
     @Test
-    public void it_should_return_product_of_that_id() {
+    public void it_should_return_product_of_that_serialNumber() {
         // when
-        ResponseEntity<Product> response = restTemplate.exchange("/products/{id}",
+        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products/{serialNumber}",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                Product.class,
-                "3001");
+                ProductPayload.class,
+                "PADMA232");
 
-        Product expectedProduct = response.getBody();
+        ProductPayload expectedProductPayload = response.getBody();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
-        assertNotNull(expectedProduct, "Returned must not be null");
-        assertEquals("Galaxy S22", expectedProduct.getName(), "Name must be equal");
+        assertNotNull(expectedProductPayload, "Returned must not be null");
+        assertEquals("Galaxy S22", expectedProductPayload.getName(), "Name must be equal");
     }
 
     @Test
     public void it_should_return_bad_request_when_product_does_not_exist() {
         // when
-        ResponseEntity<Product> response = restTemplate.exchange("/products/{id}",
+        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products/{serialNumber}",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                Product.class,
+                ProductPayload.class,
                 "024290420");
 
         // then
@@ -119,45 +122,45 @@ public class ProductControllerIntTest {
     @Test
     public void it_should_return_list_of_all_products() {
         // when
-        ResponseEntity<List<Product>> response = restTemplate.exchange("/products",
+        ResponseEntity<List<ProductPayload>> response = restTemplate.exchange("/products",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                new ParameterizedTypeReference<List<Product>>() {
+                new ParameterizedTypeReference<List<ProductPayload>>() {
                 });
 
-        List<Product> products = response.getBody();
+        List<ProductPayload> productPayloads = response.getBody();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
-        assertNotNull(products, "List must not be null");
-        assertNotEquals(0, products.size(), "List must have at least 1 element");
+        assertNotNull(productPayloads, "List must not be null");
+        assertNotEquals(0, productPayloads.size(), "List must have at least 1 element");
 
 
     }
 
     @Test
-    public void it_should_update_product_of_that_id() {
+    public void it_should_update_product_of_that_serialNumber() {
         // given
-        Product product = Product.builder()
-                .id(3001L)
-                .description("Apple iPhone 13 PRO")
+        ProductPayload productPayload = ProductPayload.builder()
+                .serialNumber("KMNA239")
                 .name("iPhone 13 PRO")
-                .quantity(50)
-                .price(BigDecimal.valueOf(1200))
+                .description("Apple iPhone 13 PRO")
+                .price(BigDecimal.valueOf(900))
+                .quantity(3)
                 .build();
 
         // when
-        ResponseEntity<Product> response = restTemplate.exchange("/products",
+        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products",
                 HttpMethod.PUT,
-                new HttpEntity<>(product, headers),
-                Product.class);
+                new HttpEntity<>(productPayload, headers),
+                ProductPayload.class);
 
-        Product expectedProduct = response.getBody();
+        ProductPayload expectedProductPayload = response.getBody();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
-        assertNotNull(expectedProduct, "Returned must not be null");
-        assertEquals(50, expectedProduct.getQuantity(), "Quantity must be equal");
+        assertNotNull(expectedProductPayload, "Returned must not be null");
+        assertEquals(productPayload.quantity, expectedProductPayload.getQuantity(), "Quantity must be equal");
     }
 
     @DynamicPropertySource

@@ -2,8 +2,8 @@ package com.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.shopping.exception.ProductNotFoundException;
-import com.shopping.model.Product;
+import com.shopping.dto.ProductPayload;
+import com.shopping.exception.NoSuchElementFoundException;
 
 import com.shopping.service.ProductService;
 import org.junit.jupiter.api.Test;
@@ -39,43 +39,45 @@ public class ProductControllerTest {
     @Test
     public void it_should_add_product() throws Exception {
         // given
-        Product product = Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .quantity(5)
-                .price(BigDecimal.valueOf(12.50))
+        ProductPayload productPayload = ProductPayload.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
                 .build();
 
-        when(productService.save(any())).thenReturn(product);
+        when(productService.save(any())).thenReturn(productPayload);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(product));
+                .content(mapper.writeValueAsString(productPayload));
 
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.id").value("1"));
+                .andExpect(jsonPath("$.serialNumber").value(productPayload.getSerialNumber()));
     }
 
     @Test
-    public void it_should_delete_product_of_that_id() throws Exception {
+    public void it_should_delete_product() throws Exception {
         // given
-        Product product = Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .quantity(5)
-                .price(BigDecimal.valueOf(12.50))
+        ProductPayload productPayload = ProductPayload.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
                 .build();
 
-        when(productService.findById(any())).thenReturn(product);
+        when(productService.findBySerialNumber(any())).thenReturn(productPayload);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/products/{id}", "1");
+                .delete("/products/{serialNumber}", productPayload.getSerialNumber());
 
         // then
         mockMvc.perform(mockRequest)
@@ -83,20 +85,13 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void it_should_return_bad_request_when_delete_product_of_that_id_does_not_exist() throws Exception {
+    public void it_should_return_bad_request_when_delete_product_of_that_serialNumber_does_not_exist() throws Exception {
         // given
-        Product product = Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .quantity(5)
-                .price(BigDecimal.valueOf(12.50))
-                .build();
-
-        doThrow(new ProductNotFoundException("product does not exist")).when(productService).deleteById(any());
+        doThrow(new NoSuchElementFoundException("product does not exist")).when(productService).deleteBySerialNumber(any());
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/products/{id}", "1");
+                .delete("/products/{serialNumber}", "Y5N3DJ");
 
         // then
         mockMvc.perform(mockRequest)
@@ -105,43 +100,36 @@ public class ProductControllerTest {
     }
 
     @Test
-    public void it_should_return_product_of_that_id() throws Exception {
+    public void it_should_return_product() throws Exception {
         // given
-        Product product = Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .quantity(5)
-                .price(BigDecimal.valueOf(12.50))
+        ProductPayload productPayload = ProductPayload.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
                 .build();
 
-        when(productService.findById(any())).thenReturn(product);
+        when(productService.findBySerialNumber(any())).thenReturn(productPayload);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/products/{id}", "1")
+                .get("/products/{serialNumber}", productPayload.getSerialNumber())
                 .accept(MediaType.APPLICATION_JSON);
 
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(1));
+                .andExpect(jsonPath("$.serialNumber").value(productPayload.getSerialNumber()));
     }
 
     @Test
     public void it_should_return_bad_request_when_product_does_not_exist() throws Exception {
-        // given
-        Product product = Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .quantity(5)
-                .price(BigDecimal.valueOf(12.50))
-                .build();
-
-        doThrow(new ProductNotFoundException("product does not exist")).when(productService).findById(any());
+        doThrow(new NoSuchElementFoundException("product does not exist")).when(productService).findBySerialNumber(any());
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/products/{id}", 1);
+                .get("/products/{serialNumber}", "Y5N3DJ");
 
         // then
         mockMvc.perform(mockRequest)
@@ -151,11 +139,22 @@ public class ProductControllerTest {
     @Test
     public void it_should_return_list_of_all_products() throws Exception {
         // given
-        List<Product> products = new ArrayList<>();
-        products.add(Product.builder().id(1L).name("Product 1").quantity(5).price(BigDecimal.valueOf(12.50)).build());
-        products.add(Product.builder().id(2L).name("Product 2").quantity(10).price(BigDecimal.valueOf(2.50)).build());
-
-        when(productService.findAll()).thenReturn(products);
+        List<ProductPayload> productPayloads = new ArrayList<>();
+        productPayloads.add(ProductPayload.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
+                .build());
+        productPayloads.add(ProductPayload.builder()
+                .serialNumber("KLN3NJ")
+                .name("Bread")
+                .description("Super bread")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(5)
+                .build());
+        when(productService.findAll()).thenReturn(productPayloads);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -165,41 +164,43 @@ public class ProductControllerTest {
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].id").value(1))
-                .andExpect(jsonPath("$[1].id").value(2))
+                .andExpect(jsonPath("$[0].serialNumber").value("Y5N3DJ"))
+                .andExpect(jsonPath("$[1].serialNumber").value("KLN3NJ"))
                 .andDo(print());
     }
 
     @Test
-    public void it_should_update_product_of_that_id() throws Exception {
+    public void it_should_update_product_of_that_serialNumber() throws Exception {
         // given
-        Product product = Product.builder()
-                .id(1L)
-                .name("Product 1")
-                .quantity(5)
-                .price(BigDecimal.valueOf(12.50))
+        ProductPayload productPayload = ProductPayload.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
                 .build();
 
-        Product productUpdate = Product.builder()
-                .id(1L)
-                .name("Product 1")
+        ProductPayload productPayloadUpdate = ProductPayload.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(3.0))
                 .quantity(2)
-                .price(BigDecimal.valueOf(12.50))
                 .build();
 
-        when(productService.update(any())).thenReturn(productUpdate);
-        when(productService.findById(any())).thenReturn(product);
+        when(productService.update(any())).thenReturn(productPayloadUpdate);
+        when(productService.findBySerialNumber(any())).thenReturn(productPayload);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
                 .put("/products")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(product));
+                .content(mapper.writeValueAsString(productPayload));
 
         // then
         mockMvc.perform(mockRequest)
-                .andExpect(jsonPath("$.quantity").value(2))
+                .andExpect(jsonPath("$.quantity").value(productPayloadUpdate.getQuantity()))
                 .andExpect(status().isOk());
     }
 }
