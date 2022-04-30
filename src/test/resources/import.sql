@@ -8,5 +8,5 @@ insert into customer(id,first_name, last_name, user_id) values(2000,"Bill","King
 insert into cart(id, total_price, customer_id) values(2000,0,(SELECT id FROM customer WHERE user_id=(SELECT id FROM users WHERE email="billking@email.com")));
 
 ----------------------------------------- ## GENERATED FOR ProductControllerIntTest ## --------------------------------
-insert into product (id, description, name, price, quantity) values (3000, "Apple iPhone 13 PRO", "iPhone 13 PRO", 1000, 5);
-insert into product (id, description, name, price, quantity) values (3001, "Samsung Galaxy S22", "Galaxy S22", 1100, 3);
+insert into product (id, serial_number, description, name, price, quantity) values (3000, "KMNA239", "Apple iPhone 13 PRO", "iPhone 13 PRO", 1000, 5);
+insert into product (id, serial_number, description, name, price, quantity) values (3001, "PADMA232", "Samsung Galaxy S22", "Galaxy S22", 1100, 3);
