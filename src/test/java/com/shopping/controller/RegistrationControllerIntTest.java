@@ -1,5 +1,6 @@
 package com.shopping.controller;
 
+import com.shopping.dto.CustomerPayload;
 import com.shopping.model.Customer;
 import com.shopping.model.User;
 import org.junit.jupiter.api.Test;
@@ -37,23 +38,18 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_register_customer() {
         // given
-        User user = User.builder()
-                .username("lucycar")
-                .password("37m38an")
-                .email("lucycar12@email.com")
-                .active(true)
-                .build();
-
-        Customer customer = Customer.builder()
-                .firstName("Lucy")
-                .lastName("Car")
-                .user(user)
+        CustomerPayload customerPayload = CustomerPayload.builder()
+                .firstName("Bruce")
+                .lastName("King")
+                .email("bruce@email.com")
+                .username("bruceking")
+                .password("ADl362AMA")
                 .build();
 
         // when
         ResponseEntity<Customer> response = restTemplate.exchange("/registration",
                 HttpMethod.POST,
-                new HttpEntity<>(customer, headers),
+                new HttpEntity<>(customerPayload, headers),
                 Customer.class);
 
         Customer createdCustomer = response.getBody();
@@ -61,18 +57,18 @@ class RegistrationControllerIntTest {
         // then
         assertNotNull(createdCustomer,"Returned must be equal");
         assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Status code must be equal");
-        assertEquals("Lucy Car", String.format("%s %s", createdCustomer.getFirstName(), createdCustomer.getLastName()));
+        assertEquals("Bruce King", String.format("%s %s", createdCustomer.getFirstName(), createdCustomer.getLastName()));
         ;
     }
 
     @Test
     public void it_should_delete_customer() {
         // when
-        ResponseEntity<Void> response = restTemplate.exchange("/registration/{id}",
+        ResponseEntity<Void> response = restTemplate.exchange("/registration/{username}",
                 HttpMethod.DELETE,
                 HttpEntity.EMPTY,
                 Void.class,
-                "1000");
+                "lucycar");
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
@@ -81,11 +77,11 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_bad_request_when_delete_customer_with_does_not_exist() {
         // when
-        ResponseEntity<Void> response = restTemplate.exchange("/registration/{id}",
+        ResponseEntity<Void> response = restTemplate.exchange("/registration/{username}",
                 HttpMethod.DELETE,
                 HttpEntity.EMPTY,
                 Void.class,
-                "1232000");
+                "billgates");
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
@@ -94,25 +90,18 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_bad_request_when_register_customer_with_existing_email() {
         // given
-        User user = User.builder()
-                .id(2000L)
-                .username("john-doe")
-                .password("j7aad3")
-                .email("johndoe@mock.com")
-                .active(true)
-                .build();
-
-        Customer customer = Customer.builder()
-                .id(2000L)
-                .firstName("John")
-                .lastName("Doe")
-                .user(user)
+        CustomerPayload customerPayload = CustomerPayload.builder()
+                .firstName("Lucy")
+                .lastName("Car")
+                .email("lucycar@email.com")
+                .username("lucycar1")
+                .password("ADl362AMA")
                 .build();
 
         // when
         ResponseEntity<Customer> response = restTemplate.exchange("/registration",
                 HttpMethod.POST,
-                new HttpEntity<>(customer, headers),
+                new HttpEntity<>(customerPayload, headers),
                 Customer.class);
 
         // then
@@ -122,23 +111,18 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_bad_request_when_register_customer_with_existing_username() {
         // given
-        User user = User.builder()
-                .username("johndoe")
-                .password("j7aad3")
-                .email("john.doe@mock.com")
-                .active(true)
-                .build();
-
-        Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
-                .user(user)
+        CustomerPayload customerPayload = CustomerPayload.builder()
+                .firstName("Lucy")
+                .lastName("Car")
+                .email("lucycar1@email.com")
+                .username("lucycar")
+                .password("ADl362AMA")
                 .build();
 
         // when
         ResponseEntity<Customer> response = restTemplate.exchange("/registration",
                 HttpMethod.POST,
-                new HttpEntity<>(customer, headers),
+                new HttpEntity<>(customerPayload, headers),
                 Customer.class);
 
         // then
@@ -148,23 +132,16 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_client_error_when_register_customer_with_body_isNotValid() {
         // given
-        User user = User.builder()
-                .username("selenahouse")
-                .password("37m38an")
-                .email("selenahouse@email.com")
-                .active(true)
-                .build();
-
-        Customer customer = Customer.builder()
-                .firstName("Selena")
-                .lastName("House")
-                .user(null)
+        CustomerPayload customerPayload = CustomerPayload.builder()
+                .firstName("Bill")
+                .lastName("King")
+                .password("ADl362AMA")
                 .build();
 
         // when
         ResponseEntity<Customer> response = restTemplate.exchange("/registration",
                 HttpMethod.POST,
-                new HttpEntity<>(customer, headers),
+                new HttpEntity<>(customerPayload, headers),
                 Customer.class);
 
         // then
