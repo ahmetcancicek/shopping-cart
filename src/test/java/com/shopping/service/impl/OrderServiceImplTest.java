@@ -1,13 +1,16 @@
 package com.shopping.service.impl;
 
+import com.shopping.mapper.OrderMapper;
 import com.shopping.model.Order;
 import com.shopping.repository.OrderRepository;
-import com.shopping.service.OrderService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 public class OrderServiceImplTest {
@@ -21,8 +24,13 @@ public class OrderServiceImplTest {
     @Test
     void it_should_save_order() {
         // given
+        Order order = Order.builder()
+                .build();
+
+        given(orderRepository.save(any())).willReturn(order);
 
         // when
+
 
         // then
     }

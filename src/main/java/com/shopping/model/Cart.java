@@ -15,7 +15,7 @@ import java.util.*;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(exclude = "items")
+@EqualsAndHashCode(of = "id")
 public class Cart {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

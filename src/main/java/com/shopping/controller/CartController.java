@@ -9,44 +9,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class CartController {
 
-    private final ProductService productService;
-    private final CartService cartService;
-
     @Autowired
-    public CartController(ProductService productService, CartService cartService) {
-        this.productService = productService;
-        this.cartService = cartService;
-    }
-
-
-    @GetMapping("/cart/{cartId}")
-    public void getCart(@PathVariable String cartId) {
+    public CartController() {
 
     }
-
-    @PostMapping("/cart")
-    public void addItemToCart() {
-
-    }
-
-    @DeleteMapping("/cart/{itemId}")
-    public void deleteItemFromCart(@PathVariable String itemId) {
-
-    }
-
-    @PatchMapping("/cart/{itemId}")
-    public void updateItemFromCart(@PathVariable String itemId) {
-
-    }
-
-    @DeleteMapping("/cart/empty")
-    public void clear() {
-
-    }
-
-    @PostMapping("/cart/{cartId}/checkout")
-    public void checkout(@PathVariable String cartId) {
-
-    }
-
 }
