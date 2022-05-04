@@ -2,6 +2,7 @@ package com.shopping.service;
 
 import com.shopping.dto.ProductRequest;
 import com.shopping.dto.ProductResponse;
+import com.shopping.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -23,4 +24,6 @@ public interface ProductService {
     List<ProductResponse> findAll();
 
     Page<ProductResponse> findAll(Pageable pageable);
+
+    Product findProductBySerialNumber(String serialNumber);
 }

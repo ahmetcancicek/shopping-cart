@@ -110,4 +110,12 @@ public class ProductServiceImpl implements ProductService {
         // TODO: Fix findAll test for product
         return null;
     }
+
+    @Override
+    public Product findProductBySerialNumber(String serialNumber) {
+        return productRepository.findBySerialNumber(serialNumber).orElseThrow(() -> {
+            log.error("product does not exist with serial number: {}", serialNumber);
+            throw new NoSuchElementFoundException(String.format("product does not exist with serial number: {%s}", serialNumber));
+        });
+    }
 }

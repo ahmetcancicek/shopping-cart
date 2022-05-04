@@ -196,6 +196,30 @@ class ProductServiceImplTest {
     }
 
     @Test
+    public void it_should_return_product_of_that_serialNumber_without_payload() {
+        // given
+        Product product = Product.builder()
+                .id(1L)
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
+                .build();
+
+        given(productRepository.findBySerialNumber(any())).willReturn(Optional.of(product));
+
+        // when
+        Product expectedProduct = productService.findProductBySerialNumber(product.getSerialNumber());
+
+        // then
+        verify(productRepository, times(1)).findBySerialNumber(any());
+        assertNotNull(expectedProduct, "Returned must not be null");
+        assertEquals(product.getSerialNumber(), expectedProduct.getSerialNumber(), "Serial number must be equal");
+
+    }
+
+    @Test
     public void it_should_delete_product_of_that_id() {
         // given
         Product product = Product.builder()
