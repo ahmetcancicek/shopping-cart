@@ -1,6 +1,7 @@
 package com.shopping.service.impl;
 
-import com.shopping.dto.ProductPayload;
+import com.shopping.dto.ProductRequest;
+import com.shopping.dto.ProductResponse;
 import com.shopping.exception.AlreadyExistsElementException;
 import com.shopping.exception.NoSuchElementFoundException;
 import com.shopping.mapper.ProductMapper;
@@ -28,8 +29,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductPayload findById(Long id) {
-        return ProductMapper.INSTANCE.toProductPayload(
+    public ProductResponse findById(Long id) {
+        return ProductMapper.INSTANCE.fromProduct(
                 productRepository.findById(id).orElseThrow(() -> {
                     log.error("product does not exist with id: {}", id);
                     return new NoSuchElementFoundException(String.format("product does not exist with id: {%d}", id));
@@ -37,8 +38,8 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductPayload findBySerialNumber(String serialNumber) {
-        return ProductMapper.INSTANCE.toProductPayload(
+    public ProductResponse findBySerialNumber(String serialNumber) {
+        return ProductMapper.INSTANCE.fromProduct(
                 productRepository.findBySerialNumber(serialNumber).orElseThrow(() -> {
                     log.error("product does not exist with serialNumber: {}", serialNumber);
                     return new NoSuchElementFoundException(String.format("product does not exist with serialNumber: {%s}", serialNumber));
@@ -48,14 +49,14 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductPayload save(ProductPayload productPayload) {
+    public ProductResponse save(ProductRequest productPayload) {
         productRepository.findBySerialNumber(productPayload.getSerialNumber())
                 .ifPresent((it) -> {
                     log.error("product already exists with serialNumber: {}", it.getSerialNumber());
                     throw new AlreadyExistsElementException(String.format("product already exist with serial number: {%s}", it.getSerialNumber()));
                 });
 
-        ProductPayload savedProduct = ProductMapper.INSTANCE.toProductPayload(
+        ProductResponse savedProduct = ProductMapper.INSTANCE.fromProduct(
                 productRepository.save(ProductMapper.INSTANCE.toProduct(productPayload))
         );
 
@@ -64,7 +65,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public ProductPayload update(ProductPayload productPayload) {
+    public ProductResponse update(ProductRequest productPayload) {
         Product product = productRepository.findBySerialNumber(productPayload.getSerialNumber()).orElseThrow(() -> {
             log.error("product does not exist with serialNumber: {}", productPayload.getSerialNumber());
             return new NoSuchElementFoundException(String.format("product does not exist with serialNumber: {%s}", productPayload.getSerialNumber()));
@@ -80,32 +81,32 @@ public class ProductServiceImpl implements ProductService {
         Product updatedProduct = productRepository.save(product);
 
         log.info("product has ben updated: {}", updatedProduct.toString());
-        return ProductMapper.INSTANCE.toProductPayload(updatedProduct);
+        return ProductMapper.INSTANCE.fromProduct(updatedProduct);
     }
 
     @Transactional
     @Override
     public void deleteById(Long id) {
-        ProductPayload productPayload = findById(id);
+        ProductResponse productResponse = findById(id);
         productRepository.deleteById(id);
-        log.info("product has been deleted: {}", productPayload.toString());
+        log.info("product has been deleted: {}", productResponse.toString());
     }
 
     @Transactional
     @Override
     public void deleteBySerialNumber(String serialNumber) {
-        ProductPayload productPayload = findBySerialNumber(serialNumber);
+        ProductResponse productResponse = findBySerialNumber(serialNumber);
         productRepository.deleteBySerialNumber(serialNumber);
-        log.info("product has been delete: {}", productPayload.toString());
+        log.info("product has been delete: {}", productResponse.toString());
     }
 
     @Override
-    public List<ProductPayload> findAll() {
-        return ProductMapper.INSTANCE.toProductPayloads(productRepository.findAll());
+    public List<ProductResponse> findAll() {
+        return ProductMapper.INSTANCE.fromProducts(productRepository.findAll());
     }
 
     @Override
-    public Page<ProductPayload> findAll(Pageable pageable) {
+    public Page<ProductResponse> findAll(Pageable pageable) {
         // TODO: Fix findAll test for product
         return null;
     }

@@ -1,26 +1,26 @@
 package com.shopping.service;
 
-import com.shopping.dto.ProductPayload;
-import com.shopping.model.Product;
+import com.shopping.dto.ProductRequest;
+import com.shopping.dto.ProductResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
 public interface ProductService {
-    ProductPayload findById(Long id);
+    ProductResponse findById(Long id);
 
-    ProductPayload findBySerialNumber(String serialNumber);
+    ProductResponse findBySerialNumber(String serialNumber);
 
-    ProductPayload save(ProductPayload productPayload);
+    ProductResponse save(ProductRequest productPayload);
 
-    ProductPayload update(ProductPayload productPayload);
+    ProductResponse update(ProductRequest productPayload);
 
     void deleteById(Long id);
 
     void deleteBySerialNumber(String serialNumber);
 
-    List<ProductPayload> findAll();
+    List<ProductResponse> findAll();
 
-    Page<ProductPayload> findAll(Pageable pageable);
+    Page<ProductResponse> findAll(Pageable pageable);
 }

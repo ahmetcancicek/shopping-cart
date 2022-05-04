@@ -1,6 +1,6 @@
 package com.shopping.service.impl;
 
-import com.shopping.dto.ProductPayload;
+import com.shopping.dto.ProductResponse;
 import com.shopping.exception.NoSuchElementFoundException;
 import com.shopping.mapper.ProductMapper;
 import com.shopping.model.Product;
@@ -61,7 +61,7 @@ class ProductServiceImplTest {
         given(productRepository.save(any())).willReturn(product);
 
         // when
-        ProductPayload savedProduct = productService.save(ProductMapper.INSTANCE.toProductPayload(product));
+        ProductResponse savedProduct = productService.save(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
 
         // then
         verify(productRepository, times(1)).save(any());
@@ -86,7 +86,7 @@ class ProductServiceImplTest {
         given(productRepository.save(any())).willReturn(product);
 
         // when
-        ProductPayload savedProduct = productService.save(ProductMapper.INSTANCE.toProductPayload(product));
+        ProductResponse savedProduct = productService.save(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
 
         // then
         verify(productRepository, times(1)).save(any());
@@ -119,7 +119,7 @@ class ProductServiceImplTest {
         given(productRepository.save(any())).willReturn(productUpdate);
 
         // when
-        ProductPayload updatedProduct = productService.update(ProductMapper.INSTANCE.toProductPayload(product));
+        ProductResponse updatedProduct = productService.update(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
 
         // then
         assertNotNull(updatedProduct, "Returned must not be null");
@@ -142,7 +142,7 @@ class ProductServiceImplTest {
 
         // when
         Throwable throwable = catchThrowable(() -> {
-            productService.update(ProductMapper.INSTANCE.toProductPayload(product));
+            productService.update(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
         });
 
         // then
@@ -164,7 +164,7 @@ class ProductServiceImplTest {
         given(productRepository.findById(product.getId())).willReturn(Optional.of(product));
 
         // when
-        ProductPayload expectedProduct = productService.findById(product.getId());
+        ProductResponse expectedProduct = productService.findById(product.getId());
 
         // then
         verify(productRepository, times(1)).findById(any());
@@ -187,7 +187,7 @@ class ProductServiceImplTest {
         given(productRepository.findBySerialNumber(any())).willReturn(Optional.of(product));
 
         // when
-        ProductPayload expectedProductPayload = productService.findBySerialNumber(product.getSerialNumber());
+        ProductResponse expectedProductPayload = productService.findBySerialNumber(product.getSerialNumber());
 
         // then
         verify(productRepository, times(1)).findBySerialNumber(any());
@@ -277,7 +277,7 @@ class ProductServiceImplTest {
         given(productRepository.findAll()).willReturn(products);
 
         // when
-        List<ProductPayload> expectedProducts = productService.findAll();
+        List<ProductResponse> expectedProducts = productService.findAll();
 
         // then
         verify(productRepository, times(1)).findAll();

@@ -1,7 +1,7 @@
 package com.shopping.controller;
 
-import com.shopping.dto.ProductPayload;
-import com.shopping.model.Product;
+import com.shopping.dto.ProductRequest;
+import com.shopping.dto.ProductResponse;
 import com.shopping.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,18 +21,18 @@ public class ProductController {
     }
 
     @GetMapping("/products")
-    public List<ProductPayload> getProducts() {
+    public List<ProductResponse> getProducts() {
         return productService.findAll();
     }
 
     @GetMapping("/products/{serialNumber}")
-    public ProductPayload getProduct(@PathVariable String serialNumber) {
+    public ProductResponse getProduct(@PathVariable String serialNumber) {
         return productService.findBySerialNumber(serialNumber);
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/products")
-    public ProductPayload addProduct(@Valid @RequestBody ProductPayload productPayload) {
+    public ProductResponse addProduct(@Valid @RequestBody ProductRequest productPayload) {
         return productService.save(productPayload);
     }
 
@@ -42,7 +42,7 @@ public class ProductController {
     }
 
     @PutMapping("/products")
-    public ProductPayload updateProduct(@Valid @RequestBody ProductPayload productPayload) {
+    public ProductResponse updateProduct(@Valid @RequestBody ProductRequest productPayload) {
         return productService.update(productPayload);
     }
 }

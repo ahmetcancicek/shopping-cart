@@ -1,7 +1,6 @@
 package com.shopping.controller;
 
-import com.shopping.dto.ProductPayload;
-import com.shopping.model.Product;
+import com.shopping.dto.ProductRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -41,7 +40,7 @@ public class ProductControllerIntTest {
     @Test
     public void it_should_add_product() {
         // given
-        ProductPayload productPayload = ProductPayload.builder()
+        ProductRequest productPayload = ProductRequest.builder()
                 .serialNumber("Y5N3DJ")
                 .name("Egg")
                 .description("Super egg")
@@ -50,12 +49,12 @@ public class ProductControllerIntTest {
                 .build();
 
         // when
-        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products",
+        ResponseEntity<ProductRequest> response = restTemplate.exchange("/products",
                 HttpMethod.POST,
                 new HttpEntity<>(productPayload, headers),
-                ProductPayload.class);
+                ProductRequest.class);
 
-        ProductPayload createdProductPayload = response.getBody();
+        ProductRequest createdProductPayload = response.getBody();
 
         // then
         assertNotNull(createdProductPayload, "Returned must not be null");
@@ -92,13 +91,13 @@ public class ProductControllerIntTest {
     @Test
     public void it_should_return_product_of_that_serialNumber() {
         // when
-        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products/{serialNumber}",
+        ResponseEntity<ProductRequest> response = restTemplate.exchange("/products/{serialNumber}",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                ProductPayload.class,
+                ProductRequest.class,
                 "PADMA232");
 
-        ProductPayload expectedProductPayload = response.getBody();
+        ProductRequest expectedProductPayload = response.getBody();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
@@ -109,10 +108,10 @@ public class ProductControllerIntTest {
     @Test
     public void it_should_return_bad_request_when_product_does_not_exist() {
         // when
-        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products/{serialNumber}",
+        ResponseEntity<ProductRequest> response = restTemplate.exchange("/products/{serialNumber}",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                ProductPayload.class,
+                ProductRequest.class,
                 "024290420");
 
         // then
@@ -122,13 +121,13 @@ public class ProductControllerIntTest {
     @Test
     public void it_should_return_list_of_all_products() {
         // when
-        ResponseEntity<List<ProductPayload>> response = restTemplate.exchange("/products",
+        ResponseEntity<List<ProductRequest>> response = restTemplate.exchange("/products",
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                new ParameterizedTypeReference<List<ProductPayload>>() {
+                new ParameterizedTypeReference<List<ProductRequest>>() {
                 });
 
-        List<ProductPayload> productPayloads = response.getBody();
+        List<ProductRequest> productPayloads = response.getBody();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
@@ -141,7 +140,7 @@ public class ProductControllerIntTest {
     @Test
     public void it_should_update_product_of_that_serialNumber() {
         // given
-        ProductPayload productPayload = ProductPayload.builder()
+        ProductRequest productPayload = ProductRequest.builder()
                 .serialNumber("KMNA239")
                 .name("iPhone 13 PRO")
                 .description("Apple iPhone 13 PRO")
@@ -150,12 +149,12 @@ public class ProductControllerIntTest {
                 .build();
 
         // when
-        ResponseEntity<ProductPayload> response = restTemplate.exchange("/products",
+        ResponseEntity<ProductRequest> response = restTemplate.exchange("/products",
                 HttpMethod.PUT,
                 new HttpEntity<>(productPayload, headers),
-                ProductPayload.class);
+                ProductRequest.class);
 
-        ProductPayload expectedProductPayload = response.getBody();
+        ProductRequest expectedProductPayload = response.getBody();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");

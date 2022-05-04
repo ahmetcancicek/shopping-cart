@@ -1,6 +1,7 @@
 package com.shopping.mapper;
 
-import com.shopping.dto.ProductPayload;
+import com.shopping.dto.ProductRequest;
+import com.shopping.dto.ProductResponse;
 import com.shopping.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
@@ -12,11 +13,11 @@ public interface ProductMapper {
 
     ProductMapper INSTANCE = Mappers.getMapper(ProductMapper.class);
 
-    ProductPayload toProductPayload(Product product);
+    Product toProduct(ProductRequest productRequest);
 
-    Product toProduct(ProductPayload productPayload);
+    ProductResponse fromProduct(Product product);
 
-    List<ProductPayload> toProductPayloads(List<Product> products);
+    ProductRequest toProductRequestFromProduct(Product product);
 
-    List<Product> toProducts(List<ProductPayload> productPayloads);
+    List<ProductResponse> fromProducts(List<Product> products);
 }
