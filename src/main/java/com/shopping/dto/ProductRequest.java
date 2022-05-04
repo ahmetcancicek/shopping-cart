@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 
 @Data
 @Builder
-public class ProductPayload {
+public class ProductRequest {
     @Column(name = "serial_number", nullable = false, unique = true)
     @Length(min = 3, message = "Serial number have at least 3 characters")
     @NotEmpty(message = "Serial number must not be empty")
