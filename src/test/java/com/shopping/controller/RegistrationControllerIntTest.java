@@ -1,8 +1,7 @@
 package com.shopping.controller;
 
-import com.shopping.dto.CustomerPayload;
+import com.shopping.dto.CustomerRequest;
 import com.shopping.model.Customer;
-import com.shopping.model.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,7 +37,7 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_register_customer() {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerRequest customerPayload = CustomerRequest.builder()
                 .firstName("Bruce")
                 .lastName("King")
                 .email("bruce@email.com")
@@ -90,7 +89,7 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_bad_request_when_register_customer_with_existing_email() {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerRequest customerPayload = CustomerRequest.builder()
                 .firstName("Lucy")
                 .lastName("Car")
                 .email("lucycar@email.com")
@@ -111,7 +110,7 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_bad_request_when_register_customer_with_existing_username() {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerRequest customerPayload = CustomerRequest.builder()
                 .firstName("Lucy")
                 .lastName("Car")
                 .email("lucycar1@email.com")
@@ -132,7 +131,7 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_client_error_when_register_customer_with_body_isNotValid() {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerRequest customerPayload = CustomerRequest.builder()
                 .firstName("Bill")
                 .lastName("King")
                 .password("ADl362AMA")

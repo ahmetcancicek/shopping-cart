@@ -1,19 +1,24 @@
 package com.shopping.service;
 
-import com.shopping.dto.CustomerPayload;
+import com.shopping.dto.CustomerRequest;
+import com.shopping.dto.CustomerResponse;
+import com.shopping.model.Customer;
 import com.shopping.model.User;
 
 import java.util.List;
 
 public interface CustomerService {
-    List<CustomerPayload> findAll();
-    CustomerPayload save(CustomerPayload customer);
-    CustomerPayload findById(Long id);
-    CustomerPayload findByUser(User user);
+    List<CustomerResponse> findAll();
+    CustomerResponse save(CustomerRequest customer);
+    CustomerResponse findById(Long id);
+    CustomerResponse findByUser(User user);
 
-    CustomerPayload findByUsername(String username);
+    CustomerResponse findByUsername(String username);
 
-    CustomerPayload findByEmail(String email);
+    CustomerResponse findByEmail(String email);
+
+    Customer findCustomerByUsername(String username);
+
     void deleteById(Long id);
 
     void deleteByUsername(String username);

@@ -1,7 +1,8 @@
 package com.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shopping.dto.CustomerPayload;
+import com.shopping.dto.CustomerRequest;
+import com.shopping.dto.CustomerResponse;
 import com.shopping.exception.AlreadyExistsElementException;
 import com.shopping.exception.NoSuchElementFoundException;
 import com.shopping.service.CustomerService;
@@ -38,7 +39,7 @@ class RegistrationControllerTest {
     @Test
     public void it_should_register_customer() throws Exception {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerRequest customerRequest = CustomerRequest.builder()
                 .firstName("Bruce")
                 .lastName("King")
                 .email("bruce@email.com")
@@ -46,13 +47,20 @@ class RegistrationControllerTest {
                 .password("ADl362AMA")
                 .build();
 
-        given(customerService.save(customerPayload)).willReturn(customerPayload);
+        CustomerResponse customerResponse = CustomerResponse.builder()
+                .firstName("Bruce")
+                .lastName("King")
+                .email("bruce@email.com")
+                .username("bruceking")
+                .build();
+
+        given(customerService.save(any())).willReturn(customerResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(customerPayload));
+                .content(mapper.writeValueAsString(customerRequest));
 
         // then
         mockMvc.perform(mockRequest)
@@ -65,15 +73,14 @@ class RegistrationControllerTest {
     @Test
     public void it_should_delete_customer() throws Exception {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerResponse customerResponse = CustomerResponse.builder()
                 .firstName("Bruce")
                 .lastName("King")
                 .email("bruce@email.com")
                 .username("bruceking")
-                .password("ADl362AMA")
                 .build();
 
-        given(customerService.findByUsername(any())).willReturn(customerPayload);
+        given(customerService.findByUsername(any())).willReturn(customerResponse);
 
         // when
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
@@ -104,12 +111,19 @@ class RegistrationControllerTest {
     @Test
     public void it_should_return_bad_request_when_register_customer_with_existing() throws Exception {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerRequest customerRequest = CustomerRequest.builder()
                 .firstName("Bruce")
                 .lastName("King")
                 .email("bruce@email.com")
                 .username("bruceking")
                 .password("ADl362AMA")
+                .build();
+
+        CustomerResponse customerResponse = CustomerResponse.builder()
+                .firstName("Bruce")
+                .lastName("King")
+                .email("bruce@email.com")
+                .username("bruceking")
                 .build();
 
         when(customerService.save(any())).thenThrow(new AlreadyExistsElementException("user already exist"));
@@ -118,7 +132,7 @@ class RegistrationControllerTest {
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
                 .post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(customerPayload));
+                .content(mapper.writeValueAsString(customerRequest));
 
         // then
         mockMvc.perform(requestBuilder)
@@ -129,20 +143,19 @@ class RegistrationControllerTest {
     @Test
     public void it_should_return_client_error_when_register_customer_with_body_isNotValid() throws Exception {
         // given
-        CustomerPayload customerPayload = CustomerPayload.builder()
+        CustomerRequest customerRequest = CustomerRequest.builder()
                 .firstName("Bruce")
                 .lastName("King")
                 .email("bruce@email.com")
-//                .username("bruceking")
+                .username("bruceking")
                 .password("ADl362AMA")
                 .build();
-
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/registration")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(customerPayload));
+                .content(mapper.writeValueAsString(customerRequest));
 
         // then
         mockMvc.perform(mockRequest)
