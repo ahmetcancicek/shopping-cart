@@ -45,12 +45,21 @@ public class Cart {
         items.add(item);
     }
 
-    public Optional<CartItem> findItem(Product product) {
+    public Optional<CartItem> findItem(Optional<Product> product) {
         if (items == null)
             return Optional.empty();
 
         return items.stream()
                 .filter(cartItem -> Objects.equals(cartItem.getProduct(), product))
+                .findFirst();
+    }
+
+    public Optional<CartItem> findItemBySerialNumber(String serialNumber){
+        if (items == null)
+            return Optional.empty();
+
+        return items.stream()
+                .filter(cartItem -> Objects.equals(cartItem.getProduct().getSerialNumber(),serialNumber))
                 .findFirst();
     }
 
