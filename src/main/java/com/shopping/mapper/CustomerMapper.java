@@ -5,6 +5,7 @@ import com.shopping.dto.CustomerResponse;
 import com.shopping.model.Customer;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
 import java.util.List;
@@ -14,21 +15,29 @@ public interface CustomerMapper {
 
     CustomerMapper INSTANCE = Mappers.getMapper(CustomerMapper.class);
 
-    @Mapping(source = "email", target = "user.email")
-    @Mapping(source = "username", target = "user.username")
-    @Mapping(source = "password", target = "user.password")
+    @Mappings({
+            @Mapping(source = "email", target = "user.email"),
+            @Mapping(source = "username", target = "user.username"),
+            @Mapping(source = "password", target = "user.password")
+    })
     Customer toCustomer(CustomerRequest customerRequest);
 
-    @Mapping(source = "user.email", target = "email")
-    @Mapping(source = "user.username", target = "username")
+    @Mappings({
+            @Mapping(source = "user.email", target = "email"),
+            @Mapping(source = "user.username", target = "username")
+    })
     CustomerResponse fromCustomer(Customer customer);
 
-    @Mapping(source = "user.email", target = "email")
-    @Mapping(source = "user.username", target = "username")
-    @Mapping(source = "user.password", target = "password")
+    @Mappings({
+            @Mapping(source = "user.email", target = "email"),
+            @Mapping(source = "user.username", target = "username"),
+            @Mapping(source = "user.password", target = "password")
+    })
     CustomerRequest toCustomerRequestFromCustomer(Customer customer);
 
-    @Mapping(source = "user.email", target = "email")
-    @Mapping(source = "user.username", target = "username")
+    @Mappings({
+            @Mapping(source = "user.email", target = "email"),
+            @Mapping(source = "user.username", target = "username")
+    })
     List<CustomerResponse> fromCustomers(List<Customer> customers);
 }
