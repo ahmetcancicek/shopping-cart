@@ -21,7 +21,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         return buildResponseEntity(errorRequest);
     }
 
-    @ExceptionHandler({NoSuchElementFoundException.class, ProductNotFoundException.class})
+    @ExceptionHandler({NoSuchElementFoundException.class})
     protected ResponseEntity<Object> handleNotFoundException(Exception ex) {
         // TODO: Add message
 
