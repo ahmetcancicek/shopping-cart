@@ -10,7 +10,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Data
 @Builder
-public class CustomerPayload {
+public class CustomerRequest {
     @Column(name = "first_name", nullable = true)
     private String firstName;
 
