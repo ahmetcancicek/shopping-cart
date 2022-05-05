@@ -11,14 +11,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 public class CustomerResponse {
     private String firstName;
-
     private String lastName;
-
-    @Email(message = "Email must be valid!")
-    @NotEmpty(message = "Email must not be empty")
     private String email;
-
-    @Length(min = 5, message = "Username must have at least 5 characters")
-    @NotEmpty(message = "Username must not be empty")
     private String username;
 }
