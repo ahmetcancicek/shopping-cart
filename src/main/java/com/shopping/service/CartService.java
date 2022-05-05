@@ -1,12 +1,13 @@
 package com.shopping.service;
 
-import com.shopping.dto.CartPayload;
-import com.shopping.model.Cart;
-import com.shopping.model.Customer;
-import com.shopping.model.Product;
-
-import java.util.Optional;
+import com.shopping.dto.CartResponse;
 
 public interface CartService {
+
+    CartResponse findByUsername(String username);
+
+    CartResponse addItemToCart(String username, String serialNumber);
+
+    CartResponse addItemToCart(String username, String serialNumber, int quantity);
 
 }
