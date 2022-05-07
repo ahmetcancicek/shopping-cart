@@ -9,7 +9,6 @@ import com.shopping.model.CartItem;
 import com.shopping.model.Customer;
 import com.shopping.model.Product;
 import com.shopping.repository.CartRepository;
-import com.shopping.repository.ProductRepository;
 import com.shopping.service.CartService;
 import com.shopping.service.CustomerService;
 import com.shopping.service.ProductService;
@@ -20,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
-import java.util.Set;
 
 
 @Service
@@ -28,7 +26,6 @@ import java.util.Set;
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
-
     private final ProductService productService;
     private final CustomerService customerService;
 
@@ -82,26 +79,30 @@ public class CartServiceImpl implements CartService {
                         .customer(customer)
                         .build());
 
+        return updateCart(expectedCart);
+    }
 
-        Cart cart = cartRepository.save(expectedCart);
-        log.info("cart has been updated with username: {}", username);
+    private CartResponse updateCart(Cart cart) {
+        BigDecimal totalPrice = cart.getItems().stream()
+                .map(p -> p.getPrice().multiply(BigDecimal.valueOf(p.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
 
-        // TODO: Do refactored this codes
-        BigDecimal totalPrice = BigDecimal.ZERO;
-        int totalQuantity = 0;
-        Set<CartItem> cartItems = cart.getItems();
-        for (CartItem item : cartItems) {
-            totalPrice = totalPrice.add(item.getPrice()).multiply(BigDecimal.valueOf(item.getQuantity()));
-            totalQuantity += item.getQuantity();
-        }
+        int totalQuantity = cart.getItems().stream()
+                .map(CartItem::getQuantity)
+                .reduce(0, Integer::sum);
 
         cart.setTotalPrice(totalPrice);
-        cartRepository.save(expectedCart);
+        cartRepository.save(cart);
+        log.info("cart has been updated with username: {}", cart.getCustomer().getUser().getUsername());
 
+        return toCartResponse(cart, totalPrice, totalQuantity);
+    }
 
+    // TODO: Do refactor this method to translating from entity to DTO
+    private CartResponse toCartResponse(Cart cart, BigDecimal totalPrice, int totalQuantity) {
         CartResponse cartResponse = CartResponse.builder()
                 .items(new HashSet<>())
-                .username(username)
+                .username(cart.getCustomer().getUser().getUsername())
                 .totalPrice(totalPrice)
                 .totalQuantity(totalQuantity)
                 .build();
