@@ -1,5 +1,6 @@
 package com.shopping.service;
 
+import com.shopping.dto.CartItemRequest;
 import com.shopping.dto.CartResponse;
 
 public interface CartService {
@@ -10,4 +11,7 @@ public interface CartService {
 
     CartResponse addItemToCart(String username, String serialNumber, int quantity);
 
+    CartResponse addItemToCart(String username, CartItemRequest cartItemRequest);
+
+    CartResponse addItemToCart(CartItemRequest cartItemRequest);
 }

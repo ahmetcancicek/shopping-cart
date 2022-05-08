@@ -1,5 +1,6 @@
 package com.shopping.service.impl;
 
+import com.shopping.dto.CartItemRequest;
 import com.shopping.dto.CartItemResponse;
 import com.shopping.dto.CartResponse;
 import com.shopping.exception.NoSuchElementFoundException;
@@ -80,6 +81,17 @@ public class CartServiceImpl implements CartService {
                         .build());
 
         return updateCart(expectedCart);
+    }
+
+    @Transactional
+    @Override
+    public CartResponse addItemToCart(String username, CartItemRequest cartItemRequest) {
+        return addItemToCart(username, cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
+    }
+
+    @Override
+    public CartResponse addItemToCart(CartItemRequest cartItemRequest) {
+        return addItemToCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
     }
 
     private CartResponse updateCart(Cart cart) {
