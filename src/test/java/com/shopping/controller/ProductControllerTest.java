@@ -22,8 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -56,7 +56,7 @@ public class ProductControllerTest {
                 .quantity(10)
                 .build();
 
-        when(productService.save(any())).thenReturn(productResponse);
+        given(productService.save(any())).willReturn(productResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/products")
@@ -90,7 +90,7 @@ public class ProductControllerTest {
                 .quantity(10)
                 .build();
 
-        when(productService.findBySerialNumber(any())).thenReturn(productResponse);
+        given(productService.findBySerialNumber(any())).willReturn(productResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -135,7 +135,7 @@ public class ProductControllerTest {
                 .quantity(10)
                 .build();
 
-        when(productService.findBySerialNumber(any())).thenReturn(productResponse);
+        given(productService.findBySerialNumber(any())).willReturn(productResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -196,7 +196,7 @@ public class ProductControllerTest {
                 .quantity(5)
                 .build());
 
-        when(productService.findAll()).thenReturn(productResponses);
+        given(productService.findAll()).willReturn(productResponses);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -230,8 +230,8 @@ public class ProductControllerTest {
                 .quantity(2)
                 .build();
 
-        when(productService.update(any())).thenReturn(productResponse);
-        when(productService.findBySerialNumber(any())).thenReturn(productResponse);
+        given(productService.update(any())).willReturn(productResponse);
+        given(productService.findBySerialNumber(any())).willReturn(productResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders

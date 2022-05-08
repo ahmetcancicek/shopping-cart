@@ -126,7 +126,7 @@ class RegistrationControllerTest {
                 .username("bruceking")
                 .build();
 
-        when(customerService.save(any())).thenThrow(new AlreadyExistsElementException("user already exist"));
+        given(customerService.save(any())).willThrow(new AlreadyExistsElementException("user already exist"));
 
         // when
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
