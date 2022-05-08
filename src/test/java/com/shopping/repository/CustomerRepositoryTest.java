@@ -77,8 +77,9 @@ class CustomerRepositoryTest {
                         .build())
                 .build();
 
-        // when
         Object customerId = testEntityManager.persistAndGetId(customer);
+
+        // when
         customerRepository.deleteById((Long) customerId);
 
         // then
@@ -99,8 +100,9 @@ class CustomerRepositoryTest {
                         .build())
                 .build();
 
-        // when
         Object customerId = testEntityManager.persistAndGetId(customer);
+
+        // when
         customerRepository.deleteByUser_Username(customer.getUser().getUsername());
 
         // then
