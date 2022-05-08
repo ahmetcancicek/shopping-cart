@@ -1,6 +1,5 @@
 package com.shopping.service.impl;
 
-import com.shopping.mapper.OrderMapper;
 import com.shopping.model.Order;
 import com.shopping.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
