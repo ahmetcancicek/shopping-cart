@@ -39,15 +39,6 @@ public class CartServiceImplTest {
     private ProductServiceImpl productService;
 
     @Test
-    public void it_should_save_cart() {
-        // given
-
-        // when
-
-        // then
-    }
-
-    @Test
     public void it_should_return_cart_of_that_username_of_customer() {
         // given
         Customer customer = Customer.builder()
