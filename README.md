@@ -73,7 +73,7 @@ curl -X DELETE 'localhost:8090/registration/billking'
 | `name`        | `string`  | **Required**. Name of product            |
 | `description` | `string`  | **Not Required**. Description of product |
 | `price`       | `number`  | **Required**. Price of product           |
-| `quantity`    | `number`  | **Required**. Quantity of customer       |
+| `quantity`    | `number`  | **Required**. Quantity of product        |
 
 ```curl
 curl -X POST 'localhost:8090/products/' \
@@ -87,8 +87,8 @@ curl -X POST 'localhost:8090/products/' \
     GET /products/{serialNumber}
 ```
 
-| Parameter     | Type      | Description                         |
-|:--------------|:----------|:------------------------------------|
+| Parameter      | Type      | Description                         |
+|:---------------|:----------|:------------------------------------|
 | `serialNumber` | `string`  | **Required**. Unique Key of product |
 
 ```curl
@@ -112,10 +112,43 @@ curl -X GET 'localhost:8090/products'
     DELETE /products/{serialNumber}
 ```
 
-| Parameter     | Type      | Description                         |
-|:--------------|:----------|:------------------------------------|
+| Parameter      | Type      | Description                         |
+|:---------------|:----------|:------------------------------------|
 | `serialNumber` | `string`  | **Required**. Unique Key of product |
 
 ```curl
 curl -X DELETE 'localhost:8090/products/KAV319'
+```
+
+
+#### Add item to cart
+
+```http request
+    POST /carts
+```
+
+| Parameter      | Type     | Description                            |
+|:---------------|:---------|:---------------------------------------|
+| `username`     | `string` | **Required**. User Name of customer    |
+| `serialNumber` | `string` | **Required**. Serial Number of product |
+| `quantity`     | `number` | **Required**. Quantity of product      |
+
+```curl
+curl -X POST 'localhost:8090/carts/' \
+-H 'Content-Type: application/json' \
+-d '{"username":"billking","serialNumber":"KAV319","quantity":1}'
+```
+
+#### Get cart
+
+```http request
+    GET /carts/{username}
+```
+
+| Parameter      | Type     | Description                            |
+|:---------------|:---------|:---------------------------------------|
+| `username`     | `string` | **Required**. User Name of customer    |
+
+```curl
+curl -X GET 'localhost:8090/carts/billking'
 ```
