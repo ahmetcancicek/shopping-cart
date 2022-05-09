@@ -21,7 +21,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.util.HashSet;
 
-
 @Service
 @Slf4j
 public class CartServiceImpl implements CartService {
@@ -42,7 +41,7 @@ public class CartServiceImpl implements CartService {
     public CartResponse findByUsername(String username) {
         return CartMapper.INSTANCE.fromCart(cartRepository.findByCustomer_User_Username(username).orElseThrow(() -> {
             log.error("cart does not exist with username: {}", username);
-            throw new NoSuchElementFoundException(String.format("cart does not exist with username: {%s}", username));
+            throw new NoSuchElementFoundException(String.format("cart does not exist with username: %s", username));
         }));
     }
 
@@ -94,14 +93,71 @@ public class CartServiceImpl implements CartService {
         return addItemToCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
     }
 
-    private CartResponse updateCart(Cart cart) {
-        BigDecimal totalPrice = cart.getItems().stream()
-                .map(p -> p.getPrice().multiply(BigDecimal.valueOf(p.getQuantity())))
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    @Transactional
+    @Override
+    public CartResponse deleteItemFromCart(String username, String serialNumber) {
+        Product product = productService.findProductBySerialNumber(serialNumber);
+        Customer customer = customerService.findCustomerByUsername(username);
 
-        int totalQuantity = cart.getItems().stream()
-                .map(CartItem::getQuantity)
-                .reduce(0, Integer::sum);
+        Cart expectedCart = cartRepository.findByCustomer_User_Username(username)
+                .map(cart -> {
+                    cart.removeItem(cart.findItem(product)
+                            .orElseThrow(() -> {
+                                log.error("product does not exist from cart with serialNumber: {}", serialNumber);
+                                throw new NoSuchElementFoundException(String.format("product does not exist from cart with serialNumber: %s", serialNumber));
+                            })
+                    );
+                    return cart;
+                })
+                .orElse(Cart.builder().customer(customer).build());
+
+        return updateCart(expectedCart);
+    }
+
+    @Override
+    public CartResponse clear(String username) {
+        Customer customer = customerService.findCustomerByUsername(username);
+        Cart expectedCart = cartRepository.findByCustomer_User_Username(username)
+                .map(cart -> {
+                    cart.getItems().clear();
+                    return cart;
+                }).orElseGet(() -> {
+                    return Cart.builder().customer(customer).build();
+                });
+        return updateCart(expectedCart);
+    }
+
+    @Override
+    public CartResponse updateItemFromCart(CartItemRequest cartItemRequest) {
+        return updateItemFromCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
+    }
+
+    @Override
+    public CartResponse updateItemFromCart(String username, String serialNumber, int quantity) {
+        Product product = productService.findProductBySerialNumber(serialNumber);
+        Customer customer = customerService.findCustomerByUsername(username);
+
+        Cart expectedCart = cartRepository.findByCustomer_User_Username(username)
+                .map(cart -> {
+                    cart.findItemBySerialNumber(serialNumber)
+                            .map(cartItem -> {
+                                cartItem.setQuantity(quantity);
+                                return cartItem;
+                            })
+                            .orElseThrow(() -> {
+                                log.error("product does not exist from cart with serial number: {}", serialNumber);
+                                throw new NoSuchElementFoundException(String.format("product does not exist from cart with serial number: %s", serialNumber));
+                            });
+
+                    return cart;
+                }).orElseGet(() -> Cart.builder().customer(customer).build());
+
+        return updateCart(expectedCart);
+    }
+
+    private CartResponse updateCart(Cart cart) {
+        BigDecimal totalPrice = cart.findTotalPrice();
+        int totalQuantity = cart.findTotalQuantity();
 
         cart.setTotalPrice(totalPrice);
         cartRepository.save(cart);

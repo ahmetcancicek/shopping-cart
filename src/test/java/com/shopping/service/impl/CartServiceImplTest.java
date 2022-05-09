@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -56,21 +57,21 @@ public class CartServiceImplTest {
 
         Cart cart = Cart.builder()
                 .id(1L)
-                .totalPrice(BigDecimal.ZERO)
                 .customer(customer)
+                .totalPrice(BigDecimal.ZERO)
                 .build();
 
         customer.setCart(cart);
 
-        given(cartRepository.findByCustomer_User_Username(any())).willReturn(Optional.of(cart));
+        given(cartRepository.findByCustomer_User_Username(any())).willReturn(Optional.of(customer.getCart()));
 
         // when
-        CartResponse expectedCart = cartService.findByUsername(customer.getUser().getUsername());
+        CartResponse expectedCartResponse = cartService.findByUsername(customer.getUser().getUsername());
 
         // then
         verify(cartRepository, times(1)).findByCustomer_User_Username(any());
-        assertNotNull(expectedCart, "Cart must not be null");
-        assertEquals(cart.getCustomer().getUser().getUsername(), expectedCart.getUsername(), "Username must be equal");
+        assertNotNull(expectedCartResponse, "Cart must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
     }
 
     @Test
@@ -146,13 +147,14 @@ public class CartServiceImplTest {
 
 
         // when
-        CartResponse expectedCart = cartService.addItemToCart(customer.getUser().getUsername(), product.getSerialNumber());
+        CartResponse expectedCartResponse = cartService.addItemToCart(customer.getUser().getUsername(), product.getSerialNumber());
 
         // then
-        assertNotNull(expectedCart, "Cart must not be null");
-        assertEquals(customer.getUser().getUsername(), expectedCart.getUsername(), "Username must be equal");
-        assertEquals(product.getPrice(), expectedCart.getTotalPrice(), "Total price must be equal");
-        assertEquals(1, expectedCart.getTotalQuantity(), "Total quantity must be equal");
+        verify(cartRepository, times(1)).save(any());
+        assertNotNull(expectedCartResponse, "Cart must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
+        assertEquals(product.getPrice(), expectedCartResponse.getTotalPrice(), "Total price must be equal");
+        assertEquals(1, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
     }
 
     @Test
@@ -194,12 +196,197 @@ public class CartServiceImplTest {
         given(cartRepository.save(any())).willReturn(cart);
 
         // when
-        CartResponse expectedCart = cartService.addItemToCart(customer.getUser().getUsername(), product.getSerialNumber(), 3);
+        int quantity=3;
+        CartResponse expectedCartResponse = cartService.addItemToCart(customer.getUser().getUsername(), product.getSerialNumber(), quantity);
 
         // then
-        assertNotNull(expectedCart, "Cart must not be null");
-        assertEquals(customer.getUser().getUsername(), expectedCart.getUsername(), "Username must be equal");
-        assertEquals(product.getPrice().multiply(BigDecimal.valueOf(3)), expectedCart.getTotalPrice(), "Total price must be equal");
-        assertEquals(3, expectedCart.getTotalQuantity(), "Total quantity must be equal");
+        verify(cartRepository, times(1)).save(any());
+        assertNotNull(expectedCartResponse, "Cart must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
+        assertEquals(product.getPrice().multiply(BigDecimal.valueOf(quantity)), expectedCartResponse.getTotalPrice(), "Total price must be equal");
+        assertEquals(3, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
+    }
+
+    @Test
+    public void it_should_delete_item_from_cart() {
+        // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Lucy")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .active(true)
+                        .username("lucyking")
+                        .email("lucyking@email.com")
+                        .password("LA4SD12")
+                        .build())
+                .build();
+
+        Product product = Product.builder()
+                .id(1L)
+                .serialNumber("LKB38A97")
+                .name("iPhone 15")
+                .quantity(2)
+                .price(BigDecimal.valueOf(1000))
+                .build();
+
+        Cart cart = Cart.builder()
+                .id(1L)
+                .totalPrice(BigDecimal.ZERO)
+                .items(new HashSet<>(Set.of(
+                        CartItem.builder()
+                                .id(1L)
+                                .price(product.getPrice())
+                                .quantity(1)
+                                .product(product)
+                                .build())))
+                .customer(customer)
+                .build();
+
+        customer.setCart(cart);
+
+        given(customerService.findCustomerByUsername(any())).willReturn(customer);
+        given(productService.findProductBySerialNumber(any())).willReturn(product);
+        given(cartRepository.findByCustomer_User_Username(any())).willReturn(Optional.of(cart));
+        given(cartRepository.save(any())).willReturn(cart);
+
+        // when
+        CartResponse expectedCartResponse = cartService.deleteItemFromCart(customer.getUser().getUsername(), product.getSerialNumber());
+
+        // then
+        verify(cartRepository, times(1)).save(any());
+        assertEquals(0, cart.getItems().size(), "Size must be equal");
+        assertNotNull(expectedCartResponse, "Cart must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
+        assertEquals(BigDecimal.ZERO, expectedCartResponse.getTotalPrice(), "Total price must be equal");
+        assertEquals(0, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
+    }
+
+    @Test
+    public void it_should_clear() {
+        // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Lucy")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .active(true)
+                        .username("lucyking")
+                        .email("lucyking@email.com")
+                        .password("LA4SD12")
+                        .build())
+                .build();
+
+        Product productOne = Product.builder()
+                .id(1L)
+                .serialNumber("LKB38A97")
+                .name("iPhone 15")
+                .quantity(2)
+                .price(BigDecimal.valueOf(1000))
+                .build();
+
+        Product productTwo = Product.builder()
+                .id(2L)
+                .serialNumber("PLN27GF")
+                .name("iPhone 13")
+                .quantity(1)
+                .price(BigDecimal.valueOf(900))
+                .build();
+
+        Cart cart = Cart.builder()
+                .id(1L)
+                .totalPrice(BigDecimal.ZERO)
+                .items(new HashSet<>(Set.of(
+                        CartItem.builder()
+                                .id(1L)
+                                .price(productOne.getPrice())
+                                .quantity(1)
+                                .product(productOne)
+                                .build(),
+                        CartItem.builder()
+                                .id(2L)
+                                .price(productTwo.getPrice())
+                                .quantity(1)
+                                .product(productTwo)
+                                .build()
+                )))
+                .customer(customer)
+                .build();
+
+        customer.setCart(cart);
+
+        given(customerService.findCustomerByUsername(any())).willReturn(customer);
+        given(cartRepository.findByCustomer_User_Username(any())).willReturn(Optional.of(cart));
+        given(cartRepository.save(any())).willReturn(cart);
+
+        // when
+        CartResponse expectedCartResponse = cartService.clear(customer.getUser().getUsername());
+
+        // then
+        verify(cartRepository, times(1)).save(any());
+        assertEquals(0, cart.getItems().size(), "Size must be equal");
+        assertNotNull(expectedCartResponse, "Cart must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
+        assertEquals(BigDecimal.ZERO, expectedCartResponse.getTotalPrice(), "Total price must be equal");
+        assertEquals(0, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
+    }
+
+
+    @Test
+    public void it_should_update_cart_items_from_cart() {
+        // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Lucy")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .active(true)
+                        .username("lucyking")
+                        .email("lucyking@email.com")
+                        .password("LA4SD12")
+                        .build())
+                .build();
+
+        Product product = Product.builder()
+                .id(1L)
+                .serialNumber("LKB38A97")
+                .name("iPhone 15")
+                .quantity(2)
+                .price(BigDecimal.valueOf(1000))
+                .build();
+
+        Cart cart = Cart.builder()
+                .id(1L)
+                .totalPrice(BigDecimal.ZERO)
+                .items(new HashSet<>(Set.of(
+                        CartItem.builder()
+                                .id(1L)
+                                .price(product.getPrice())
+                                .quantity(1)
+                                .product(product)
+                                .build())))
+                .customer(customer)
+                .build();
+
+        customer.setCart(cart);
+
+        given(customerService.findCustomerByUsername(any())).willReturn(customer);
+        given(productService.findProductBySerialNumber(any())).willReturn(product);
+        given(cartRepository.findByCustomer_User_Username(any())).willReturn(Optional.of(cart));
+        given(cartRepository.save(any())).willReturn(cart);
+
+        // when
+        CartResponse expectedCartResponse = cartService.updateItemFromCart(customer.getUser().getUsername(), product.getSerialNumber(), 10);
+
+        // then
+        verify(cartRepository, times(1)).save(any());
+        assertNotNull(expectedCartResponse, "Cart must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
+        assertEquals(product.getPrice().multiply(BigDecimal.TEN), expectedCartResponse.getTotalPrice(), "Total price must be equal");
+        assertEquals(10, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
+
     }
 }
