@@ -76,7 +76,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse findByUsername(String username) {
         return CustomerMapper.INSTANCE.fromCustomer(customerRepository.findByUser_Username(username).orElseThrow(() -> {
             log.error("customer does not exist with username: {}", username);
-            return new NoSuchElementFoundException(String.format("customer does not exist with username: {%s}", username));
+            return new NoSuchElementFoundException(String.format("customer does not exist with username: %s", username));
         }));
     }
 
@@ -84,7 +84,7 @@ public class CustomerServiceImpl implements CustomerService {
     public CustomerResponse findByEmail(String email) {
         return CustomerMapper.INSTANCE.fromCustomer(customerRepository.findByUser_Email(email).orElseThrow(() -> {
             log.error("customer does not exist with email: {}", email);
-            return new NoSuchElementFoundException(String.format("customer does not exist with email: {%s}", email));
+            return new NoSuchElementFoundException(String.format("customer does not exist with email: %s", email));
         }));
     }
 
@@ -92,7 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
     public Customer findCustomerByUsername(String username) {
         return customerRepository.findByUser_Username(username).orElseThrow(()->{
             log.error("customer does not exist with username: {}", username);
-            return new NoSuchElementFoundException(String.format("customer does not exist with username: {%s}", username));
+            return new NoSuchElementFoundException(String.format("customer does not exist with username: %s", username));
         });
     }
 

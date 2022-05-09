@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> {
             log.error("user does not exist with username: {}", username);
-            return new NoSuchElementFoundException(String.format("user does not exist with username: {%s}", username));
+            return new NoSuchElementFoundException(String.format("user does not exist with username: %s", username));
         });
     }
 
@@ -35,7 +35,7 @@ public class UserServiceImpl implements UserService {
     public User findByEmail(String email) {
         return userRepository.findByEmail(email).orElseThrow(() -> {
             log.error("user does not exist with email: {}", email);
-            return new NoSuchElementFoundException(String.format("user does not exist with email: {%s}", email));
+            return new NoSuchElementFoundException(String.format("user does not exist with email: %s", email));
         });
     }
 
