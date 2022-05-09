@@ -45,7 +45,7 @@ public class Cart {
         items.add(item);
     }
 
-    public Optional<CartItem> findItem(Optional<Product> product) {
+    public Optional<CartItem> findItem(Product product) {
         if (items == null)
             return Optional.empty();
 
@@ -54,13 +54,25 @@ public class Cart {
                 .findFirst();
     }
 
-    public Optional<CartItem> findItemBySerialNumber(String serialNumber){
+    public Optional<CartItem> findItemBySerialNumber(String serialNumber) {
         if (items == null)
             return Optional.empty();
 
         return items.stream()
-                .filter(cartItem -> Objects.equals(cartItem.getProduct().getSerialNumber(),serialNumber))
+                .filter(cartItem -> Objects.equals(cartItem.getProduct().getSerialNumber(), serialNumber))
                 .findFirst();
+    }
+
+    public BigDecimal findTotalPrice() {
+        return items.stream()
+                .map(p -> p.getPrice().multiply(BigDecimal.valueOf(p.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public int findTotalQuantity() {
+        return items.stream()
+                .map(CartItem::getQuantity)
+                .reduce(0, Integer::sum);
     }
 
     public void removeItem(CartItem item) {
