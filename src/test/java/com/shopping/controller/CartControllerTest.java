@@ -16,6 +16,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
@@ -47,18 +48,14 @@ public class CartControllerTest {
                 .username("billking")
                 .totalQuantity(1)
                 .totalPrice(BigDecimal.TEN)
-                .items(new HashSet<>())
+                .items(new HashSet<>(Set.of(CartItemResponse.builder()
+                        .price(BigDecimal.TEN)
+                        .name("Egg")
+                        .description("Super egg")
+                        .quantity(1)
+                        .serialNumber("Y5N3DJ")
+                        .build())))
                 .build();
-
-        CartItemResponse cartItemResponse = CartItemResponse.builder()
-                .price(BigDecimal.TEN)
-                .name("Egg")
-                .description("Super egg")
-                .quantity(1)
-                .serialNumber("Y5N3DJ")
-                .build();
-
-        cartResponse.getItems().add(cartItemResponse);
 
         given(cartService.addItemToCart(cartItemRequest)).willReturn(cartResponse);
 
@@ -90,18 +87,14 @@ public class CartControllerTest {
                 .username("billking")
                 .totalQuantity(1)
                 .totalPrice(BigDecimal.TEN)
-                .items(new HashSet<>())
+                .items(new HashSet<>(Set.of(CartItemResponse.builder()
+                        .price(BigDecimal.TEN)
+                        .name("Egg")
+                        .description("Super egg")
+                        .quantity(1)
+                        .serialNumber("Y5N3DJ")
+                        .build())))
                 .build();
-
-        CartItemResponse cartItemResponse = CartItemResponse.builder()
-                .price(BigDecimal.TEN)
-                .name("Egg")
-                .description("Super egg")
-                .quantity(1)
-                .serialNumber("Y5N3DJ")
-                .build();
-
-        cartResponse.getItems().add(cartItemResponse);
 
         given(cartService.findByUsername(any())).willReturn(cartResponse);
 
@@ -117,30 +110,34 @@ public class CartControllerTest {
     }
 
     @Test
-    public void it_should_delete_item_of_that_id_from_cart() {
+    public void it_should_delete_item_from_cart() throws Exception {
         // given
+        CartItemRequest cartItemRequest = CartItemRequest.builder()
+                .username("billking")
+                .serialNumber("Y5N3DJ")
+                .quantity(1)
+                .build();
+
+        CartResponse cartResponse = CartResponse.builder()
+                .username("billking")
+                .totalQuantity(0)
+                .totalPrice(BigDecimal.ZERO)
+                .items(new HashSet<>())
+                .build();
+
+        given(cartService.deleteItemFromCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber())).willReturn(cartResponse);
 
         // when
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
+                .delete("/carts/{username}?serialNumber={serialNumber}", cartItemRequest.getUsername(), cartItemRequest.getSerialNumber())
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON);
 
         // then
-    }
-
-
-    @Test
-    public void it_should_update_item_of_that_id_from_cart() {
-        // given
-
-        // when
-
-        // then
-    }
-
-    @Test
-    public void it_should_clear_cart() {
-        // given
-
-        // when
-
-        // then
+        mockMvc.perform(mockRequest)
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.username").value(cartResponse.getUsername()))
+                .andExpect(jsonPath("$.totalQuantity").value("0"))
+                .andDo(print());
     }
 }

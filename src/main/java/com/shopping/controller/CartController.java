@@ -28,4 +28,9 @@ public class CartController {
     public CartResponse getCart(@PathVariable String username) {
         return cartService.findByUsername(username);
     }
+
+    @DeleteMapping("/carts/{username}")
+    public CartResponse deleteItemFromCart(@PathVariable String username, @RequestParam("serialNumber") String serialNumber) {
+        return cartService.deleteItemFromCart(username, serialNumber);
+    }
 }
