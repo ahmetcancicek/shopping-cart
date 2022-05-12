@@ -13,29 +13,22 @@ import com.shopping.repository.CartRepository;
 import com.shopping.service.CartService;
 import com.shopping.service.CustomerService;
 import com.shopping.service.ProductService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.HashSet;
 
-@Service
 @Slf4j
+@AllArgsConstructor
+@Service
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;
     private final ProductService productService;
     private final CustomerService customerService;
-
-    @Autowired
-    public CartServiceImpl(CartRepository cartRepository, ProductService productService, CustomerService customerService) {
-
-        this.cartRepository = cartRepository;
-        this.productService = productService;
-        this.customerService = customerService;
-    }
 
     @Override
     public CartResponse findByUsername(String username) {
