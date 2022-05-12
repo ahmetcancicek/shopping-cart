@@ -11,6 +11,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,9 @@ class CustomerServiceImplTest {
 
     @InjectMocks
     private CustomerServiceImpl customerService;
+
+    @Mock
+    private BCryptPasswordEncoder passwordEncoder;
 
     @Test
     public void it_should_save_customer() {
@@ -127,48 +131,6 @@ class CustomerServiceImplTest {
 
         // then
         assertThat(throwable).isInstanceOf(NoSuchElementFoundException.class);
-    }
-
-    @Test
-    public void it_should_save_customer_with_payment_and_address() {
-//        // given
-//        Customer customer = Customer.builder()
-//                .id(1L)
-//                .firstName("Bill")
-//                .lastName("King")
-//                .user(User.builder()
-//                        .id(1L)
-//                        .email("billking@email.com")
-//                        .username("billking")
-//                        .password("password")
-//                        .active(true)
-//                        .build())
-//                .build();
-//
-//        customer.addPaymentMethod(PaymentMethod.builder()
-//                .name("My PayPal Account")
-//                .paymentType(PaymentType.PAYPAL)
-//                .build());
-//
-//        customer.addAddress(Address.builder()
-//                .city("New York")
-//                .zipCode("34000")
-//                .stateCode("01")
-//                .zipCode("0101")
-//                .street("XY56Y")
-//                .build());
-//
-//        given(customerRepository.save(any())).willReturn(customer);
-//
-//        // when
-//        CustomerResponse savedCustomer = customerService.save(CustomerMapper.INSTANCE.toCustomerRequestFromCustomer(customer))
-//
-//        // then
-//        verify(customerRepository, times(1)).save(any());
-//        assertNotNull(savedCustomer, "Saved customer must not be null");
-//        assertEquals(customer.getFirstName(), savedCustomer.getFirstName(), "First name must be equal");
-//        assertNotNull(customer.getAddresses(), "Address must not be null");
-//        assertNotNull(customer.getPaymentMethods(), "Payment Methods must not be null");
     }
 
     @Test
