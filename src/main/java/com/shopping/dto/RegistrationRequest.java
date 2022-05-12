@@ -9,7 +9,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @Builder
-public class CustomerRequest {
+public class RegistrationRequest {
     private String firstName;
 
     private String lastName;
