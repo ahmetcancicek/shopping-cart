@@ -1,5 +1,16 @@
 # Shopping Cart
-Repository contains basic shopping-cart application to show restful service implementation using Spring Boot and Docker.
+
+This repository contains a basic sample application to serve restful service with JWT token authentication in a spring boot application. The application uses maven as a build tool and Docker as a containers 
+
+# Technology
+
+1. Spring Boot (2.4.12)
+2. JWT (0.11.5)
+3. MySQL
+4. Java 11
+5. Map Struct (1.4.2.Final)
+6. Testcontainers (1.16.3)
+7. Docker
 
 [![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
 
@@ -8,13 +19,14 @@ Repository contains basic shopping-cart application to show restful service impl
 To test the application
 
 ```bash
-
+./mvnw test
 ```
 
 To build and run the application
 
 ```bash
-
+docker-compose up -d shopping-mysql
+./mvnw spring-boot:run
 ```
 
 ## Deployment
@@ -25,13 +37,29 @@ To deploy this project run
   docker-compose up -d
 ```
 
-## API Reference
+## API Routes
 
-#### Register customer
+### [Authentication API](#1-authentication-api)
 
-```http request
-  POST /registration
+| API                                                | Description         |
+|:---------------------------------------------------|:--------------------|
+| [`POST/api/auth/register`](#a-register-a-new-user) | Register a new user |
+| [`POST/api/auth/login`](#b-login-a-user)           | Login a user        |
+
+
+## 1. Authencation API
+
+### a. Register a new user
+
+You can send a POST request to register a new user and returns a web token for authentication
+
 ```
+Method: POST
+URL: /api/auth/register
+Produces: application/json
+```
+
+#### Parameters : 
 
 | Parameter    | Type      | Description                           |
 |:-------------|:----------|:--------------------------------------|
@@ -41,114 +69,51 @@ To deploy this project run
 | `username`   | `string`  | **Required**. Username of customer    |
 | `password`   | `string`  | **Required**. Password of customer    |
 
+#### Example :
+
+* Request : 
+
 ```curl
-curl -X POST localhost:8090/registration \
+curl -X POST 'localhost:8090/api/auth/register/' \
 -H 'Content-Type: application/json' \
--d '{"firstName":"Bill","lastName":"King","username":"billking","email":"billking@email.com","password":"adj3q8afb"}' 
+-d '{"username":"stevekey","password":"KHG279BD","email":"stevekey@email.com","firstname":"Steve","lastname":"Key"}'
 ```
 
-#### Delete customer
+* Response : 
 
-```http request
-    DELETE /registration/{username}
+```json
+
 ```
+
+### b. Login a user
+
+You can send a POST request to login a user and returns a web token for authentication
+
+```
+Method: POST
+URL: /api/auth/login
+Produces: application/json
+```
+
+#### Parameters :
 
 | Parameter    | Type      | Description                           |
 |:-------------|:----------|:--------------------------------------|
 | `username`   | `string`  | **Required**. Username of customer    |
+| `password`   | `string`  | **Required**. Password of customer    |
+
+#### Example: 
+
+* Request : 
 
 ```curl
-curl -X DELETE 'localhost:8090/registration/billking'
-```
-
-
-#### Add product
-
-```http request
-    POST /products
-```
-
-| Parameter     | Type      | Description                              |
-|:--------------|:----------|:-----------------------------------------|
-| `name`        | `string`  | **Required**. Name of product            |
-| `description` | `string`  | **Not Required**. Description of product |
-| `price`       | `number`  | **Required**. Price of product           |
-| `quantity`    | `number`  | **Required**. Quantity of product        |
-
-```curl
-curl -X POST 'localhost:8090/products/' \
+curl -X POST 'localhost:8090/api/auth/login/' \
 -H 'Content-Type: application/json' \
--d '{"serialNumber":"KAV319","name":"iPhone 14","description":"Apple iPhone 14","price":1000,"quantity":100}'
+-d '{"username":"stevekey","password":"KHG279BD"}'
 ```
 
-#### Get product
+* Response : 
 
-```http request
-    GET /products/{serialNumber}
-```
+```json
 
-| Parameter      | Type      | Description                         |
-|:---------------|:----------|:------------------------------------|
-| `serialNumber` | `string`  | **Required**. Unique Key of product |
-
-```curl
-curl -X GET 'localhost:8090/products/KAV319'
-
-```
-
-#### Get products
-
-```http request
-    GET /products
-```
-
-```curl
-curl -X GET 'localhost:8090/products'
-```
-
-#### Delete product
-
-```http request
-    DELETE /products/{serialNumber}
-```
-
-| Parameter      | Type      | Description                         |
-|:---------------|:----------|:------------------------------------|
-| `serialNumber` | `string`  | **Required**. Unique Key of product |
-
-```curl
-curl -X DELETE 'localhost:8090/products/KAV319'
-```
-
-
-#### Add item to cart
-
-```http request
-    POST /carts
-```
-
-| Parameter      | Type     | Description                            |
-|:---------------|:---------|:---------------------------------------|
-| `username`     | `string` | **Required**. User Name of customer    |
-| `serialNumber` | `string` | **Required**. Serial Number of product |
-| `quantity`     | `number` | **Required**. Quantity of product      |
-
-```curl
-curl -X POST 'localhost:8090/carts/' \
--H 'Content-Type: application/json' \
--d '{"username":"billking","serialNumber":"KAV319","quantity":1}'
-```
-
-#### Get cart
-
-```http request
-    GET /carts/{username}
-```
-
-| Parameter      | Type     | Description                            |
-|:---------------|:---------|:---------------------------------------|
-| `username`     | `string` | **Required**. User Name of customer    |
-
-```curl
-curl -X GET 'localhost:8090/carts/billking'
 ```
