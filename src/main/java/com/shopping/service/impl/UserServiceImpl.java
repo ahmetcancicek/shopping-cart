@@ -5,23 +5,23 @@ import com.shopping.exception.NoSuchElementFoundException;
 import com.shopping.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.UserService;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
+import java.util.Optional;
+
 @Slf4j
-public class UserServiceImpl implements UserService {
+@AllArgsConstructor
+@Service(value = "userService")
+public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
 
     @Override
     public User findByUsername(String username) {
@@ -71,5 +71,11 @@ public class UserServiceImpl implements UserService {
         });
         userRepository.deleteById(id);
         log.info("user has been deleted with ID: {}", id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> byUsername = userRepository.findByUsername(username);
+        return byUsername.orElseThrow(() -> new UsernameNotFoundException("Username does not exist"));
     }
 }
