@@ -25,7 +25,7 @@ To test the application
 To build and run the application
 
 ```bash
-docker-compose up -d shopping-mysql
+docker-compose up -d shoppingcart-mysql
 ./mvnw spring-boot:run
 ```
 
