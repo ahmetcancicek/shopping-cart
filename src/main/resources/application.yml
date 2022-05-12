@@ -22,3 +22,9 @@ spring:
       hibernate:
         dialect: "org.hibernate.dialect.MySQL8Dialect"
 
+
+jwt:
+  secret: "HG80VA3H"
+  issuer: "GitHub"
+  access-token-validity-seconds: 5 * 60 * 60
+
