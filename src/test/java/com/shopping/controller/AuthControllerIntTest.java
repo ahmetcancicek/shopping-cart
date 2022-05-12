@@ -1,12 +1,13 @@
 package com.shopping.controller;
 
-import com.shopping.dto.CustomerRequest;
+import com.shopping.dto.*;
 import com.shopping.model.Customer;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
@@ -15,14 +16,15 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.Objects;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Testcontainers
 @Sql(value = {"/import.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(value = {"/clear.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
-class RegistrationControllerIntTest {
-
+class AuthControllerIntTest {
     @LocalServerPort
     private int port;
 
@@ -37,7 +39,7 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_register_customer() {
         // given
-        CustomerRequest customerPayload = CustomerRequest.builder()
+        RegistrationRequest request = RegistrationRequest.builder()
                 .firstName("Bruce")
                 .lastName("King")
                 .email("bruce@email.com")
@@ -46,50 +48,52 @@ class RegistrationControllerIntTest {
                 .build();
 
         // when
-        ResponseEntity<Customer> response = restTemplate.exchange("/registration",
+        ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/auth/register",
                 HttpMethod.POST,
-                new HttpEntity<>(customerPayload, headers),
-                Customer.class);
+                new HttpEntity<>(request, headers),
+                new ParameterizedTypeReference<ApiResponse<AuthToken>>() {
+                });
 
-        Customer createdCustomer = response.getBody();
-
-        // then
-        assertNotNull(createdCustomer,"Returned must be equal");
-        assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Status code must be equal");
-        assertEquals("Bruce King", String.format("%s %s", createdCustomer.getFirstName(), createdCustomer.getLastName()));
-        ;
-    }
-
-    @Test
-    public void it_should_delete_customer() {
-        // when
-        ResponseEntity<Void> response = restTemplate.exchange("/registration/{username}",
-                HttpMethod.DELETE,
-                HttpEntity.EMPTY,
-                Void.class,
-                "lucycar");
+        AuthToken user = Objects.requireNonNull(response.getBody()).getResult();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals("success", response.getBody().getMessage(),"It must be success");
+        assertEquals(request.getUsername(), user.getUsername(),"Username must be equal");
+        assertNotNull(user.getToken(),"Token must not be null");
+
     }
 
     @Test
-    public void it_should_return_bad_request_when_delete_customer_with_does_not_exist() {
+    public void it_should_login_customer() {
+        // given
+        AuthRequest request = AuthRequest.builder()
+                .username("bruceking")
+                .password("ADl362AMA")
+                .build();
+
         // when
-        ResponseEntity<Void> response = restTemplate.exchange("/registration/{username}",
-                HttpMethod.DELETE,
-                HttpEntity.EMPTY,
-                Void.class,
-                "billgates");
+        ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/auth/login",
+                HttpMethod.POST,
+                new HttpEntity<>(request, headers),
+                new ParameterizedTypeReference<ApiResponse<AuthToken>>() {
+                });
+
+        AuthToken user = Objects.requireNonNull(response.getBody()).getResult();
 
         // then
-        assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals("success", response.getBody().getMessage(),"It must be success");
+        assertEquals(request.getUsername(), user.getUsername(),"Username must be equal");
+        assertNotNull(user.getToken(),"Token must not be null");
+
+
     }
 
     @Test
     public void it_should_return_bad_request_when_register_customer_with_existing_email() {
         // given
-        CustomerRequest customerPayload = CustomerRequest.builder()
+        RegistrationRequest request = RegistrationRequest.builder()
                 .firstName("Lucy")
                 .lastName("Car")
                 .email("lucycar@email.com")
@@ -98,10 +102,11 @@ class RegistrationControllerIntTest {
                 .build();
 
         // when
-        ResponseEntity<Customer> response = restTemplate.exchange("/registration",
+        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/auth/register",
                 HttpMethod.POST,
-                new HttpEntity<>(customerPayload, headers),
-                Customer.class);
+                new HttpEntity<>(request, headers),
+                new ParameterizedTypeReference<ApiResponse<CustomerResponse>>() {
+                });
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
@@ -110,7 +115,7 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_bad_request_when_register_customer_with_existing_username() {
         // given
-        CustomerRequest customerPayload = CustomerRequest.builder()
+        RegistrationRequest request = RegistrationRequest.builder()
                 .firstName("Lucy")
                 .lastName("Car")
                 .email("lucycar1@email.com")
@@ -119,10 +124,11 @@ class RegistrationControllerIntTest {
                 .build();
 
         // when
-        ResponseEntity<Customer> response = restTemplate.exchange("/registration",
+        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/auth/register",
                 HttpMethod.POST,
-                new HttpEntity<>(customerPayload, headers),
-                Customer.class);
+                new HttpEntity<>(request, headers),
+                new ParameterizedTypeReference<ApiResponse<CustomerResponse>>() {
+                });
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
@@ -131,17 +137,19 @@ class RegistrationControllerIntTest {
     @Test
     public void it_should_return_client_error_when_register_customer_with_body_isNotValid() {
         // given
-        CustomerRequest customerPayload = CustomerRequest.builder()
+        RegistrationRequest request = RegistrationRequest.builder()
                 .firstName("Bill")
                 .lastName("King")
                 .password("ADl362AMA")
                 .build();
 
         // when
-        ResponseEntity<Customer> response = restTemplate.exchange("/registration",
+        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/auth/register",
                 HttpMethod.POST,
-                new HttpEntity<>(customerPayload, headers),
-                Customer.class);
+                new HttpEntity<>(request, headers),
+                new ParameterizedTypeReference<ApiResponse<CustomerResponse>>() {
+                });
+
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
