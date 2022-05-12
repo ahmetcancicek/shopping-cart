@@ -47,6 +47,43 @@ To deploy this project run
 | [`POST/api/auth/login`](#b-login-a-user)           | Login a user        |
 
 
+### [User API](#2-user-api)
+
+| API                                                                           | Description                                            |
+|:------------------------------------------------------------------------------|:-------------------------------------------------------|
+| [`GET/api/users/:username`](#a-get-details-of-a-user)                         | Get details of a particular user that had a login      |
+| [`GET/api/users/:username/addresses`](#b-get-list-of-all-addresses-of-a-user) | Get the list of all addresses of user that had a login |
+| [`GET/api/users/:username/payments`](#b-get-list-of-all-payments-of-a-user)   | Get the list of all payments of user that had a login  |
+
+
+### [Product API](#3-product-api)
+
+| API                                                                  | Description                      |
+|:---------------------------------------------------------------------|:---------------------------------|
+| [`POST/api/products`](#b-post-a-new-product)                         | Create a new product             |
+| [`GET/api/products`](#b-get-list-of-all-products)                    | Get list of all products         |
+| [`GET/api/products/:serialNumber`](#b-get-details-of-a-product)      | Get details a particular product |
+| [`PATCH/api/products/:serialNumber`](#b-update-details-of-a-product) | Update a particular product      |
+| [`DELETE/api/products/:serialNumber`](#b-delete-a-product)           | Delete a particular product      |
+
+
+### [Cart API](#4-cart-api)
+
+| API                                      | Description                                   |
+|:-----------------------------------------|:----------------------------------------------|
+| [`GET/api/carts`](#b-post-a-new-product) | Get list of all items that belong to customer |
+
+
+### [Order API](#45-order-api)
+
+| API                                                        | Description                                    |
+|:-----------------------------------------------------------|:-----------------------------------------------|
+| [`POST/api/orders`](#b-post-a-new-order)                   | Create a new order                             |
+| [`GET/api/orders`](#b-get-list-of-all-orders)              | Get list of all orders that belong to customer |
+| [`GET/api/orders/:orderNumber`](#b-get-details-of-a-order) | Get details of a particular oder               |
+| [`GET/api/orders/:orderNumber`](#b-get-delete-a-order)     | Delete a particular oder                       |
+
+
 ## 1. Authencation API
 
 ### a. Register a new user
