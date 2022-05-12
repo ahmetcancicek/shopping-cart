@@ -1,6 +1,6 @@
 package com.shopping.mapper;
 
-import com.shopping.dto.CustomerRequest;
+import com.shopping.dto.RegistrationRequest;
 import com.shopping.dto.CustomerResponse;
 import com.shopping.model.Customer;
 import org.mapstruct.Mapper;
@@ -20,7 +20,7 @@ public interface CustomerMapper {
             @Mapping(source = "username", target = "user.username"),
             @Mapping(source = "password", target = "user.password")
     })
-    Customer toCustomer(CustomerRequest customerRequest);
+    Customer toCustomer(RegistrationRequest customerRequest);
 
     @Mappings({
             @Mapping(source = "user.email", target = "email"),
@@ -33,7 +33,7 @@ public interface CustomerMapper {
             @Mapping(source = "user.username", target = "username"),
             @Mapping(source = "user.password", target = "password")
     })
-    CustomerRequest toCustomerRequestFromCustomer(Customer customer);
+    RegistrationRequest toCustomerRequestFromCustomer(Customer customer);
 
     @Mappings({
             @Mapping(source = "user.email", target = "email"),
