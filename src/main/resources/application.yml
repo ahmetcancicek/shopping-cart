@@ -26,5 +26,3 @@ spring:
 jwt:
   secret: "HG80VA3H"
   issuer: "GitHub"
-  access-token-validity-seconds: 5 * 60 * 60
-

@@ -21,8 +21,7 @@ public class JwtTokenUtil {
     @Value("${jwt.issuer")
     private String ISSUER;
 
-    @Value("${jwt.access-token-validity-seconds")
-    private Long ACCESS_TOKEN_VALIDITY_SECONDS;
+    private final long ACCESS_TOKEN_VALIDITY_SECONDS = 5 * 60 * 60;
 
 
     // Get expiration date from jwt token
