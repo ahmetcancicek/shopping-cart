@@ -1,9 +1,9 @@
 package com.shopping.service.impl;
 
-import com.shopping.dto.ProductResponse;
-import com.shopping.exception.NoSuchElementFoundException;
-import com.shopping.mapper.ProductMapper;
-import com.shopping.model.Product;
+import com.shopping.domain.dto.ProductResponse;
+import com.shopping.domain.exception.NoSuchElementFoundException;
+import com.shopping.domain.mapper.ProductMapper;
+import com.shopping.domain.model.Product;
 import com.shopping.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

@@ -1,6 +1,6 @@
 package com.shopping.service.impl;
 
-import com.shopping.model.Order;
+import com.shopping.domain.model.Order;
 import com.shopping.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
