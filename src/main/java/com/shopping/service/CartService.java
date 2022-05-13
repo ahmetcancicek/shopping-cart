@@ -1,7 +1,7 @@
 package com.shopping.service;
 
-import com.shopping.dto.CartItemRequest;
-import com.shopping.dto.CartResponse;
+import com.shopping.domain.dto.CartItemRequest;
+import com.shopping.domain.dto.CartResponse;
 
 public interface CartService {
 

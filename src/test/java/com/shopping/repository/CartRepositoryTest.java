@@ -1,8 +1,8 @@
 package com.shopping.repository;
 
-import com.shopping.model.Cart;
-import com.shopping.model.CartItem;
-import com.shopping.model.Product;
+import com.shopping.domain.model.Cart;
+import com.shopping.domain.model.CartItem;
+import com.shopping.domain.model.Product;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

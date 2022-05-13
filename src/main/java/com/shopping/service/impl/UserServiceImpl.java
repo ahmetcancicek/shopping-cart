@@ -1,8 +1,8 @@
 package com.shopping.service.impl;
 
-import com.shopping.exception.AlreadyExistsElementException;
-import com.shopping.exception.NoSuchElementFoundException;
-import com.shopping.model.User;
+import com.shopping.domain.exception.AlreadyExistsElementException;
+import com.shopping.domain.exception.NoSuchElementFoundException;
+import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.UserService;
 import lombok.AllArgsConstructor;

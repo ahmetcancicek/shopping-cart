@@ -1,10 +1,12 @@
 package com.shopping.service.impl;
 
-import com.shopping.dto.CustomerResponse;
-import com.shopping.exception.AlreadyExistsElementException;
-import com.shopping.exception.NoSuchElementFoundException;
-import com.shopping.mapper.CustomerMapper;
-import com.shopping.model.*;
+import com.shopping.domain.dto.CustomerResponse;
+import com.shopping.domain.model.Cart;
+import com.shopping.domain.model.Customer;
+import com.shopping.domain.model.User;
+import com.shopping.domain.exception.AlreadyExistsElementException;
+import com.shopping.domain.exception.NoSuchElementFoundException;
+import com.shopping.domain.mapper.CustomerMapper;
 import com.shopping.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

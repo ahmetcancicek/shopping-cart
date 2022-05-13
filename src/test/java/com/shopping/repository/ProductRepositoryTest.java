@@ -1,7 +1,6 @@
 package com.shopping.repository;
 
-import com.shopping.model.Customer;
-import com.shopping.model.Product;
+import com.shopping.domain.model.Product;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;

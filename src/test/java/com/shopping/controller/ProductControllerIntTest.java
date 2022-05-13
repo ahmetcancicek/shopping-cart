@@ -1,6 +1,6 @@
 package com.shopping.controller;
 
-import com.shopping.dto.ProductRequest;
+import com.shopping.domain.dto.ProductRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

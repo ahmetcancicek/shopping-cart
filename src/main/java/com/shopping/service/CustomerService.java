@@ -1,9 +1,9 @@
 package com.shopping.service;
 
-import com.shopping.dto.RegistrationRequest;
-import com.shopping.dto.CustomerResponse;
-import com.shopping.model.Customer;
-import com.shopping.model.User;
+import com.shopping.domain.dto.RegistrationRequest;
+import com.shopping.domain.dto.CustomerResponse;
+import com.shopping.domain.model.Customer;
+import com.shopping.domain.model.User;
 
 import java.util.List;
 

@@ -1,8 +1,6 @@
 package com.shopping.service;
 
-import com.shopping.model.User;
-
-import java.util.Optional;
+import com.shopping.domain.model.User;
 
 public interface UserService {
     User findByUsername(String username);

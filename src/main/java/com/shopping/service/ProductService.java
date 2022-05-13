@@ -1,8 +1,8 @@
 package com.shopping.service;
 
-import com.shopping.dto.ProductRequest;
-import com.shopping.dto.ProductResponse;
-import com.shopping.model.Product;
+import com.shopping.domain.dto.ProductRequest;
+import com.shopping.domain.dto.ProductResponse;
+import com.shopping.domain.model.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

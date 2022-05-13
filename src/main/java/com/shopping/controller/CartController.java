@@ -1,7 +1,7 @@
 package com.shopping.controller;
 
-import com.shopping.dto.CartItemRequest;
-import com.shopping.dto.CartResponse;
+import com.shopping.domain.dto.CartItemRequest;
+import com.shopping.domain.dto.CartResponse;
 import com.shopping.service.CartService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;

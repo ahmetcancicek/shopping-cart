@@ -1,16 +1,15 @@
 package com.shopping.service.impl;
 
-import com.shopping.dto.ProductRequest;
-import com.shopping.dto.ProductResponse;
-import com.shopping.exception.AlreadyExistsElementException;
-import com.shopping.exception.NoSuchElementFoundException;
-import com.shopping.mapper.ProductMapper;
-import com.shopping.model.Product;
+import com.shopping.domain.dto.ProductRequest;
+import com.shopping.domain.dto.ProductResponse;
+import com.shopping.domain.exception.AlreadyExistsElementException;
+import com.shopping.domain.exception.NoSuchElementFoundException;
+import com.shopping.domain.mapper.ProductMapper;
+import com.shopping.domain.model.Product;
 import com.shopping.repository.ProductRepository;
 import com.shopping.service.ProductService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

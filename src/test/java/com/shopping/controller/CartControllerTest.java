@@ -1,9 +1,9 @@
 package com.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shopping.dto.CartItemRequest;
-import com.shopping.dto.CartItemResponse;
-import com.shopping.dto.CartResponse;
+import com.shopping.domain.dto.CartItemRequest;
+import com.shopping.domain.dto.CartItemResponse;
+import com.shopping.domain.dto.CartResponse;
 import com.shopping.service.CartService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

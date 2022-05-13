@@ -1,8 +1,8 @@
 package com.shopping.service.impl;
 
-import com.shopping.dto.CartResponse;
-import com.shopping.exception.NoSuchElementFoundException;
-import com.shopping.model.*;
+import com.shopping.domain.dto.CartResponse;
+import com.shopping.domain.model.*;
+import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.repository.CartRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

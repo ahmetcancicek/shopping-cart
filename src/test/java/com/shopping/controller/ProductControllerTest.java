@@ -2,9 +2,9 @@ package com.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.shopping.dto.ProductRequest;
-import com.shopping.dto.ProductResponse;
-import com.shopping.exception.NoSuchElementFoundException;
+import com.shopping.domain.dto.ProductRequest;
+import com.shopping.domain.dto.ProductResponse;
+import com.shopping.domain.exception.NoSuchElementFoundException;
 
 import com.shopping.service.ProductService;
 import org.junit.jupiter.api.Test;

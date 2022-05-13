@@ -1,14 +1,14 @@
 package com.shopping.service.impl;
 
-import com.shopping.dto.CartItemRequest;
-import com.shopping.dto.CartItemResponse;
-import com.shopping.dto.CartResponse;
-import com.shopping.exception.NoSuchElementFoundException;
-import com.shopping.mapper.CartMapper;
-import com.shopping.model.Cart;
-import com.shopping.model.CartItem;
-import com.shopping.model.Customer;
-import com.shopping.model.Product;
+import com.shopping.domain.dto.CartItemRequest;
+import com.shopping.domain.dto.CartItemResponse;
+import com.shopping.domain.dto.CartResponse;
+import com.shopping.domain.exception.NoSuchElementFoundException;
+import com.shopping.domain.mapper.CartMapper;
+import com.shopping.domain.model.Cart;
+import com.shopping.domain.model.CartItem;
+import com.shopping.domain.model.Customer;
+import com.shopping.domain.model.Product;
 import com.shopping.repository.CartRepository;
 import com.shopping.service.CartService;
 import com.shopping.service.CustomerService;
