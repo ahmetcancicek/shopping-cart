@@ -95,7 +95,7 @@ class AuthControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.result.username").value("bruceking"))
+                .andExpect(jsonPath("$.data.username").value("bruceking"))
                 .andDo(print());
     }
 
@@ -135,7 +135,7 @@ class AuthControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.result.username").value("bruceking"))
+                .andExpect(jsonPath("$.data.username").value("bruceking"))
                 .andDo(print());
     }
 

@@ -53,7 +53,7 @@ class AuthControllerIntTest {
                 new ParameterizedTypeReference<ApiResponse<AuthToken>>() {
                 });
 
-        AuthToken user = Objects.requireNonNull(response.getBody()).getResult();
+        AuthToken user = Objects.requireNonNull(response.getBody()).getData();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
@@ -78,7 +78,7 @@ class AuthControllerIntTest {
                 new ParameterizedTypeReference<ApiResponse<AuthToken>>() {
                 });
 
-        AuthToken user = Objects.requireNonNull(response.getBody()).getResult();
+        AuthToken user = Objects.requireNonNull(response.getBody()).getData();
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
