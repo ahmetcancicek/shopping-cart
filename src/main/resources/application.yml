@@ -24,5 +24,4 @@ spring:
 
 
 jwt:
-  secret: "HG80VA3H"
-  issuer: "GitHub"
+  secret: "EXFYH2J3K5N6P7R9SATCVDWEYGZH2J4M5N6Q8R9SBUCVDXFYGZJ3K4M6P7"
