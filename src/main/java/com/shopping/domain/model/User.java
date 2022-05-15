@@ -41,7 +41,7 @@ public class User implements UserDetails {
     @NotEmpty(message = "Password must not be empty")
     private String password;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     Set<Role> roles = new HashSet<>();
 
     @Column(name = "active")
