@@ -13,7 +13,9 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -49,6 +51,15 @@ class CustomerRepositoryTest {
                         .username("username")
                         .password("password")
                         .active(true)
+                        .roles(new HashSet<>(Set.of(
+                                Role.builder()
+                                        .role("USER")
+                                        .build()
+                                ,
+                                Role.builder()
+                                        .role("ADMIN")
+                                        .build()
+                        )))
                         .build())
                 .build();
 
@@ -57,7 +68,8 @@ class CustomerRepositoryTest {
         Customer expectedCustomer = testEntityManager.find(Customer.class, savedCustomer.getId());
 
         // then
-        assertEquals("John", expectedCustomer.getFirstName());
+        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName());
+        assertEquals(customer.getUser().getRoles().size(), expectedCustomer.getUser().getRoles().size());
 
         testEntityManager.remove(customer);
         testEntityManager.flush();
