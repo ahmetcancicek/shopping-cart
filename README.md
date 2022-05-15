@@ -125,7 +125,8 @@ You can send a POST request to register a new user and returns a web token for a
 ```
 Method: POST
 URL: /api/auth/register
-Produces: application/json
+Content-Type: application/json
+Accept: application/json
 ```
 
 #### Parameters :
@@ -161,7 +162,8 @@ You can send a POST request to login a user and returns a web token for authenti
 ```
 Method: POST
 URL: /api/auth/login
-Produces: application/json
+Content-Type: application/json
+Accept: application/json
 ```
 
 #### Parameters :
@@ -171,7 +173,7 @@ Produces: application/json
 | `username`   | `string`  | **Required**. Username of customer    |
 | `password`   | `string`  | **Required**. Password of customer    |
 
-#### Example:
+#### Example :
 
 * Request :
 
@@ -179,6 +181,47 @@ Produces: application/json
 curl -X POST 'localhost:8090/api/auth/login/' \
 -H 'Content-Type: application/json' \
 -d '{"username":"stevekey","password":"KHG279BD"}'
+```
+
+* Response :
+
+```json
+
+```
+
+## 3. Product Management Services
+
+### a. Post a new product
+
+You can send a POST request to create a new product.
+
+```
+Method: POST
+URL: /api/products/
+Content-Type: application/json
+Accept: application/json
+```
+
+#### Parameters :
+
+| Parameter      | Type     | Description                              |
+|:---------------|:---------|:-----------------------------------------|
+| `serialNumber` | `string` | **Required**. Serial number of product   |
+| `name`         | `string` | **Required**. Name of product            |
+| `description`  | `string` | **Not Required**. Description of product |
+| `price`        | `number` | **Required**. Price of product           |
+| `quantity`     | `number` | **Required**. Quantity of product        |
+
+#### Example :
+
+* Request :
+
+```curl
+curl http://localhost:8090/api/products \
+   -H "Accept: application/json" \
+   -H "Content-Type: application/json" \
+   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI1NDQ3NzIsImlhdCI6MTY1MjUyNjc3Miwic3ViIjoid2lsbGNsb2NrIn0.vMYTOBg99ViCTW8APMkHU4ezWMSjA2jnq05kABjqbOU" \
+   -d '{"serialNumber":"KAV319","name":"iPhone 14","description":"Apple iPhone 14","price":1000,"quantity":100}' 
 ```
 
 * Response :
