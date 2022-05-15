@@ -3,6 +3,7 @@ package com.shopping.service.impl;
 import com.shopping.domain.dto.CustomerResponse;
 import com.shopping.domain.model.Cart;
 import com.shopping.domain.model.Customer;
+import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.domain.exception.AlreadyExistsElementException;
 import com.shopping.domain.exception.NoSuchElementFoundException;
@@ -38,6 +39,9 @@ class CustomerServiceImplTest {
     @Mock
     private BCryptPasswordEncoder passwordEncoder;
 
+    @Mock
+    private RoleServiceImpl roleService;
+
     @Test
     public void it_should_save_customer() {
         // given
@@ -54,7 +58,12 @@ class CustomerServiceImplTest {
                         .build())
                 .build();
 
+        Role role = Role.builder()
+                .name("USER")
+                .build();
+
         given(customerRepository.save(any())).willReturn(customer);
+        given(roleService.findByName(any())).willReturn(role);
 
         // when
         CustomerResponse savedCustomer = customerService.save(CustomerMapper.INSTANCE.toCustomerRequestFromCustomer(customer));

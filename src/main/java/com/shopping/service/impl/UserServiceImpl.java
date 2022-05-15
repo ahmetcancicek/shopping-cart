@@ -2,9 +2,9 @@ package com.shopping.service.impl;
 
 import com.shopping.domain.exception.AlreadyExistsElementException;
 import com.shopping.domain.exception.NoSuchElementFoundException;
-import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
+import com.shopping.service.RoleService;
 import com.shopping.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -26,6 +26,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final RoleService roleService;
+
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username).orElseThrow(() -> {
@@ -45,13 +47,13 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     @Override
     public User save(User user) {
         isExisted(user);
-        //
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
-        // TODO: Fix
-        user.setRoles(new HashSet<>(Set.of(Role.builder().name("USER").build())));
+
+        user.setRoles(new HashSet<>(Set.of(roleService.findByName("USER"))));
+
         User savedUser = userRepository.save(user);
-        //
         log.info("new user has been created with ID: {}", user.getId());
         return savedUser;
     }

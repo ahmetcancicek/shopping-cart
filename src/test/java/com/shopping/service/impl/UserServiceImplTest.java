@@ -5,6 +5,7 @@ import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
+import com.shopping.service.RoleService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +34,9 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
 
     @Mock
+    private RoleService roleService;
+
+    @Mock
     private BCryptPasswordEncoder passwordEncoder;
 
     @Test
@@ -45,7 +49,13 @@ class UserServiceImplTest {
                 .email("email@email.com")
                 .active(true)
                 .build();
-        when(userRepository.save(any(User.class))).thenReturn(user);
+
+        Role role = Role.builder()
+                .name("USER")
+                .build();
+
+        given(userRepository.save(any(User.class))).willReturn(user);
+        given(roleService.findByName(any())).willReturn(role);
 
         // when
         User savedUser = userService.save(user);
@@ -54,6 +64,7 @@ class UserServiceImplTest {
         verify(userRepository, times(1)).save(any());
         assertNotNull(savedUser, "Returned must not be null");
         assertEquals(savedUser.getEmail(), user.getEmail(), "Email must be equal");
+        assertEquals(1, savedUser.getRoles().size());
 
     }
 

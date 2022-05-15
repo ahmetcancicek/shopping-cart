@@ -11,6 +11,7 @@ import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.CustomerRepository;
 import com.shopping.service.CustomerService;
+import com.shopping.service.RoleService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,6 +30,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final RoleService roleService;
 
     @Override
     public List<CustomerResponse> findAll() {
@@ -47,8 +49,8 @@ public class CustomerServiceImpl implements CustomerService {
         // Password encode
         customer.getUser().setPassword(passwordEncoder.encode(customer.getUser().getPassword()));
         customer.getUser().setActive(true);
-        // TODO: Fix
-        customer.getUser().setRoles(new HashSet<>(Set.of(Role.builder().name("USER").build())));
+
+        customer.getUser().setRoles(new HashSet<>(Set.of(roleService.findByName("USER"))));
 
         Customer savedCustomer = customerRepository.save(customer);
         log.info("new customer has been created with username: {}", savedCustomer.getUser().getUsername());
