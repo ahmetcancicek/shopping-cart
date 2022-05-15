@@ -2,6 +2,7 @@ package com.shopping.service.impl;
 
 import com.shopping.domain.exception.AlreadyExistsElementException;
 import com.shopping.domain.exception.NoSuchElementFoundException;
+import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.UserService;
@@ -47,6 +48,8 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         //
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
+        // TODO: Fix
+        user.setRoles(new HashSet<>(Set.of(Role.builder().role("USER").build())));
         User savedUser = userRepository.save(user);
         //
         log.info("new user has been created with ID: {}", user.getId());

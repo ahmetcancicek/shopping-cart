@@ -66,8 +66,6 @@ class AuthControllerIT extends BaseIT {
         assertEquals("success", response.getBody().getMessage(), "It must be success");
         assertEquals(request.getUsername(), user.getUsername(), "Username must be equal");
         assertNotNull(user.getToken(), "Token must not be null");
-
-
     }
 
     @Test

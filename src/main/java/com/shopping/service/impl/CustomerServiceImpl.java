@@ -7,6 +7,7 @@ import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.domain.mapper.CustomerMapper;
 import com.shopping.domain.model.Cart;
 import com.shopping.domain.model.Customer;
+import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.CustomerRepository;
 import com.shopping.service.CustomerService;
@@ -17,7 +18,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @AllArgsConstructor
@@ -44,6 +47,8 @@ public class CustomerServiceImpl implements CustomerService {
         // Password encode
         customer.getUser().setPassword(passwordEncoder.encode(customer.getUser().getPassword()));
         customer.getUser().setActive(true);
+        // TODO: Fix
+        customer.getUser().setRoles(new HashSet<>(Set.of(Role.builder().role("USER").build())));
 
         Customer savedCustomer = customerRepository.save(customer);
         log.info("new customer has been created with username: {}", savedCustomer.getUser().getUsername());

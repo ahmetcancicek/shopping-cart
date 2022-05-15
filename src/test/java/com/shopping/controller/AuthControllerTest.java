@@ -1,13 +1,11 @@
 package com.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.shopping.config.JwtTokenUtil;
 import com.shopping.domain.dto.AuthRequest;
 import com.shopping.domain.dto.RegistrationRequest;
 import com.shopping.domain.dto.CustomerResponse;
 import com.shopping.domain.exception.AlreadyExistsElementException;
 import com.shopping.domain.model.User;
-import com.shopping.repository.CustomerRepository;
 import com.shopping.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +16,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;

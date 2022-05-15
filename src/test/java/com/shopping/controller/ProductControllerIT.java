@@ -1,13 +1,13 @@
 package com.shopping.controller;
 
 import com.shopping.domain.dto.*;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
+
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -19,9 +19,18 @@ public class ProductControllerIT extends BaseIT {
     private TestRestTemplate restTemplate;
     private final HttpHeaders headers = new HttpHeaders();
 
+    @Override
+    @BeforeEach
+    void setUp() {
+        super.setUp();
+
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + getToken());
+    }
+
     @Test
     public void it_should_add_product() {
-        // when
+        // given
         ProductRequest productRequest = ProductRequest.builder()
                 .serialNumber("Y5N3DJ")
                 .name("Egg")
@@ -30,9 +39,7 @@ public class ProductControllerIT extends BaseIT {
                 .quantity(10)
                 .build();
 
-        headers.add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + getAccessToken());
-
+        // when
         ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate
                 .exchange("/api/products",
                         HttpMethod.POST,
@@ -51,9 +58,6 @@ public class ProductControllerIT extends BaseIT {
     @Test
     public void it_should_delete_product_of_that_serialNumber() {
         // when
-        headers.add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + getAccessToken());
-
         ResponseEntity<Void> response = restTemplate.exchange("/api/products/{serialNumber}",
                 HttpMethod.DELETE,
                 new HttpEntity<>(null, headers),
@@ -67,9 +71,6 @@ public class ProductControllerIT extends BaseIT {
     @Test
     public void it_should_return_bad_request_when_delete_product_of_that_serialNumber_does_not_exist() {
         // when
-        headers.add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + getAccessToken());
-
         ResponseEntity<ApiResponse<String>> response = restTemplate.exchange("/api/products/{serialNumber}",
                 HttpMethod.DELETE,
                 new HttpEntity<>(null, headers),
@@ -90,7 +91,7 @@ public class ProductControllerIT extends BaseIT {
                         HttpEntity.EMPTY,
                         new ParameterizedTypeReference<ApiResponse<ProductResponse>>() {
                         },
-                        "PADMA232");
+                        "KMNA239");
 
         ProductResponse productResponse = response.getBody().getData();
 
@@ -138,9 +139,6 @@ public class ProductControllerIT extends BaseIT {
     @Test
     public void it_should_update_product_of_that_serialNumber() {
         // given
-        headers.add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + getAccessToken());
-
         ProductRequest productRequest = ProductRequest.builder()
                 .serialNumber("KMNA239")
                 .name("iPhone 13 PRO")
@@ -163,16 +161,5 @@ public class ProductControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
         assertNotNull(productRequest, "Returned must not be null");
         assertEquals(productRequest.quantity, productResponse.getQuantity(), "Quantity must be equal");
-    }
-
-    @DynamicPropertySource
-    public static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.sql.init.mode", () -> " always");
-        registry.add("spring.jpa.defer-datasource-initialization", () -> "true");
-        registry.add("spring.jpa.hibernate.dll-auto", () -> "create-drop");
-        registry.add("spring.jpa.properties.hibernate.dialect", () -> "org.hibernate.dialect.MySQL8Dialect");
-        registry.add("spring.datasource.url", mysql::getJdbcUrl);
-        registry.add("spring.datasource.username", mysql::getUsername);
-        registry.add("spring.datasource.password", mysql::getPassword);
     }
 }
