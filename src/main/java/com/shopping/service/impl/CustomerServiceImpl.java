@@ -48,7 +48,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.getUser().setPassword(passwordEncoder.encode(customer.getUser().getPassword()));
         customer.getUser().setActive(true);
         // TODO: Fix
-        customer.getUser().setRoles(new HashSet<>(Set.of(Role.builder().role("USER").build())));
+        customer.getUser().setRoles(new HashSet<>(Set.of(Role.builder().name("USER").build())));
 
         Customer savedCustomer = customerRepository.save(customer);
         log.info("new customer has been created with username: {}", savedCustomer.getUser().getUsername());

@@ -21,10 +21,10 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "role")
     @NotEmpty(message = "Role name must not be empty")
-    private String role;
+    private String name;
 
     @Override
     public String getAuthority() {
-        return role;
+        return name;
     }
 }

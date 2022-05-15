@@ -49,7 +49,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setActive(true);
         // TODO: Fix
-        user.setRoles(new HashSet<>(Set.of(Role.builder().role("USER").build())));
+        user.setRoles(new HashSet<>(Set.of(Role.builder().name("USER").build())));
         User savedUser = userRepository.save(user);
         //
         log.info("new user has been created with ID: {}", user.getId());
@@ -90,7 +90,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private Set getAuthority(User user) {
         Set authorities = new HashSet();
         user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
         });
         return authorities;
     }

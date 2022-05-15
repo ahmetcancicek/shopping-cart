@@ -53,11 +53,11 @@ class CustomerRepositoryTest {
                         .active(true)
                         .roles(new HashSet<>(Set.of(
                                 Role.builder()
-                                        .role("USER")
+                                        .name("USER")
                                         .build()
                                 ,
                                 Role.builder()
-                                        .role("ADMIN")
+                                        .name("ADMIN")
                                         .build()
                         )))
                         .build())

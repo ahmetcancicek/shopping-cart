@@ -108,8 +108,8 @@ class UserServiceImplTest {
                 .email("email@email.com")
                 .active(true)
                 .roles(new HashSet<>(Set.of(
-                        Role.builder().role("ADMIN").build(),
-                        Role.builder().role("USER").build()
+                        Role.builder().name("ADMIN").build(),
+                        Role.builder().name("USER").build()
                 )))
                 .build();
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
