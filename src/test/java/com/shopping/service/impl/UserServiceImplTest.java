@@ -79,7 +79,7 @@ class UserServiceImplTest {
                 .active(true)
                 .build();
 
-        when(userRepository.findById(1L)).thenReturn(Optional.of(user));
+        given(userRepository.findById(1L)).willReturn(Optional.of(user));
 
         // when
         userService.deleteById(1L);
@@ -145,7 +145,7 @@ class UserServiceImplTest {
                 .email("email@email.com")
                 .active(true)
                 .build();
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+        given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 
         // when
         User expectedUser = userService.findByEmail(user.getEmail());
@@ -166,7 +166,7 @@ class UserServiceImplTest {
                 .email("email@email.com")
                 .active(true)
                 .build();
-        when(userRepository.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+        given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 
         // when
         Throwable throwable = catchThrowable(() -> {
@@ -187,7 +187,7 @@ class UserServiceImplTest {
                 .email("email@email.com")
                 .active(true)
                 .build();
-        when(userRepository.findByUsername(user.getUsername())).thenReturn(Optional.of(user));
+        given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
         // when
         Throwable throwable = catchThrowable(() -> {
