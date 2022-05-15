@@ -311,36 +311,6 @@ class ProductServiceImplTest {
 
     @Test
     public void it_should_return_list_of_products_with_pageable() {
-        // TODO: Fix findAll test for product
-//        // given
-//        List<Product> products = new ArrayList<>();
-//        products.add(Product.builder()
-//                .id(1L)
-//                .name("Product 1")
-//                .description("Description")
-//                .price(BigDecimal.valueOf(10.0))
-//                .quantity(10).build());
-//
-//        products.add(Product.builder()
-//                .id(2L)
-//                .name("Product 2")
-//                .description("Description")
-//                .price(BigDecimal.valueOf(5.0))
-//                .quantity(2)
-//                .build());
-//
-//        Page<Product> productPage = new PageImpl<>(
-//                products.subList(0, 2),
-//                PageRequest.of(0, 2),
-//                products.size());
-//        given(productRepository.findAll(any(Pageable.class))).willReturn(productPage);
-//
-//        // when
-//        Page<Product> expectedProducts = productService.findAll(PageRequest.of(0, 2));
-//
-//        // then
-//        verify(productRepository, times(1)).findAll(PageRequest.of(0, 2));
-//        assertNotNull(expectedProducts, "List must not be null");
-//        assertEquals(2, expectedProducts.getTotalElements(), "Total element must be equal");
+        // TODO: Write findAll test for product
     }
 }
