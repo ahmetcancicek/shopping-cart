@@ -12,8 +12,8 @@ DELETE FROM customer WHERE  ID=2000;
 DELETE FROM users WHERE ID=2000;
 
 ----------------------------------------- ## DELETE FOR ROLE ## --------------------------------
-DELETE FROM role WHERE role="USER";
-DELETE FROM role WHERE role="ADMIN";
+-- DELETE FROM role WHERE name="USER";
+-- DELETE FROM role WHERE name="ADMIN";
 
 ----------------------------------------- ## DELETED FOR PRODUCT ## --------------------------------
 DELETE FROM product WHERE ID=3000;
