@@ -7,13 +7,15 @@ import com.shopping.repository.UserRepository;
 import com.shopping.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @AllArgsConstructor
@@ -75,7 +77,18 @@ public class UserServiceImpl implements UserService, UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> byUsername = userRepository.findByUsername(username);
-        return byUsername.orElseThrow(() -> new UsernameNotFoundException("Username does not exist"));
+        User user = userRepository.findByUsername(username).orElseThrow(() -> {
+            return new NoSuchElementFoundException(String.format("user does not exist with username: %s", username));
+        });
+        user.setRoles(getAuthority(user));
+        return user;
+    }
+
+    private Set getAuthority(User user) {
+        Set authorities = new HashSet();
+        user.getRoles().forEach(role -> {
+            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getRole()));
+        });
+        return authorities;
     }
 }

@@ -2,6 +2,7 @@ package com.shopping.service.impl;
 
 import com.shopping.domain.exception.AlreadyExistsElementException;
 import com.shopping.domain.exception.NoSuchElementFoundException;
+import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -9,9 +10,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -92,6 +96,32 @@ class UserServiceImplTest {
         verify(userRepository, times(1)).findByUsername(any());
         assertNotNull(expectedUser, "Returned must not be null");
         assertEquals(expectedUser.getUsername(), user.getUsername(), "Username must be equal");
+    }
+
+    @Test
+    public void it_should_return_user_of_that_username_when_called_by_loadUserByUsername() {
+        // given
+        User user = User.builder()
+                .id(1L)
+                .username("username")
+                .password("password")
+                .email("email@email.com")
+                .active(true)
+                .roles(new HashSet<>(Set.of(
+                        Role.builder().role("ADMIN").build(),
+                        Role.builder().role("USER").build()
+                )))
+                .build();
+        given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
+
+        // when
+        UserDetails expectedUser = userService.loadUserByUsername(user.getUsername());
+
+        // then
+        verify(userRepository, times(1)).findByUsername(any());
+        assertNotNull(expectedUser, "Returned must not be null");
+        assertEquals(expectedUser.getUsername(), user.getUsername(), "Username must be equal");
+        assertEquals(user.getRoles().size(), expectedUser.getAuthorities().size(), "Role size must be equal");
     }
 
     @Test
