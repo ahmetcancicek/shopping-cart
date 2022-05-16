@@ -35,10 +35,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
                         .active(true)
                         .roles(new HashSet<>(Set.of(
                                 Role.builder()
+                                        .id(1)
                                         .name("USER")
                                         .build()
                                 ,
                                 Role.builder()
+                                        .id(2)
                                         .name("ADMIN")
                                         .build()
                         )))

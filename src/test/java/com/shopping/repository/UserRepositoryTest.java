@@ -1,12 +1,15 @@
 package com.shopping.repository;
 
+import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
@@ -27,6 +30,17 @@ class UserRepositoryTest extends BaseRepositoryTest {
                 .username("username")
                 .password("password")
                 .email("email@email.com")
+                .roles(new HashSet<>(Set.of(
+                        Role.builder()
+                                .id(1)
+                                .name("USER")
+                                .build()
+                        ,
+                        Role.builder()
+                                .id(2)
+                                .name("ADMIN")
+                                .build()
+                )))
                 .active(true)
                 .build();
 
