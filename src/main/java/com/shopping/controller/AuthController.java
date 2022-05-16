@@ -1,6 +1,6 @@
 package com.shopping.controller;
 
-import com.shopping.config.JwtTokenUtil;
+import com.shopping.config.jwt.JwtTokenUtil;
 import com.shopping.domain.dto.*;
 import com.shopping.domain.model.User;
 import com.shopping.service.CustomerService;

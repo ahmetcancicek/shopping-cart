@@ -1,6 +1,6 @@
 package com.shopping.controller;
 
-import com.shopping.config.JwtTokenUtil;
+import com.shopping.config.jwt.JwtTokenUtil;
 import com.shopping.repository.CustomerRepository;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UserDetailsService;

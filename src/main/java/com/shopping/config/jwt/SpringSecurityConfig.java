@@ -1,4 +1,4 @@
-package com.shopping.config;
+package com.shopping.config.jwt;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;

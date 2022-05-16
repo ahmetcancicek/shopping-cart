@@ -1,6 +1,7 @@
 package com.shopping.config;
 
 
+import com.shopping.config.jwt.JwtTokenUtil;
 import io.jsonwebtoken.security.SignatureException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

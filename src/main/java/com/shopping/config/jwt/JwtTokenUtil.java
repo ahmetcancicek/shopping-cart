@@ -1,4 +1,4 @@
-package com.shopping.config;
+package com.shopping.config.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
