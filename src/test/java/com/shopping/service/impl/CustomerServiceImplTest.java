@@ -70,8 +70,10 @@ class CustomerServiceImplTest {
 
         // then
         verify(customerRepository, times(1)).save(any());
-        assertNotNull(savedCustomer, "Entity must not be null");
+        assertNotNull(savedCustomer, "Returned must not be null");
         assertEquals(customer.getFirstName(), savedCustomer.getFirstName(), "First name must be equal");
+        assertEquals(customer.getLastName(), savedCustomer.getLastName(), "Last name must be equal");
+        assertEquals(customer.getUser().getEmail(), savedCustomer.getEmail(), "Email must be equal");
     }
 
     @Test
@@ -104,7 +106,7 @@ class CustomerServiceImplTest {
         Customer customer = Customer.builder()
                 .id(1L)
                 .firstName("Bill")
-                .lastName("Doe")
+                .lastName("King")
                 .user(User.builder()
                         .email("billking@email.com")
                         .username("billking")
@@ -233,7 +235,10 @@ class CustomerServiceImplTest {
         verify(customerRepository, times(1)).findAll();
         assertNotNull(expectedCustomers, "List must not be null");
         assertEquals("Bill", expectedCustomers.get(0).getFirstName(), "First Name must be equal");
+        assertEquals("King", expectedCustomers.get(0).getLastName(), "Last Name must be equal");
         assertEquals("July", expectedCustomers.get(1).getFirstName(), "First Name must be equal");
+        assertEquals("Eric", expectedCustomers.get(1).getLastName(), "Last Name must be equal");
+
     }
 
     @Test
@@ -259,8 +264,12 @@ class CustomerServiceImplTest {
 
         // then
         verify(customerRepository, times(1)).findById(any());
-        assertNotNull(expectedCustomer, "Entity must not be null");
+        assertNotNull(expectedCustomer, "Returned must not be null");
         assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname must be equal");
+        assertEquals(customer.getLastName(), expectedCustomer.getLastName(), "Last name must be equal");
+        assertEquals(customer.getUser().getEmail(), expectedCustomer.getEmail(), "Email must be equal");
+        assertEquals(customer.getUser().getUsername(), expectedCustomer.getUsername(), "Username must be equal");
+
     }
 
     @Test
@@ -287,8 +296,11 @@ class CustomerServiceImplTest {
 
         // then
         verify(customerRepository, times(1)).findByUser(any());
-        assertNotNull(expectedCustomer, "Entity must not be null");
-        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname mut be equal");
+        assertNotNull(expectedCustomer, "Returned must not be null");
+        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname must be equal");
+        assertEquals(customer.getLastName(), expectedCustomer.getLastName(), "Last name must be equal");
+        assertEquals(customer.getUser().getEmail(), expectedCustomer.getEmail(), "Email must be equal");
+        assertEquals(customer.getUser().getUsername(), expectedCustomer.getUsername(), "Username must be equal");
     }
 
     @Test
@@ -315,7 +327,11 @@ class CustomerServiceImplTest {
 
         // then
         verify(customerRepository, times(1)).findByUser_Email(any());
+        assertNotNull(expectedCustomer, "Returned must not be null");
+        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname must be equal");
+        assertEquals(customer.getLastName(), expectedCustomer.getLastName(), "Last name must be equal");
         assertEquals(customer.getUser().getEmail(), expectedCustomer.getEmail(), "Email must be equal");
+        assertEquals(customer.getUser().getUsername(), expectedCustomer.getUsername(), "Username must be equal");
     }
 
     @Test
@@ -342,6 +358,10 @@ class CustomerServiceImplTest {
 
         // then
         verify(customerRepository, times(1)).findByUser_Username(any());
+        assertNotNull(expectedCustomer, "Returned must not be null");
+        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname must be equal");
+        assertEquals(customer.getLastName(), expectedCustomer.getLastName(), "Last name must be equal");
+        assertEquals(customer.getUser().getEmail(), expectedCustomer.getEmail(), "Email must be equal");
         assertEquals(customer.getUser().getUsername(), expectedCustomer.getUsername(), "Username must be equal");
     }
 
@@ -369,7 +389,9 @@ class CustomerServiceImplTest {
 
         // then
         verify(customerRepository, times(1)).findByUser_Username(any());
-        assertEquals(customer.getUser().getUsername(), expectedCustomer.getUser().getUsername(), "Username must be equal");
+        assertNotNull(expectedCustomer, "Returned must not be null");
+        assertEquals(customer.getFirstName(), expectedCustomer.getFirstName(), "Firstname must be equal");
+        assertEquals(customer.getLastName(), expectedCustomer.getLastName(), "Last name must be equal");
+        assertEquals(customer.getUser(), expectedCustomer.getUser(), "Email must be equal");
     }
-
 }
