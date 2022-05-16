@@ -150,6 +150,9 @@ class UserRepositoryTest extends BaseRepositoryTest {
         });
 
         assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
+
+        testEntityManager.remove(userOne);
+        testEntityManager.flush();
     }
 
     @Test
@@ -162,15 +165,13 @@ class UserRepositoryTest extends BaseRepositoryTest {
                 .build();
         testEntityManager.persistAndFlush(userOne);
 
-        User userTwo = User.builder()
-                .username("username")
-                .password("passwordTwo")
-                .email("emailTwo@email.com")
-                .active(true)
-                .build();
-
         Throwable throwable = catchThrowable(() -> {
-            userRepository.saveAndFlush(userTwo);
+            userRepository.saveAndFlush(User.builder()
+                    .username("username")
+                    .password("passwordTwo")
+                    .email("emailTwo@email.com")
+                    .active(true)
+                    .build());
         });
 
         assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
