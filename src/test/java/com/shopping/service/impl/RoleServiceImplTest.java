@@ -28,7 +28,6 @@ public class RoleServiceImplTest {
     @InjectMocks
     private RoleServiceImpl roleService;
 
-
     @Test
     public void it_should_save_role() {
         // given
@@ -37,7 +36,7 @@ public class RoleServiceImplTest {
                 .name("USER")
                 .build();
 
-        given(roleService.save(any())).willReturn(role);
+        given(roleRepository.save(any())).willReturn(role);
 
         // when
         Role savedRole = roleService.save(role);

@@ -44,9 +44,9 @@ class UserServiceImplTest {
         // given
         User user = User.builder()
                 .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
 
@@ -63,8 +63,10 @@ class UserServiceImplTest {
         // then
         verify(userRepository, times(1)).save(any());
         assertNotNull(savedUser, "Returned must not be null");
-        assertEquals(savedUser.getEmail(), user.getEmail(), "Email must be equal");
+        assertEquals(user.getEmail(), savedUser.getEmail(), "Email must be equal");
         assertEquals(1, savedUser.getRoles().size());
+        assertEquals(user.isActive(), savedUser.isActive(), "Active must be equal");
+        assertEquals(user.getPassword(), savedUser.getPassword(), "Password must be equal");
 
     }
 
@@ -73,9 +75,9 @@ class UserServiceImplTest {
         // given
         User user = User.builder()
                 .id(1L)
-                .email("email@email.com")
-                .username("username")
-                .password("password")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
 
@@ -93,10 +95,14 @@ class UserServiceImplTest {
         // given
         User user = User.builder()
                 .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
+                .roles(Set.of(Role.builder()
+                        .id(1)
+                        .name("USEr")
+                        .build()))
                 .build();
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
 
@@ -106,7 +112,10 @@ class UserServiceImplTest {
         // then
         verify(userRepository, times(1)).findByUsername(any());
         assertNotNull(expectedUser, "Returned must not be null");
-        assertEquals(expectedUser.getUsername(), user.getUsername(), "Username must be equal");
+        assertEquals(user.getEmail(), expectedUser.getEmail(), "Email must be equal");
+        assertEquals(1, expectedUser.getRoles().size());
+        assertEquals(user.isActive(), expectedUser.isActive(), "Active must be equal");
+        assertEquals(user.getPassword(), expectedUser.getPassword(), "Password must be equal");
     }
 
     @Test
@@ -114,9 +123,9 @@ class UserServiceImplTest {
         // given
         User user = User.builder()
                 .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .roles(new HashSet<>(Set.of(
                         Role.builder().name("ADMIN").build(),
@@ -133,6 +142,7 @@ class UserServiceImplTest {
         assertNotNull(expectedUser, "Returned must not be null");
         assertEquals(expectedUser.getUsername(), user.getUsername(), "Username must be equal");
         assertEquals(user.getRoles().size(), expectedUser.getAuthorities().size(), "Role size must be equal");
+        assertEquals(user.getPassword(), expectedUser.getPassword(), "Password must be equal");
     }
 
     @Test
@@ -140,10 +150,11 @@ class UserServiceImplTest {
         // given
         User user = User.builder()
                 .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
+                .roles(Set.of(Role.builder().name("USER").build()))
                 .build();
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 
@@ -153,7 +164,10 @@ class UserServiceImplTest {
         // then
         verify(userRepository, times(1)).findByEmail(any());
         assertNotNull(expectedUser, "Returned must not be null");
-        assertEquals(expectedUser.getEmail(), user.getEmail(), "Email must be equal");
+        assertEquals(user.getEmail(), expectedUser.getEmail(), "Email must be equal");
+        assertEquals(1, expectedUser.getRoles().size());
+        assertEquals(user.isActive(), expectedUser.isActive(), "Active must be equal");
+        assertEquals(user.getPassword(), expectedUser.getPassword(), "Password must be equal");
     }
 
     @Test
@@ -161,9 +175,9 @@ class UserServiceImplTest {
         // given
         User user = User.builder()
                 .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
@@ -182,9 +196,9 @@ class UserServiceImplTest {
         // given
         User user = User.builder()
                 .id(1L)
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
