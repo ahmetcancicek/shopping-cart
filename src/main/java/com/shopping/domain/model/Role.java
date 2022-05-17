@@ -12,6 +12,7 @@ import javax.validation.constraints.NotEmpty;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode(of = {"id", "name"})
 public class Role implements GrantedAuthority {
 
     @Id
@@ -19,7 +20,7 @@ public class Role implements GrantedAuthority {
     @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name", unique = true, nullable = false)
     @NotEmpty(message = "Role name must not be empty")
     private String name;
 
