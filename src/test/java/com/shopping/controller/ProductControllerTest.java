@@ -2,13 +2,10 @@ package com.shopping.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import com.shopping.config.JwtTokenUtil;
 import com.shopping.domain.dto.ProductRequest;
 import com.shopping.domain.dto.ProductResponse;
 import com.shopping.domain.exception.NoSuchElementFoundException;
 
-import com.shopping.domain.mapper.ProductMapper;
-import com.shopping.repository.CustomerRepository;
 import com.shopping.service.ProductService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -35,7 +32,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(ProductController.class)
 @AutoConfigureMockMvc
-@WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
 public class ProductControllerTest extends BaseControllerTest {
 
     @Autowired
@@ -104,6 +100,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
     }
 
+    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
     @Test
     public void it_should_add_product() throws Exception {
         // given
@@ -122,6 +119,7 @@ public class ProductControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()));
     }
 
+    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
     @Test
     public void it_should_delete_product() throws Exception {
         // given
@@ -137,6 +135,7 @@ public class ProductControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
     @Test
     public void it_should_return_bad_request_when_delete_product_of_that_serialNumber_does_not_exist() throws Exception {
         // given
@@ -199,6 +198,7 @@ public class ProductControllerTest extends BaseControllerTest {
                 .andDo(print());
     }
 
+    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
     @Test
     public void it_should_update_product_of_that_serialNumber() throws Exception {
         // given

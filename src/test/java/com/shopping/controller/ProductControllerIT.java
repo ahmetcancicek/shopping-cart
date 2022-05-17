@@ -91,7 +91,7 @@ public class ProductControllerIT extends BaseIT {
                         HttpEntity.EMPTY,
                         new ParameterizedTypeReference<ApiResponse<ProductResponse>>() {
                         },
-                        "KMNA239");
+                        "PADMA232");
 
         ProductResponse productResponse = response.getBody().getData();
 
