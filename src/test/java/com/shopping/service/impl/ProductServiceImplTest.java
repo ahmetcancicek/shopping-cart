@@ -67,6 +67,11 @@ class ProductServiceImplTest {
         verify(productRepository, times(1)).save(any());
         assertNotNull(savedProduct, "Returned must not be null");
         assertEquals(product.getSerialNumber(), savedProduct.getSerialNumber(), "Serial number must be equal");
+        assertEquals(product.getName(), savedProduct.getName(), "Name must be equal");
+        assertEquals(product.getDescription(), savedProduct.getDescription(), "Description must be equal");
+        assertEquals(product.getPrice(), savedProduct.getPrice(), "Price must be equal");
+        assertEquals(product.getQuantity(), savedProduct.getQuantity(), "Quantity must be equal");
+
     }
 
 
@@ -92,6 +97,10 @@ class ProductServiceImplTest {
         verify(productRepository, times(1)).save(any());
         assertNotNull(savedProduct, "Returned must not be null");
         assertEquals(product.getSerialNumber(), savedProduct.getSerialNumber(), "Serial number must be equal");
+        assertEquals(product.getName(), savedProduct.getName(), "Name must be equal");
+        assertEquals(product.getDescription(), savedProduct.getDescription(), "Description must be equal");
+        assertEquals(product.getPrice(), savedProduct.getPrice(), "Price must be equal");
+        assertEquals(product.getQuantity(), savedProduct.getQuantity(), "Quantity must be equal");
     }
 
     @Test
@@ -122,8 +131,13 @@ class ProductServiceImplTest {
         ProductResponse updatedProduct = productService.update(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
 
         // then
+        verify(productRepository, times(1)).save(any());
         assertNotNull(updatedProduct, "Returned must not be null");
         assertEquals(product.getSerialNumber(), updatedProduct.getSerialNumber(), "Serial number must be equal");
+        assertEquals(product.getName(), updatedProduct.getName(), "Name must be equal");
+        assertEquals(product.getDescription(), updatedProduct.getDescription(), "Description must be equal");
+        assertEquals(product.getPrice(), updatedProduct.getPrice(), "Price must be equal");
+        assertNotEquals(product.getQuantity(), updatedProduct.getQuantity(), "Quantity must be equal");
     }
 
     @Test
@@ -170,6 +184,10 @@ class ProductServiceImplTest {
         verify(productRepository, times(1)).findById(any());
         assertNotNull(expectedProduct, "Returned must not be null");
         assertEquals(product.getSerialNumber(), expectedProduct.getSerialNumber(), "Serial number must be equal");
+        assertEquals(product.getName(), expectedProduct.getName(), "Name must be equal");
+        assertEquals(product.getDescription(), expectedProduct.getDescription(), "Description must be equal");
+        assertEquals(product.getPrice(), expectedProduct.getPrice(), "Price must be equal");
+        assertEquals(product.getQuantity(), expectedProduct.getQuantity(), "Quantity must be equal");
     }
 
     @Test
@@ -187,12 +205,16 @@ class ProductServiceImplTest {
         given(productRepository.findBySerialNumber(any())).willReturn(Optional.of(product));
 
         // when
-        ProductResponse expectedProductPayload = productService.findBySerialNumber(product.getSerialNumber());
+        ProductResponse expectedProduct = productService.findBySerialNumber(product.getSerialNumber());
 
         // then
         verify(productRepository, times(1)).findBySerialNumber(any());
-        assertNotNull(expectedProductPayload, "Returned must not be null");
-        assertEquals(product.getSerialNumber(), expectedProductPayload.getSerialNumber(), "Serial number must be equal");
+        assertNotNull(expectedProduct, "Returned must not be null");
+        assertEquals(product.getSerialNumber(), expectedProduct.getSerialNumber(), "Serial number must be equal");
+        assertEquals(product.getName(), expectedProduct.getName(), "Name must be equal");
+        assertEquals(product.getDescription(), expectedProduct.getDescription(), "Description must be equal");
+        assertEquals(product.getPrice(), expectedProduct.getPrice(), "Price must be equal");
+        assertEquals(product.getQuantity(), expectedProduct.getQuantity(), "Quantity must be equal");
     }
 
     @Test
@@ -216,6 +238,10 @@ class ProductServiceImplTest {
         verify(productRepository, times(1)).findBySerialNumber(any());
         assertNotNull(expectedProduct, "Returned must not be null");
         assertEquals(product.getSerialNumber(), expectedProduct.getSerialNumber(), "Serial number must be equal");
+        assertEquals(product.getName(), expectedProduct.getName(), "Name must be equal");
+        assertEquals(product.getDescription(), expectedProduct.getDescription(), "Description must be equal");
+        assertEquals(product.getPrice(), expectedProduct.getPrice(), "Price must be equal");
+        assertEquals(product.getQuantity(), expectedProduct.getQuantity(), "Quantity must be equal");
 
     }
 
@@ -306,7 +332,11 @@ class ProductServiceImplTest {
         // then
         verify(productRepository, times(1)).findAll();
         assertNotNull(expectedProducts, "List must not be null");
-        assertEquals("Egg", expectedProducts.get(0).getName(), "Name must be equal");
+        assertEquals(products.get(0).getSerialNumber(), expectedProducts.get(0).getSerialNumber(), "Serial number must be equal");
+        assertEquals(products.get(0).getName(), expectedProducts.get(0).getName(), "Name must be equal");
+        assertEquals(products.get(0).getDescription(), expectedProducts.get(0).getDescription(), "Description must be equal");
+        assertEquals(products.get(0).getPrice(), expectedProducts.get(0).getPrice(), "Price must be equal");
+        assertEquals(products.get(0).getQuantity(), expectedProducts.get(0).getQuantity(), "Quantity must be equal");
     }
 
     @Test

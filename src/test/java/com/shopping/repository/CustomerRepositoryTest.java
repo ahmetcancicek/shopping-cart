@@ -26,12 +26,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_save_customer() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .roles(new HashSet<>(Set.of(
                                 Role.builder()
@@ -63,12 +63,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_delete_customer_of_that_id() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -86,12 +86,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_delete_customer_of_that_username() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -109,12 +109,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_save_customer_with_payment_and_address() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -148,12 +148,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_throw_exception_when_save_customer_with_existing_email() {
         // given
         Customer customerOne = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("usernameOne")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -161,15 +161,16 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
         testEntityManager.persistAndFlush(customerOne);
 
         Customer customerTwo = Customer.builder()
-                .firstName("Lucy")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("usernameTwo")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechairq")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
+
 
         // when
         Throwable throwable = catchThrowable(() -> {
@@ -184,12 +185,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_throw_exception_when_save_customer_with_existing_username() {
         // given
         Customer customerOne = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("emailOne@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -197,12 +198,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
         testEntityManager.persistAndFlush(customerOne);
 
         Customer customerTwo = Customer.builder()
-                .firstName("Lucy")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("emailTwo@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair1@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -220,12 +221,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_return_list_of_all_customers() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -244,12 +245,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_return_customer_of_that_id() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -261,7 +262,7 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
 
         // then
         assertTrue(expectedCustomer.isPresent(), "Returned must not be null");
-        assertEquals("John", expectedCustomer.get().getFirstName(), "First Name must be equal");
+        assertEquals(customer.getFirstName(), expectedCustomer.get().getFirstName(), "First Name must be equal");
 
         testEntityManager.remove(customer);
         testEntityManager.flush();
@@ -278,8 +279,8 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
                 .build();
 
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(user)
                 .build();
 
@@ -300,12 +301,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_return_customer_of_that_email() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();
@@ -327,12 +328,12 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
     public void it_should_return_customer_of_that_username() {
         // given
         Customer customer = Customer.builder()
-                .firstName("John")
-                .lastName("Doe")
+                .firstName("George")
+                .lastName("Chair")
                 .user(User.builder()
-                        .email("email@email.com")
-                        .username("username")
-                        .password("password")
+                        .email("georgechair@email.com")
+                        .username("georgechair")
+                        .password("K5sN590N")
                         .active(true)
                         .build())
                 .build();

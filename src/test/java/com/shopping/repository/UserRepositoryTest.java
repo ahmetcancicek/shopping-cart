@@ -2,7 +2,7 @@ package com.shopping.repository;
 
 import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -27,9 +27,9 @@ class UserRepositoryTest extends BaseRepositoryTest {
     @Test
     public void it_should_save_user() {
         User user = User.builder()
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .roles(new HashSet<>(Set.of(
                         Role.builder()
                                 .id(1)
@@ -47,7 +47,7 @@ class UserRepositoryTest extends BaseRepositoryTest {
         User createdUser = userRepository.save(user);
         User expectedUser = testEntityManager.find(User.class, createdUser.getId());
 
-        assertEquals("username", expectedUser.getUsername(), "Username must be equal");
+        assertEquals(user.getUsername(), expectedUser.getUsername(), "Username must be equal");
 
         testEntityManager.remove(user);
         testEntityManager.flush();
@@ -56,9 +56,9 @@ class UserRepositoryTest extends BaseRepositoryTest {
     @Test
     public void it_should_delete_user() {
         User user = User.builder()
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
 
@@ -72,9 +72,9 @@ class UserRepositoryTest extends BaseRepositoryTest {
     @Test
     public void it_should_return_user_of_that_id() {
         User user = User.builder()
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
 
@@ -83,24 +83,27 @@ class UserRepositoryTest extends BaseRepositoryTest {
         Optional<User> expectedUser = userRepository.findById((Long) id);
 
         assertTrue(expectedUser.isPresent(), "Returned must not be null");
-        assertEquals("username", expectedUser.get().getUsername(), "Username must be equal");
+        assertEquals(user.getUsername(), expectedUser.get().getUsername(), "Username must be equal");
+
+        testEntityManager.remove(user);
+        testEntityManager.flush();
     }
 
     @Test
     public void it_should_return_user_of_that_username() {
         User user = User.builder()
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
 
         testEntityManager.persistAndFlush(user);
 
-        Optional<User> expectedUser = userRepository.findByUsername("username");
+        Optional<User> expectedUser = userRepository.findByUsername(user.getUsername());
 
         assertTrue(expectedUser.isPresent(), "Returned must not be null");
-        assertEquals("username", expectedUser.get().getUsername(), "Username must be equal");
+        assertEquals(user.getUsername(), expectedUser.get().getUsername(), "Username must be equal");
 
         testEntityManager.remove(user);
         testEntityManager.flush();
@@ -110,18 +113,18 @@ class UserRepositoryTest extends BaseRepositoryTest {
     @Test
     public void it_should_return_user_of_that_email() {
         User user = User.builder()
-                .username("username")
-                .password("password")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
 
         testEntityManager.persistAndFlush(user);
 
-        Optional<User> expectedUser = userRepository.findByEmail("email@email.com");
+        Optional<User> expectedUser = userRepository.findByEmail(user.getEmail());
 
         assertTrue(expectedUser.isPresent(), "Returned must not be null");
-        assertEquals("email@email.com", expectedUser.get().getEmail(), "Email must be equal");
+        assertEquals(user.getEmail(), expectedUser.get().getEmail(), "Email must be equal");
 
         testEntityManager.remove(user);
         testEntityManager.flush();
@@ -131,17 +134,18 @@ class UserRepositoryTest extends BaseRepositoryTest {
     @Test
     public void it_should_throw_exception_when_save_user_with_existing_email() {
         User userOne = User.builder()
-                .username("usernameOne")
-                .password("passwordOne")
-                .email("email@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
+
         testEntityManager.persistAndFlush(userOne);
 
         User userTwo = User.builder()
-                .username("usernameTwo")
-                .password("passwordTwo")
-                .email("email@email.com")
+                .username("georgechair1")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
 
@@ -152,29 +156,33 @@ class UserRepositoryTest extends BaseRepositoryTest {
         assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
 
         testEntityManager.remove(userOne);
-        testEntityManager.flush();
     }
 
     @Test
     public void it_should_throw_exception_when_save_user_with_existing_username() {
         User userOne = User.builder()
-                .username("username")
-                .password("passwordOne")
-                .email("emailOne@email.com")
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@email.com")
                 .active(true)
                 .build();
+
+        User userTwo = User.builder()
+                .username("georgechair")
+                .password("G9dl9B6nkm")
+                .email("georgechair@mail.com")
+                .active(true)
+                .build();
+
         testEntityManager.persistAndFlush(userOne);
 
         Throwable throwable = catchThrowable(() -> {
-            userRepository.saveAndFlush(User.builder()
-                    .username("username")
-                    .password("passwordTwo")
-                    .email("emailTwo@email.com")
-                    .active(true)
-                    .build());
+            userRepository.saveAndFlush(userTwo);
         });
 
         assertThat(throwable).isInstanceOf(DataIntegrityViolationException.class);
+
+        testEntityManager.remove(userOne);
     }
 
     @Test
