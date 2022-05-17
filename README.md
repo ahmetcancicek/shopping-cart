@@ -350,6 +350,16 @@ Accept: application/json
 Authorization: Bearer {token}
 ```
 
+#### Parameters :
+
+| Parameter      | Type     | Description                              |
+|:---------------|:---------|:-----------------------------------------|
+| `serialNumber` | `string` | **Required**. Serial number of product   |
+| `name`         | `string` | **Required**. Name of product            |
+| `description`  | `string` | **Not Required**. Description of product |
+| `price`        | `number` | **Required**. Price of product           |
+| `quantity`     | `number` | **Required**. Quantity of product        |
+
 #### Example :
 
 * Request :
@@ -385,7 +395,6 @@ You can send a DELETE request to delete a particular product.
 ```
 Method: DELETE
 URL: /api/products/{serialNumber}
-Content: application/json
 Accept: application/json
 Authorization: Bearer {token}
 ```
