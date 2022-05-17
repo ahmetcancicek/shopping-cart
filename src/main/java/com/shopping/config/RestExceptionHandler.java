@@ -24,7 +24,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("AlreadyExistElementException {}\n", request.getRequestURI(), ex);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse<>(HttpStatus.BAD_REQUEST, "AlreadyExistsElementException", ex.getMessage()));
+                .body(new ErrorResponse<>(HttpStatus.BAD_REQUEST.value(), "AlreadyExistsElementException", ex.getMessage()));
     }
 
     @ExceptionHandler({NoSuchElementFoundException.class})
@@ -33,7 +33,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("NotFoundException {}\n", request.getRequestURI(), ex);
         return ResponseEntity
                 .status(HttpStatus.NOT_FOUND)
-                .body(new ErrorResponse<>(HttpStatus.NOT_FOUND, "NotFoundException", ex.getMessage()));
+                .body(new ErrorResponse<>(HttpStatus.NOT_FOUND.value(), "NotFoundException", ex.getMessage()));
     }
 
     @ExceptionHandler(ValidationException.class)
@@ -42,7 +42,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("ValidationException {}\n", request.getRequestURI(), ex);
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(new ErrorResponse<>(HttpStatus.BAD_REQUEST, "ValidationException", ex.getMessage()));
+                .body(new ErrorResponse<>(HttpStatus.BAD_REQUEST.value(), "ValidationException", ex.getMessage()));
     }
 
     @ExceptionHandler(AccessDeniedException.class)
@@ -51,7 +51,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("AccessDeniedException {}\n", request.getRequestURI(), ex);
         return ResponseEntity
                 .status(HttpStatus.FORBIDDEN)
-                .body(new ErrorResponse<>(HttpStatus.FORBIDDEN, "FORBIDDEN", ex.getMessage()));
+                .body(new ErrorResponse<>(HttpStatus.FORBIDDEN.value(), "FORBIDDEN", ex.getMessage()));
     }
 
     @ExceptionHandler(Exception.class)
@@ -60,7 +60,7 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         log.error("handleInternalServerError {}\n", request.getRequestURI(), ex);
         return ResponseEntity
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
-                .body(new ErrorResponse<>(HttpStatus.INTERNAL_SERVER_ERROR, "InternalServerError", ex.getMessage()));
+                .body(new ErrorResponse<>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "InternalServerError", ex.getMessage()));
     }
 
 }

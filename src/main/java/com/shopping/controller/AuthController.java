@@ -36,7 +36,7 @@ public class AuthController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<AuthToken>(HttpStatus.OK, "success", new AuthToken(token, user.getUsername())));
+                .body(new ApiResponse<AuthToken>(HttpStatus.OK.value(), "Authentication is successful!", new AuthToken(token, user.getUsername())));
     }
 
     @PostMapping("/api/auth/register")

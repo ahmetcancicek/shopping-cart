@@ -38,6 +38,7 @@ class AuthControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus(), "Status code must be equal");
         assertEquals("success", response.getBody().getMessage(), "It must be success");
         assertEquals(request.getUsername(), user.getUsername(), "Username must be equal");
         assertNotNull(user.getToken(), "Token must not be null");
@@ -63,6 +64,7 @@ class AuthControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus(), "Status code must be equal");
         assertEquals("success", response.getBody().getMessage(), "It must be success");
         assertEquals(request.getUsername(), user.getUsername(), "Username must be equal");
         assertNotNull(user.getToken(), "Token must not be null");
@@ -88,6 +90,7 @@ class AuthControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus(), "Status code must be equal");
     }
 
     @Test
@@ -110,6 +113,7 @@ class AuthControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.BAD_REQUEST.value(), response.getBody().getStatus(), "Status code must be equal");
     }
 
     @Test

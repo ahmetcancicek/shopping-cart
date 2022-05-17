@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -116,7 +117,9 @@ public class ProductControllerTest extends BaseControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()));
+                .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()))
+                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()));
+
     }
 
     @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
@@ -148,6 +151,7 @@ public class ProductControllerTest extends BaseControllerTest {
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()))
                 .andReturn();
     }
 
@@ -164,7 +168,9 @@ public class ProductControllerTest extends BaseControllerTest {
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()));
+                .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()))
+                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()));
+
     }
 
     @Test
@@ -177,7 +183,9 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // then
         mockMvc.perform(mockRequest)
-                .andExpect(status().isNotFound());
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.status").value(HttpStatus.NOT_FOUND.value()));
+
     }
 
     @Test
@@ -195,6 +203,7 @@ public class ProductControllerTest extends BaseControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.[0].serialNumber").value("Y5N3DJ"))
                 .andExpect(jsonPath("$.data.[1].serialNumber").value("KLN3NJ"))
+                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
                 .andDo(print());
     }
 
@@ -218,6 +227,7 @@ public class ProductControllerTest extends BaseControllerTest {
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(jsonPath("$.data.quantity").value(productResponse.getQuantity()))
+                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
                 .andExpect(status().isOk());
     }
 }

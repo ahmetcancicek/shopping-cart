@@ -23,14 +23,14 @@ public class ProductController {
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProducts() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK, "success", productService.findAll()));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The product has been got successfully.", productService.findAll()));
     }
 
     @GetMapping("/api/products/{serialNumber}")
     public ResponseEntity<ApiResponse<ProductResponse>> getProduct(@PathVariable String serialNumber) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK, "success", productService.findBySerialNumber(serialNumber)));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The products has been got successfully.", productService.findBySerialNumber(serialNumber)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -38,7 +38,7 @@ public class ProductController {
     public ResponseEntity<ApiResponse<ProductResponse>> addProduct(@Valid @RequestBody ProductRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(HttpStatus.OK, "success", productService.save(request)));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The product has been added successfully.", productService.save(request)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -47,14 +47,14 @@ public class ProductController {
         productService.deleteBySerialNumber(serialNumber);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK, "success", null));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The product has been deleted successfully.", null));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/api/products")
-    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@Valid @RequestBody ProductRequest productPayload) {
+    public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@Valid @RequestBody ProductRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK, "success", productService.update(productPayload)));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The product has been updated successfully.", productService.update(request)));
     }
 }
