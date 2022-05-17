@@ -46,11 +46,12 @@ To deploy this project run
 
 ### [User Management Services](#1-user-management-services)
 
-| API                                                | Description         |
-|:---------------------------------------------------|:--------------------|
-| [`POST/api/auth/register`](#a-register-a-new-user) | Register a new user |
-| [`POST/api/auth/login`](#b-login-a-user)           | Login a user        |
-| [`POST/api/auth/logout`](#c-logout-a-user)         | Logout a user       |
+| API                                                     | Description              |
+|:--------------------------------------------------------|:-------------------------|
+| [`POST/api/auth/register`](#a-register-a-new-user)      | Register a new user      |
+| [`POST/api/auth/login`](#b-login-a-user)                | Login a user             |
+| [`POST/api/auth/logout`](#c-logout-a-user)              | Logout a user            |
+| [`POST/api/auth/refreshtoken`](#d-refrest-token-a-user) | Refresh token for a user |
 
 ### [Account Management Services](#2-account-mangement-services)
 
@@ -120,7 +121,7 @@ To deploy this project run
 
 ### a. Register a new user
 
-You can send a POST request to register a new user and returns a web token for authentication
+You can send a POST request to register a new user and returns a web token for authentication.
 
 ```
 Method: POST
@@ -152,12 +153,19 @@ curl -X POST 'localhost:8090/api/auth/register/' \
 * Response :
 
 ```json
-
+{
+  "status": 200,
+  "message":"Authentication is successful!",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3MTM3MzYsImlhdCI6MTY1MjY5NTczNiwic3ViIjoic3RldmVrZXkifQ.DztZloT7FfAu1EFKlE4m_wXbSm0QhYmq3rOxCPf3Q5A",
+    "username": "stevekey"
+  }
+}
 ```
 
 ### b. Login a user
 
-You can send a POST request to login a user and returns a web token for authentication
+You can send a POST request to login a user and returns a web token for authentication.
 
 ```
 Method: POST
@@ -180,13 +188,20 @@ Accept: application/json
 ```curl
 curl -X POST 'localhost:8090/api/auth/login/' \
 -H 'Content-Type: application/json' \
--d '{"username":"stevekey","password":"KHG279BD"}'
+-d '{"username":"georgehouse","password":"DHN827D9N"}'
 ```
 
 * Response :
 
 ```json
-
+{
+  "status":200,
+  "message":"Authentication is successful!",
+  "data":{
+    "token":"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTQwNjIsImlhdCI6MTY1Mjc3NjA2Miwic3ViIjoiZ2VvcmdlaG91c2UifQ.Lgrs-s944JUDl4q9bP3ntijM_WPmlJSOk8inJqQiWDE",
+    "username":"georgehouse"
+  }
+}
 ```
 
 ## 3. Product Management Services
@@ -197,9 +212,10 @@ You can send a POST request to create a new product.
 
 ```
 Method: POST
-URL: /api/products/
+URL: /api/products
 Content-Type: application/json
 Accept: application/json
+Authorization: Bearer {token}
 ```
 
 #### Parameters :
@@ -220,12 +236,176 @@ Accept: application/json
 curl http://localhost:8090/api/products \
    -H "Accept: application/json" \
    -H "Content-Type: application/json" \
-   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI1NDQ3NzIsImlhdCI6MTY1MjUyNjc3Miwic3ViIjoid2lsbGNsb2NrIn0.vMYTOBg99ViCTW8APMkHU4ezWMSjA2jnq05kABjqbOU" \
+   -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" \
    -d '{"serialNumber":"KAV319","name":"iPhone 14","description":"Apple iPhone 14","price":1000,"quantity":100}' 
 ```
 
 * Response :
 
 ```json
+{
+  "status": 200,
+  "message":"The product has been added successfully.",
+  "data": {
+    "serialNumber": "KAV319",
+    "name": "iPhone 14",
+    "description": "Apple iPhone 14",
+    "price": 1000,
+    "quantity": 100
+  }
+}
+```
 
+### b. Get list of all products
+
+You can send a GET request to get list of all products.
+
+```
+Method: GET
+URL: /api/products
+Accept: application/json
+Authorization: Bearer {token}
+```
+
+#### Example :
+
+* Request :
+
+```curl
+curl -X GET http://localhost:8090/api/products \
+   -H "Accept: application/json" \
+   -H "Content-Type: application/json"
+```
+
+* Response :
+
+```json
+{
+  "status": 200,
+  "message":"The product has been got successfully.",
+  "data": [
+    {
+      "serialNumber": "KAV319",
+      "name": "iPhone 14",
+      "description": "Apple iPhone 14",
+      "price": 1000.00,
+      "quantity": 100
+    },
+    {
+      "serialNumber": "XH89Ca",
+      "name": "iPhone 15",
+      "description": "Apple iPhone 15",
+      "price": 1500.00,
+      "quantity": 20
+    }
+  ]
+}
+```
+
+### d. Get details of a product
+
+You can send a GET request to get details of a product.
+
+```
+Method: GET
+URL: /api/products/{serialNumber}
+Accept: application/json
+```
+
+#### Example :
+
+* Request :
+
+```curl
+curl -X GET http://localhost:8090/api/products/KAV319 \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" 
+```
+
+* Response :
+
+```json
+{
+  "status": 200,
+  "message":"The products has been got successfully.",
+  "data": {
+    "serialNumber": "KAV319",
+    "name": "iPhone 14",
+    "description": "Apple iPhone 14",
+    "price": 1000.00,
+    "quantity": 100
+  }
+}
+```
+
+### e. Update a particular product
+
+You can send a PUT request to update a particular product.
+
+```
+Method: PUT
+URL: /api/products
+Content: application/json
+Accept: application/json
+Authorization: Bearer {token}
+```
+
+#### Example :
+
+* Request :
+
+```curl
+curl -X PUT http://localhost:8090/api/products \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" \
+-d '{"serialNumber":"KAV319","name":"iPhone 14","description":"Apple iPhone 14","price":1200,"quantity":100}' 
+```
+
+* Response :
+
+```json
+{
+  "status":200,
+  "message":"The product has been updated successfully.",
+  "data":{
+    "serialNumber":"KAV319",
+    "name":"iPhone 14",
+    "description":"Apple iPhone 14",
+    "price":1200,
+    "quantity":100
+  }
+}
+```
+
+### f. Delete a particular product
+
+You can send a DELETE request to delete a particular product.
+
+```
+Method: DELETE
+URL: /api/products/{serialNumber}
+Content: application/json
+Accept: application/json
+Authorization: Bearer {token}
+```
+
+#### Example :
+
+* Request :
+
+```curl
+curl -X DELETE http://localhost:8090/api/products/KAV319 \
+-H "Accept: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk"
+```
+
+* Response :
+
+```json
+{
+  "status":200,
+  "message":"The product has been deleted successfully.",
+  "data":null
+}
 ```
