@@ -38,7 +38,7 @@ public class ProductController {
     public ResponseEntity<ApiResponse<ProductResponse>> addProduct(@Valid @RequestBody ProductRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "The product has been added successfully.", productService.save(request)));
+                .body(new ApiResponse<>(HttpStatus.CREATED.value(), "The product has been added successfully.", productService.save(request)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")

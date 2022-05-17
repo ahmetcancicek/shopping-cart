@@ -117,8 +117,12 @@ public class ProductControllerTest extends BaseControllerTest {
         mockMvc.perform(mockRequest)
                 .andExpect(status().isCreated())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("$.status").value(HttpStatus.CREATED.value()))
                 .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()))
-                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()));
+                .andExpect(jsonPath("$.data.name").value(productResponse.getName()))
+                .andExpect(jsonPath("$.data.description").value(productResponse.getDescription()))
+                .andExpect(jsonPath("$.data.price").value(productResponse.getPrice()))
+                .andExpect(jsonPath("$.data.quantity").value(productResponse.getQuantity()));
 
     }
 
@@ -135,7 +139,8 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // then
         mockMvc.perform(mockRequest)
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()));
     }
 
     @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
@@ -168,8 +173,12 @@ public class ProductControllerTest extends BaseControllerTest {
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
                 .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()))
-                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()));
+                .andExpect(jsonPath("$.data.name").value(productResponse.getName()))
+                .andExpect(jsonPath("$.data.description").value(productResponse.getDescription()))
+                .andExpect(jsonPath("$.data.price").value(productResponse.getPrice()))
+                .andExpect(jsonPath("$.data.quantity").value(productResponse.getQuantity()));
 
     }
 
@@ -201,9 +210,12 @@ public class ProductControllerTest extends BaseControllerTest {
         // then
         mockMvc.perform(mockRequest)
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.data.[0].serialNumber").value("Y5N3DJ"))
-                .andExpect(jsonPath("$.data.[1].serialNumber").value("KLN3NJ"))
                 .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
+                .andExpect(jsonPath("$.data[0].serialNumber").value(productResponse.getSerialNumber()))
+                .andExpect(jsonPath("$.data[0].name").value(productResponse.getName()))
+                .andExpect(jsonPath("$.data[0].description").value(productResponse.getDescription()))
+                .andExpect(jsonPath("$.data[0].price").value(productResponse.getPrice()))
+                .andExpect(jsonPath("$.data[0].quantity").value(productResponse.getQuantity()))
                 .andDo(print());
     }
 
@@ -226,8 +238,12 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // then
         mockMvc.perform(mockRequest)
-                .andExpect(jsonPath("$.data.quantity").value(productResponse.getQuantity()))
+                .andExpect(status().isOk())
                 .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
-                .andExpect(status().isOk());
+                .andExpect(jsonPath("$.data.serialNumber").value(productResponse.getSerialNumber()))
+                .andExpect(jsonPath("$.data.name").value(productResponse.getName()))
+                .andExpect(jsonPath("$.data.description").value(productResponse.getDescription()))
+                .andExpect(jsonPath("$.data.price").value(productResponse.getPrice()))
+                .andExpect(jsonPath("$.data.quantity").value(productResponse.getQuantity()));
     }
 }

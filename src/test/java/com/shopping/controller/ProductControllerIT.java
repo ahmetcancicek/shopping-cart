@@ -51,21 +51,29 @@ public class ProductControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.CREATED, response.getStatusCode(), "Status code must be equal");
-        assertEquals("success", response.getBody().getMessage(), "It must be success");
+        assertEquals(HttpStatus.CREATED.value(), response.getBody().getStatus());
+        assertNotNull(productResponse, "Returned must not be null");
+        assertEquals(productRequest.getSerialNumber(), productResponse.getSerialNumber(), "Serial number must be equal");
+        assertEquals(productRequest.getName(), productResponse.getName(), "Name must be equal");
+        assertEquals(productRequest.getDescription(), productResponse.getDescription(), "Description must be equal");
+        assertEquals(productRequest.getPrice(), productResponse.getPrice(), "Price must be equal");
         assertEquals(productRequest.quantity, productResponse.getQuantity(), "Quantity must be equal");
     }
 
     @Test
     public void it_should_delete_product_of_that_serialNumber() {
         // when
-        ResponseEntity<Void> response = restTemplate.exchange("/api/products/{serialNumber}",
+        ResponseEntity<ApiResponse<String>> response = restTemplate.exchange("/api/products/{serialNumber}",
                 HttpMethod.DELETE,
                 new HttpEntity<>(null, headers),
-                Void.class,
+                new ParameterizedTypeReference<ApiResponse<String>>() {
+                },
                 "PADMA232");
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+
     }
 
     @Test
@@ -80,6 +88,8 @@ public class ProductControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getBody().getStatus());
+
     }
 
     @Test
@@ -96,9 +106,14 @@ public class ProductControllerIT extends BaseIT {
         ProductResponse productResponse = response.getBody().getData();
 
         // then
-        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
-        assertEquals("success", response.getBody().getMessage(), "It must be success");
-        assertEquals("Galaxy S22", productResponse.getName(), "Name must be equal");
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must not be null");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+        assertNotNull(productResponse, "Returned must not be null");
+        assertNotNull(productResponse.getSerialNumber(), "Serial number must not be null");
+        assertNotNull(productResponse.getName(), "Name must not be null");
+        assertNotNull(productResponse.getPrice(), "Price must not be null");
+        assertNotNull(productResponse.getQuantity(), "Quantity must not be null");
+
     }
 
     @Test
@@ -130,8 +145,13 @@ public class ProductControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
         assertNotNull(productResponse, "List must not be null");
         assertNotEquals(0, productResponse.size(), "List must have at least 1 element");
+        assertNotNull(productResponse.get(0).getSerialNumber(), "Serial number must not be null");
+        assertNotNull(productResponse.get(0).getName(), "Name must not be null");
+        assertNotNull(productResponse.get(0).getPrice(), "Price must not be null");
+        assertNotNull(productResponse.get(0).getQuantity(), "Quantity must not be null");
 
 
     }
@@ -159,7 +179,13 @@ public class ProductControllerIT extends BaseIT {
 
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
-        assertNotNull(productRequest, "Returned must not be null");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+        assertNotNull(productResponse, "Returned must not be null");
+        assertEquals(productRequest.getSerialNumber(), productResponse.getSerialNumber(), "Serial number must be equal");
+        assertEquals(productRequest.getName(), productResponse.getName(), "Name must be equal");
+        assertEquals(productRequest.getDescription(), productResponse.getDescription(), "Description must be equal");
+        assertEquals(productRequest.getPrice(), productResponse.getPrice(), "Price must be equal");
         assertEquals(productRequest.quantity, productResponse.getQuantity(), "Quantity must be equal");
+
     }
 }

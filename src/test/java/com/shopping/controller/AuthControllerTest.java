@@ -129,6 +129,7 @@ class AuthControllerTest extends BaseControllerTest {
         // then
         mockMvc.perform(requestBuilder)
                 .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.status").value(HttpStatus.BAD_REQUEST.value()))
                 .andReturn();
     }
 
@@ -142,7 +143,6 @@ class AuthControllerTest extends BaseControllerTest {
 
         // then
         mockMvc.perform(mockRequest)
-                .andExpect(status().is4xxClientError());
+                .andExpect(status().isBadRequest());
     }
-
 }
