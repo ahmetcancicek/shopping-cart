@@ -3,6 +3,8 @@
 This repository contains a basic sample application to serve restful service with JWT token authentication in a spring
 boot application. The application uses maven as a build tool and Docker as a containers
 
+[![GPLv3 License](https://img.shields.io/badge/License-GPL%20v3-yellow.svg)](https://opensource.org/licenses/)
+
 # Technology
 
 1. Spring Boot (2.4.12)
@@ -155,7 +157,7 @@ curl -X POST 'localhost:8090/api/auth/register/' \
 ```json
 {
   "status": 200,
-  "message":"Authentication is successful!",
+  "message": "Authentication is successful!",
   "data": {
     "token": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3MTM3MzYsImlhdCI6MTY1MjY5NTczNiwic3ViIjoic3RldmVrZXkifQ.DztZloT7FfAu1EFKlE4m_wXbSm0QhYmq3rOxCPf3Q5A",
     "username": "stevekey"
@@ -195,11 +197,11 @@ curl -X POST 'localhost:8090/api/auth/login/' \
 
 ```json
 {
-  "status":200,
-  "message":"Authentication is successful!",
-  "data":{
-    "token":"eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTQwNjIsImlhdCI6MTY1Mjc3NjA2Miwic3ViIjoiZ2VvcmdlaG91c2UifQ.Lgrs-s944JUDl4q9bP3ntijM_WPmlJSOk8inJqQiWDE",
-    "username":"georgehouse"
+  "status": 200,
+  "message": "Authentication is successful!",
+  "data": {
+    "token": "eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTQwNjIsImlhdCI6MTY1Mjc3NjA2Miwic3ViIjoiZ2VvcmdlaG91c2UifQ.Lgrs-s944JUDl4q9bP3ntijM_WPmlJSOk8inJqQiWDE",
+    "username": "georgehouse"
   }
 }
 ```
@@ -245,7 +247,7 @@ curl http://localhost:8090/api/products \
 ```json
 {
   "status": 200,
-  "message":"The product has been added successfully.",
+  "message": "The product has been added successfully.",
   "data": {
     "serialNumber": "KAV319",
     "name": "iPhone 14",
@@ -282,7 +284,7 @@ curl -X GET http://localhost:8090/api/products \
 ```json
 {
   "status": 200,
-  "message":"The product has been got successfully.",
+  "message": "The product has been got successfully.",
   "data": [
     {
       "serialNumber": "KAV319",
@@ -327,7 +329,7 @@ curl -X GET http://localhost:8090/api/products/KAV319 \
 ```json
 {
   "status": 200,
-  "message":"The products has been got successfully.",
+  "message": "The products has been got successfully.",
   "data": {
     "serialNumber": "KAV319",
     "name": "iPhone 14",
@@ -376,14 +378,14 @@ curl -X PUT http://localhost:8090/api/products \
 
 ```json
 {
-  "status":200,
-  "message":"The product has been updated successfully.",
-  "data":{
-    "serialNumber":"KAV319",
-    "name":"iPhone 14",
-    "description":"Apple iPhone 14",
-    "price":1200,
-    "quantity":100
+  "status": 200,
+  "message": "The product has been updated successfully.",
+  "data": {
+    "serialNumber": "KAV319",
+    "name": "iPhone 14",
+    "description": "Apple iPhone 14",
+    "price": 1200,
+    "quantity": 100
   }
 }
 ```
@@ -413,8 +415,8 @@ curl -X DELETE http://localhost:8090/api/products/KAV319 \
 
 ```json
 {
-  "status":200,
-  "message":"The product has been deleted successfully.",
-  "data":null
+  "status": 200,
+  "message": "The product has been deleted successfully.",
+  "data": null
 }
 ```
