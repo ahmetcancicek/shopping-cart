@@ -1,5 +1,6 @@
 package com.shopping.service.impl;
 
+import com.shopping.domain.dto.CartItemRequest;
 import com.shopping.domain.dto.CartResponse;
 import com.shopping.domain.model.*;
 import com.shopping.domain.exception.NoSuchElementFoundException;
@@ -20,8 +21,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.*;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -108,7 +108,7 @@ public class CartServiceImplTest {
     }
 
     @Test
-    public void it_should_add_item_to_cart_when_cart_is_empty() {
+    public void it_should_add_item_to_cart() {
         // given
         Customer customer = Customer.builder()
                 .id(1L)
@@ -136,58 +136,15 @@ public class CartServiceImplTest {
                 .id(1L)
                 .serialNumber("LKB38A97")
                 .name("iPhone 15")
-                .quantity(2)
+                .quantity(5)
                 .price(BigDecimal.valueOf(1000))
                 .build();
 
-        given(customerService.findCustomerByUsername(any())).willReturn(customer);
-        given(productService.findProductBySerialNumber(any())).willReturn(product);
-        given(cartRepository.findByCustomer_User_Username(any())).willReturn(Optional.of(cart));
-        given(cartRepository.save(any())).willReturn(cart);
-
-
-        // when
-        CartResponse expectedCartResponse = cartService.addItemToCart(customer.getUser().getUsername(), product.getSerialNumber());
-
-        // then
-        verify(cartRepository, times(1)).save(any());
-        assertNotNull(expectedCartResponse, "Cart must not be null");
-        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
-        assertEquals(product.getPrice(), expectedCartResponse.getTotalPrice(), "Total price must be equal");
-        assertEquals(1, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
-    }
-
-    @Test
-    public void it_should_add_item_to_cart_with_quantity_when_cart_is_empty() {
-        // given
-        Customer customer = Customer.builder()
-                .id(1L)
-                .firstName("Lucy")
-                .lastName("King")
-                .user(User.builder()
-                        .id(1L)
-                        .active(true)
-                        .username("lucyking")
-                        .email("lucyking@email.com")
-                        .password("LA4SD12")
-                        .build())
-                .build();
-
-        Cart cart = Cart.builder()
-                .id(1L)
-                .totalPrice(BigDecimal.ZERO)
-                .items(new HashSet<>())
-                .customer(customer)
-                .build();
-
-        customer.setCart(cart);
-
-        Product product = Product.builder()
-                .id(1L)
+        int quantity = 2;
+        CartItemRequest request = CartItemRequest.builder()
+                .username("lucyking")
                 .serialNumber("LKB38A97")
-                .name("iPhone 15")
-                .quantity(2)
-                .price(BigDecimal.valueOf(1000))
+                .quantity(quantity)
                 .build();
 
         given(customerService.findCustomerByUsername(any())).willReturn(customer);
@@ -196,14 +153,78 @@ public class CartServiceImplTest {
         given(cartRepository.save(any())).willReturn(cart);
 
         // when
-        int quantity=3;
-        CartResponse expectedCartResponse = cartService.addItemToCart(customer.getUser().getUsername(), product.getSerialNumber(), quantity);
+        CartResponse expectedCartResponse = cartService.addItemToCart(request);
 
         // then
         verify(cartRepository, times(1)).save(any());
         assertNotNull(expectedCartResponse, "Cart must not be null");
         assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
         assertEquals(product.getPrice().multiply(BigDecimal.valueOf(quantity)), expectedCartResponse.getTotalPrice(), "Total price must be equal");
+        assertEquals(quantity, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
+    }
+
+    @Test
+    public void it_should_increase_quantity_of_already_added_product() {
+        // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Lucy")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .active(true)
+                        .username("lucyking")
+                        .email("lucyking@email.com")
+                        .password("LA4SD12")
+                        .build())
+                .build();
+
+        Cart cart = Cart.builder()
+                .id(1L)
+                .totalPrice(BigDecimal.ZERO)
+                .items(new HashSet<>())
+                .customer(customer)
+                .build();
+
+        customer.setCart(cart);
+
+        Product product = Product.builder()
+                .id(1L)
+                .serialNumber("LKB38A97")
+                .name("iPhone 15")
+                .quantity(5)
+                .price(BigDecimal.valueOf(1000))
+                .build();
+
+        CartItem item = CartItem.builder()
+                .id(1L)
+                .cart(cart)
+                .price(product.getPrice())
+                .quantity(1)
+                .product(product)
+                .build();
+
+        cart.addItem(item);
+
+        CartItemRequest request = CartItemRequest.builder()
+                .username("lucyking")
+                .serialNumber("LKB38A97")
+                .quantity(2)
+                .build();
+
+        given(customerService.findCustomerByUsername(any())).willReturn(customer);
+        given(productService.findProductBySerialNumber(any())).willReturn(product);
+        given(cartRepository.findByCustomer_User_Username(any())).willReturn(Optional.of(cart));
+        given(cartRepository.save(any())).willReturn(cart);
+
+        // when
+        CartResponse expectedCartResponse = cartService.addItemToCart(request);
+
+        // then
+        verify(cartRepository, times(1)).save(any());
+        assertNotNull(expectedCartResponse, "Cart must not be null");
+        assertEquals(customer.getUser().getUsername(), expectedCartResponse.getUsername(), "Username must be equal");
+        assertEquals(product.getPrice().multiply(BigDecimal.valueOf(3)), expectedCartResponse.getTotalPrice(), "Total price must be equal");
         assertEquals(3, expectedCartResponse.getTotalQuantity(), "Total quantity must be equal");
     }
 

@@ -107,6 +107,8 @@ class CustomerRepositoryTest extends BaseRepositoryTest {
 
     @Test
     public void it_should_save_customer_with_payment_and_address() {
+        // TODO: Do refactor to this test method after created address module
+
         // given
         Customer customer = Customer.builder()
                 .firstName("George")
