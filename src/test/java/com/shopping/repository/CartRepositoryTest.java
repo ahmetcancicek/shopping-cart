@@ -1,108 +1,175 @@
 package com.shopping.repository;
 
-import com.shopping.domain.model.Cart;
-import com.shopping.domain.model.CartItem;
-import com.shopping.domain.model.Product;
+import com.shopping.domain.model.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.test.context.DynamicPropertyRegistry;
-import org.springframework.test.context.DynamicPropertySource;
-import org.springframework.test.context.jdbc.Sql;
-import org.testcontainers.containers.MySQLContainer;
-import org.testcontainers.junit.jupiter.Container;
-import org.testcontainers.junit.jupiter.Testcontainers;
 
+
+import java.math.BigDecimal;
+import java.util.HashSet;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-@Testcontainers
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@Sql(value = {"/import.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-public class CartRepositoryTest {
+public class CartRepositoryTest extends BaseRepositoryTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
     @Autowired
     private CartRepository cartRepository;
 
-    @Container
-    public static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql");
-
     @Test
-    public void it_should_db_run() {
-        assertTrue(mysql.isRunning(), "MySQL in not running");
+    void it_should_not_be_null() {
+        assertThat(testEntityManager).isNotNull();
+        assertThat(cartRepository).isNotNull();
+    }
+
+    private Product productOne;
+    private Product productTwo;
+    private Customer customer;
+    private Cart cart;
+
+    private CartItem item;
+
+    @BeforeEach
+    void setUp() {
+        // Product
+        productOne = Product.builder()
+                .name("Galaxy S20")
+                .price(BigDecimal.valueOf(750))
+                .quantity(10)
+                .serialNumber("XKA70BA")
+                .build();
+
+        testEntityManager.persistAndFlush(productOne);
+
+
+        // Product
+        productTwo = Product.builder()
+                .name("Galaxy S10")
+                .price(BigDecimal.valueOf(500))
+                .quantity(5)
+                .serialNumber("HA9N98N")
+                .build();
+
+        testEntityManager.persistAndFlush(productTwo);
+
+
+        // Customer and customer cart
+        customer = Customer.builder()
+                .firstName("Christina")
+                .lastName("King")
+                .user(User.builder()
+                        .email("christinaking@email.com")
+                        .username("christinaking")
+                        .password("XY80AXZ")
+                        .active(true)
+                        .build())
+                .build();
+
+        cart = Cart.builder()
+                .totalPrice(BigDecimal.ZERO)
+                .items(new HashSet<>())
+                .customer(customer)
+                .build();
+        customer.setCart(cart);
+
+
+        // Cart item
+        item = CartItem.builder()
+                .price(productOne.getPrice())
+                .product(productOne)
+                .quantity(1)
+                .cart(cart)
+                .build();
+        cart.addItem(item);
+
+
+        testEntityManager.persistAndFlush(customer);
+    }
+
+    @AfterEach
+    void tearDown() {
+
     }
 
     @Test
     public void it_should_return_cart_of_that_username_of_customer() {
         // when
-        Optional<Cart> cart = cartRepository.findByCustomer_User_Username("lucycar");
+        Optional<Cart> expectedCart = cartRepository.findByCustomer_User_Username("christinaking");
 
         //then
-        assertTrue(cart.isPresent(), "Returned must not be null");
-        assertEquals(1000L, cart.get().getId(), "Id must be equal");
+        assertTrue(expectedCart.isPresent(), "Returned must not be null");
+        assertEquals("christinaking", expectedCart.get().getCustomer().getUser().getUsername(), "Customer must be equal");
+
     }
 
     @Test
-    public void it_should_add_item_when_cart_is_empty_that_of_customer() {
+    public void it_should_add_item_to_cart() {
         // given
-        Cart cart = testEntityManager.find(Cart.class, 1000L);
-        Product product = testEntityManager.find(Product.class, 3000L);
-
         CartItem item = CartItem.builder()
-                .cart(cart)
+                .price(productTwo.getPrice())
+                .product(productTwo)
                 .quantity(1)
-                .price(product.getPrice())
+                .cart(cart)
                 .build();
 
         cart.addItem(item);
 
         // when
-        Cart savedCart = cartRepository.save(cart);
+        Cart expectedCart = cartRepository.save(cart);
 
         // then
-        assertNotNull(savedCart);
-        assertEquals(item.getPrice(), savedCart.getItems().stream().filter(cartItem -> {
-            return cartItem.getCart().equals(cart);
-        }).findFirst().get().getPrice());
+        assertNotNull(expectedCart, "Returned must not be null");
+        assertEquals(2, cart.getItems().size(), "Items size must be equal");
     }
 
     @Test
-    public void it_should_add_item_when_cart_is_not_empty_that_of_customer() {
+    public void it_should_update_cart_items_from_cart() {
         // given
-        Cart cart = testEntityManager.find(Cart.class, 2000L);
-        Product product = testEntityManager.find(Product.class, 3000L);
-
-        CartItem item = CartItem.builder()
-                .cart(cart)
-                .quantity(1)
-                .price(product.getPrice())
-                .build();
-
-        cart.addItem(item);
+        item.setQuantity(10);
+        cart.updateItem(item);
 
         // when
-        Cart savedCart = cartRepository.save(cart);
+        Cart expectedCart = cartRepository.save(cart);
 
         // then
-        assertNotNull(savedCart);
-        assertEquals(item.getPrice(), savedCart.getItems().stream().filter(cartItem -> {
-            return cartItem.getCart().equals(cart);
-        }).findFirst().get().getPrice());
-        assertEquals(2, savedCart.getItems().size());
+        assertNotNull(expectedCart, "Returned must not be null");
+        assertEquals(1, expectedCart.getItems().size(), "Items size must equal");
+        assertTrue(expectedCart.findItem(productOne).isPresent(), "");
+        assertEquals(10, expectedCart.findItem(productOne).get().getQuantity(), "");
+
     }
 
-    @DynamicPropertySource
-    public static void properties(DynamicPropertyRegistry registry) {
-        registry.add("spring.jpa.hibernate.dll-auto", () -> "create-drop");
-        registry.add("spring.jpa.properties.hibernate.dialect", () -> "org.hibernate.dialect.MySQL8Dialect");
-        registry.add("spring.datasource.url", mysql::getJdbcUrl);
-        registry.add("spring.datasource.username", mysql::getUsername);
-        registry.add("spring.datasource.password", mysql::getPassword);
+    @Test
+    public void it_should_clear() {
+        // given
+        cart.getItems().clear();
+
+        // when
+        Cart expectedCart = cartRepository.save(cart);
+
+        // then
+        assertNotNull(expectedCart, "Returned must not be null");
+        assertEquals(0, expectedCart.getItems().size(), "Items size must equal");
+    }
+
+
+    @Test
+    public void it_should_delete_item_from_cart() {
+        // given
+        cart.removeItem(item);
+
+        // when
+        Cart expectedCart = cartRepository.save(cart);
+
+        // then
+        assertNotNull(expectedCart, "Returned must not be null");
+        assertEquals(0, expectedCart.getItems().size(), "Items size must equal one");
+        assertFalse(expectedCart.findItem(productOne).isPresent(), "");
     }
 }
