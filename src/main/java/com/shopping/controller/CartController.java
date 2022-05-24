@@ -26,9 +26,11 @@ public class CartController {
 
     @PostMapping("/api/cart")
     public ResponseEntity<ApiResponse<CartResponse>> addItemToCart(@Valid @RequestBody CartItemRequest cartItemRequest) {
+        final String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "The item has been added successfully", cartService.addItemToCart(cartItemRequest)));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The item has been added successfully", cartService.addItemToCart(username, cartItemRequest)));
     }
 
     @PostMapping("/api/cart_bulk")
@@ -72,6 +74,6 @@ public class CartController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "The items has been updated successfully", cartService.updateItemFromCart(cartItemRequest)));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The items has been updated successfully", cartService.updateItemFromCart(username, cartItemRequest)));
     }
 }

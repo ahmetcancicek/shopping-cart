@@ -142,7 +142,6 @@ public class CartServiceImplTest {
 
         int quantity = 2;
         CartItemRequest request = CartItemRequest.builder()
-                .username("lucyking")
                 .serialNumber("LKB38A97")
                 .quantity(quantity)
                 .build();
@@ -153,7 +152,7 @@ public class CartServiceImplTest {
         given(cartRepository.save(any())).willReturn(cart);
 
         // when
-        CartResponse expectedCartResponse = cartService.addItemToCart(request);
+        CartResponse expectedCartResponse = cartService.addItemToCart(customer.getUser().getUsername(), request);
 
         // then
         verify(cartRepository, times(1)).save(any());
@@ -207,7 +206,6 @@ public class CartServiceImplTest {
         cart.addItem(item);
 
         CartItemRequest request = CartItemRequest.builder()
-                .username("lucyking")
                 .serialNumber("LKB38A97")
                 .quantity(2)
                 .build();
@@ -218,7 +216,7 @@ public class CartServiceImplTest {
         given(cartRepository.save(any())).willReturn(cart);
 
         // when
-        CartResponse expectedCartResponse = cartService.addItemToCart(request);
+        CartResponse expectedCartResponse = cartService.addItemToCart(customer.getUser().getUsername(), request);
 
         // then
         verify(cartRepository, times(1)).save(any());

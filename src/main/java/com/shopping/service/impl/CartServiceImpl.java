@@ -81,10 +81,10 @@ public class CartServiceImpl implements CartService {
         return addItemToCart(username, cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
     }
 
-    @Override
-    public CartResponse addItemToCart(CartItemRequest cartItemRequest) {
-        return addItemToCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
-    }
+//    @Override
+//    public CartResponse addItemToCart(CartItemRequest cartItemRequest) {
+//        return addItemToCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
+//    }
 
     @Transactional
     @Override
@@ -121,8 +121,8 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public CartResponse updateItemFromCart(CartItemRequest cartItemRequest) {
-        return updateItemFromCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
+    public CartResponse updateItemFromCart(String username, CartItemRequest cartItemRequest) {
+        return updateItemFromCart(username, cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
     }
 
     @Override

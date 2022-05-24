@@ -13,13 +13,11 @@ public interface CartService {
 
     CartResponse addItemToCart(String username, CartItemRequest cartItemRequest);
 
-    CartResponse addItemToCart(CartItemRequest cartItemRequest);
-
     CartResponse deleteItemFromCart(String username, String serialNumber);
 
     CartResponse clear(String username);
 
-    CartResponse updateItemFromCart(CartItemRequest cartItemRequest);
+    CartResponse updateItemFromCart(String username, CartItemRequest cartItemRequest);
 
     CartResponse updateItemFromCart(String username, String serialNumber, int quantity);
 }

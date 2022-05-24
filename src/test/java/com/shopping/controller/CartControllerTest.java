@@ -46,7 +46,6 @@ public class CartControllerTest extends BaseControllerTest {
     public void it_should_add_item_to_cart() throws Exception {
         // given
         CartItemRequest cartItemRequest = CartItemRequest.builder()
-                .username("billking")
                 .serialNumber("Y5N3DJ")
                 .quantity(1)
                 .build();
@@ -64,7 +63,7 @@ public class CartControllerTest extends BaseControllerTest {
                         .build())))
                 .build();
 
-        given(cartService.addItemToCart(cartItemRequest)).willReturn(cartResponse);
+        given(cartService.addItemToCart(any(), cartItemRequest)).willReturn(cartResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -94,12 +93,10 @@ public class CartControllerTest extends BaseControllerTest {
         // given
         Set<CartItemRequest> itemRequests = new HashSet<>(Set.of(
                 CartItemRequest.builder()
-                        .username("billking")
                         .serialNumber("Y5N3DJ")
                         .quantity(1)
                         .build(),
                 CartItemRequest.builder()
-                        .username("billking")
                         .serialNumber("HA7D80N")
                         .quantity(2)
                         .build()
@@ -148,7 +145,6 @@ public class CartControllerTest extends BaseControllerTest {
     public void it_should_return_cart_of_that_customer() throws Exception {
         // given
         CartItemRequest cartItemRequest = CartItemRequest.builder()
-                .username("billking")
                 .serialNumber("Y5N3DJ")
                 .quantity(1)
                 .build();
@@ -194,7 +190,6 @@ public class CartControllerTest extends BaseControllerTest {
     public void it_should_delete_item_from_cart() throws Exception {
         // given
         CartItemRequest cartItemRequest = CartItemRequest.builder()
-                .username("billking")
                 .serialNumber("Y5N3DJ")
                 .quantity(1)
                 .build();
@@ -257,7 +252,6 @@ public class CartControllerTest extends BaseControllerTest {
     public void it_should_update_item_from_cart() throws Exception {
         // given
         CartItemRequest cartItemRequest = CartItemRequest.builder()
-                .username("billking")
                 .serialNumber("Y5N3DJ")
                 .quantity(1)
                 .build();
@@ -275,7 +269,7 @@ public class CartControllerTest extends BaseControllerTest {
                         .build())))
                 .build();
 
-        given(cartService.updateItemFromCart(any())).willReturn(cartResponse);
+        given(cartService.updateItemFromCart(any(), any())).willReturn(cartResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
