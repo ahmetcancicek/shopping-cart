@@ -59,6 +59,7 @@ public class CartServiceImplTest {
                 .id(1L)
                 .customer(customer)
                 .totalPrice(BigDecimal.ZERO)
+                .items(Set.of())
                 .build();
 
         customer.setCart(cart);

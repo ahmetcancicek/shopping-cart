@@ -32,10 +32,12 @@ public class CartServiceImpl implements CartService {
 
     @Override
     public CartResponse findByUsername(String username) {
-        return CartMapper.INSTANCE.fromCart(cartRepository.findByCustomer_User_Username(username).orElseThrow(() -> {
+        Cart cart = cartRepository.findByCustomer_User_Username(username).orElseThrow(() -> {
             log.error("cart does not exist with username: {}", username);
             throw new NoSuchElementFoundException(String.format("cart does not exist with username: %s", username));
-        }));
+        });
+
+        return toCartResponse(cart);
     }
 
     @Transactional
@@ -80,11 +82,6 @@ public class CartServiceImpl implements CartService {
     public CartResponse addItemToCart(String username, CartItemRequest cartItemRequest) {
         return addItemToCart(username, cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
     }
-
-//    @Override
-//    public CartResponse addItemToCart(CartItemRequest cartItemRequest) {
-//        return addItemToCart(cartItemRequest.getUsername(), cartItemRequest.getSerialNumber(), cartItemRequest.getQuantity());
-//    }
 
     @Transactional
     @Override
@@ -150,22 +147,21 @@ public class CartServiceImpl implements CartService {
 
     private CartResponse updateCart(Cart cart) {
         BigDecimal totalPrice = cart.findTotalPrice();
-        int totalQuantity = cart.findTotalQuantity();
 
         cart.setTotalPrice(totalPrice);
         cartRepository.save(cart);
         log.info("cart has been updated with username: {}", cart.getCustomer().getUser().getUsername());
 
-        return toCartResponse(cart, totalPrice, totalQuantity);
+        return toCartResponse(cart);
     }
 
     // TODO: Do refactor this method to translating from entity to DTO
-    private CartResponse toCartResponse(Cart cart, BigDecimal totalPrice, int totalQuantity) {
+    private CartResponse toCartResponse(Cart cart) {
         CartResponse cartResponse = CartResponse.builder()
                 .items(new HashSet<>())
                 .username(cart.getCustomer().getUser().getUsername())
-                .totalPrice(totalPrice)
-                .totalQuantity(totalQuantity)
+                .totalPrice(cart.getTotalPrice())
+                .totalQuantity(cart.findTotalQuantity())
                 .build();
 
         cart.getItems().forEach((item -> {
