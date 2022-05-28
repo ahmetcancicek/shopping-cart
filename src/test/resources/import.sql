@@ -10,6 +10,9 @@ INSERT IGNORE INTO product (id, serial_number, description, name, price, quantit
 INSERT IGNORE INTO users(id,active, email, password, username) VALUES(1000,1,"lucycar@email.com","$2a$10$E.nGzmuccDIDu6ywkiZGXezuw/HulzC.czympJow0lAN.EGtavCeu","lucycar");
 INSERT IGNORE INTO customer(id,first_name, last_name, user_id) VALUES(1000,"Lucy","Car",(SELECT id FROM users WHERE email="lucycar@email.com"));
 INSERT IGNORE INTO cart(id, total_price, customer_id) VALUES(1000,0,(SELECT id FROM customer WHERE user_id=(SELECT id FROM users WHERE email="lucycar@email.com")));
+INSERT IGNORE  INTO cart_item (id, price, quantity, cart_id, product_id) VALUES (3000,1000,1,
+                                                                         (SELECT id FROM cart WHERE customer_id=((SELECT id FROM users WHERE email="lucycar@email.com"))),
+                                                                         (SELECT id FROM product WHERE serial_number='KMNA239'));
 INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES ((SELECT id FROM users WHERE username="lucycar"), (SELECT id FROM role WHERE name="ADMIN"));
 
 
@@ -19,5 +22,12 @@ INSERT IGNORE INTO cart(id, total_price, customer_id) VALUES(2000,0,(SELECT id F
 INSERT IGNORE  INTO cart_item (id, price, quantity, cart_id, product_id) VALUES (2000,1000,1,
                                                                          (SELECT id FROM cart WHERE customer_id=((SELECT id FROM users WHERE email="billking@email.com"))),
                                                                          (SELECT id FROM product WHERE serial_number='KMNA239'));
-INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES ((SELECT id FROM users WHERE username="lucycar"), (SELECT id FROM role WHERE name="USER"));
+INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES ((SELECT id FROM users WHERE username="billking"), (SELECT id FROM role WHERE name="USER"));
 
+INSERT IGNORE INTO users(id,active, email, password, username) VALUES(3000,1,"georgechair@email.com","2a$10$E.nGzmuccDIDu6ywkiZGXezuw/HulzC.czympJow0lAN.EGtavCeu","georgechair");
+INSERT IGNORE INTO customer(id,first_name, last_name, user_id) VALUES(3000,"George","Chair",(SELECT id FROM users WHERE email="georgechair@email.com"));
+INSERT IGNORE INTO cart(id, total_price, customer_id) VALUES(3000,0,(SELECT id FROM customer WHERE user_id=(SELECT id FROM users WHERE email="georgechair@email.com")));
+INSERT IGNORE  INTO cart_item (id, price, quantity, cart_id, product_id) VALUES (3000,1000,1,
+                                                                         (SELECT id FROM cart WHERE customer_id=((SELECT id FROM users WHERE email="georgechair@email.com"))),
+                                                                         (SELECT id FROM product WHERE serial_number='KMNA239'));
+INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES ((SELECT id FROM users WHERE username="georgechair"), (SELECT id FROM role WHERE name="USER"));
