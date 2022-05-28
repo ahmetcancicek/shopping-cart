@@ -4,7 +4,6 @@ import com.shopping.domain.dto.CartItemRequest;
 import com.shopping.domain.dto.CartItemResponse;
 import com.shopping.domain.dto.CartResponse;
 import com.shopping.domain.exception.NoSuchElementFoundException;
-import com.shopping.domain.mapper.CartMapper;
 import com.shopping.domain.model.Cart;
 import com.shopping.domain.model.CartItem;
 import com.shopping.domain.model.Customer;

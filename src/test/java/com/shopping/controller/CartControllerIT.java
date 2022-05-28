@@ -10,8 +10,6 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
-import java.util.stream.Collectors;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class CartControllerIT extends BaseIT {
@@ -52,6 +50,10 @@ public class CartControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
         assertNotNull(cartResponse, "Returned must not be null");
         assertTrue(cartResponse.getTotalQuantity() >= 2, "Total quantity must be equal");
+        assertTrue(cartResponse.getItems().stream().anyMatch(item -> item.getSerialNumber().equals("PADMA232")));
+        assertEquals(cartResponse.getItems().stream().filter(item -> item.getSerialNumber().equals("PADMA232")).findFirst().get(),
+                cartResponse.getItems().stream().filter(item -> item.getSerialNumber().equals("PADMA232")).findFirst().get());
+
     }
 
     @Test
@@ -71,6 +73,7 @@ public class CartControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
         assertNotNull(cartResponse, "Returned must not be null");
         assertNotEquals(0, cartResponse.getItems().size(), "Items size must be equal");
+        assertTrue(cartResponse.getItems().stream().anyMatch(item -> item.getSerialNumber().equals("KMNA239")));
 
     }
 
@@ -91,13 +94,11 @@ public class CartControllerIT extends BaseIT {
 
         CartResponse cartResponse = response.getBody().getData();
 
-
         // then
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
         assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
         assertNotNull(cartResponse, "Returned must not be null");
-        assertEquals(0, cartResponse.getItems().stream().filter(x -> x.getSerialNumber().equals("KMNA239")).collect(Collectors.toList()).size()
-                , "Items size must be zero");
+        assertFalse(cartResponse.getItems().stream().anyMatch(item -> item.getSerialNumber().equals("KMNA239")));
     }
 
     @Test
@@ -117,6 +118,7 @@ public class CartControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
         assertNotNull(cartResponse, "Returned must not be null");
         assertEquals(0, cartResponse.getItems().size(), "Items size must be zero");
+        assertFalse(cartResponse.getItems().stream().anyMatch(item -> item.getSerialNumber().equals("KMNA239")));
     }
 
     @Test
@@ -141,5 +143,8 @@ public class CartControllerIT extends BaseIT {
         assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
         assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
         assertNotNull(cartResponse, "Returned must not be null");
+        assertTrue(cartResponse.getItems().stream().anyMatch(item -> item.getSerialNumber().equals("KMNA239")
+                && item.getQuantity().equals(5)));
+
     }
 }
