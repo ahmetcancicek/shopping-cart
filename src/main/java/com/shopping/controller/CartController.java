@@ -22,8 +22,7 @@ import java.util.Set;
 public class CartController {
 
     private final CartService cartService;
-
-
+    
     @PostMapping("/api/cart")
     public ResponseEntity<ApiResponse<CartResponse>> addItemToCart(@Valid @RequestBody CartItemRequest cartItemRequest) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -32,14 +31,6 @@ public class CartController {
                 .status(HttpStatus.OK)
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The item has been added successfully", cartService.addItemToCart(username, cartItemRequest)));
     }
-
-    @PostMapping("/api/cart_bulk")
-    public ResponseEntity<ApiResponse<CartResponse>> addItemsToCart(@Valid @RequestBody Set<CartItemRequest> cartItemRequestList) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "The items has been added successfully", null));
-    }
-
 
     @GetMapping("/api/cart")
     public ResponseEntity<ApiResponse<CartResponse>> getCart() {

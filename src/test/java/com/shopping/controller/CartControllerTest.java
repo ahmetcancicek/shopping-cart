@@ -63,7 +63,7 @@ public class CartControllerTest extends BaseControllerTest {
                         .build())))
                 .build();
 
-        given(cartService.addItemToCart(any(), cartItemRequest)).willReturn(cartResponse);
+        given(cartService.addItemToCart("stevehouse", cartItemRequest)).willReturn(cartResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -84,60 +84,6 @@ public class CartControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.data.items[0].quantity").value("1"))
                 .andExpect(jsonPath("$.data.items[0].description").value("Super Egg"))
                 .andExpect(jsonPath("$.data.items[0].price").value("10"));
-    }
-
-    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
-    @Test
-    public void it_should_add_items_to_cart() throws Exception {
-        // TODO: Implement below method to test
-        // given
-        Set<CartItemRequest> itemRequests = new HashSet<>(Set.of(
-                CartItemRequest.builder()
-                        .serialNumber("Y5N3DJ")
-                        .quantity(1)
-                        .build(),
-                CartItemRequest.builder()
-                        .serialNumber("HA7D80N")
-                        .quantity(2)
-                        .build()
-        ));
-
-        CartResponse cartResponse = CartResponse.builder()
-                .username("billking")
-                .totalQuantity(1)
-                .totalPrice(BigDecimal.TEN)
-                .items(new HashSet<>(Set.of(
-                        CartItemResponse.builder()
-                                .price(BigDecimal.TEN)
-                                .name("Egg")
-                                .description("Super Egg")
-                                .quantity(1)
-                                .serialNumber("Y5N3DJ")
-                                .build(),
-                        CartItemResponse.builder()
-                                .price(BigDecimal.TEN)
-                                .name("Egg")
-                                .description("Small Egg")
-                                .quantity(2)
-                                .serialNumber("HA7D80N")
-                                .build()
-                )))
-                .build();
-
-
-        // when
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .post("/api/cart_bulk")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(itemRequests));
-
-        // then
-        mockMvc.perform(mockRequest)
-                .andDo(print())
-                .andExpect(jsonPath("$.status").value(HttpStatus.OK.value()))
-                .andExpect(jsonPath("$.data.totalQuantity").value(1))
-                .andExpect(jsonPath("$.data.username").value(cartResponse.getUsername()));
     }
 
     @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})

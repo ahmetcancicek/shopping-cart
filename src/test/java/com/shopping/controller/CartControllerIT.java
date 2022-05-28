@@ -1,0 +1,145 @@
+package com.shopping.controller;
+
+import com.shopping.domain.dto.ApiResponse;
+import com.shopping.domain.dto.CartItemRequest;
+import com.shopping.domain.dto.CartResponse;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
+
+import java.util.stream.Collectors;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+public class CartControllerIT extends BaseIT {
+
+    @Autowired
+    private TestRestTemplate restTemplate;
+    private final HttpHeaders headers = new HttpHeaders();
+
+    @Override
+    @BeforeEach
+    void setUp() {
+        super.setUp();
+
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + getToken());
+    }
+
+    @Test
+    public void it_should_add_item_to_cart() {
+        // given
+        CartItemRequest cartItemRequest = CartItemRequest.builder()
+                .serialNumber("PADMA232")
+                .quantity(2)
+                .build();
+
+        // when
+        ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
+                .exchange("/api/cart",
+                        HttpMethod.POST,
+                        new HttpEntity<>(cartItemRequest, headers),
+                        new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
+                        });
+
+        CartResponse cartResponse = response.getBody().getData();
+
+        // then
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+        assertNotNull(cartResponse, "Returned must not be null");
+        assertTrue(cartResponse.getTotalQuantity() >= 2, "Total quantity must be equal");
+    }
+
+    @Test
+    public void it_should_return_cart_of_that_customer() {
+        // when
+        ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
+                .exchange("/api/cart",
+                        HttpMethod.GET,
+                        new HttpEntity<>(null, headers),
+                        new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
+                        });
+
+        CartResponse cartResponse = response.getBody().getData();
+
+        // then
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+        assertNotNull(cartResponse, "Returned must not be null");
+        assertNotEquals(0, cartResponse.getItems().size(), "Items size must be equal");
+
+    }
+
+    @Test
+    public void it_should_delete_item_from_cart() {
+        // given
+        CartItemRequest cartItemRequest = CartItemRequest.builder()
+                .serialNumber("KMNA239")
+                .build();
+
+        // when
+        ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
+                .exchange("/api/cart",
+                        HttpMethod.DELETE,
+                        new HttpEntity<>(cartItemRequest, headers),
+                        new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
+                        });
+
+        CartResponse cartResponse = response.getBody().getData();
+
+
+        // then
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+        assertNotNull(cartResponse, "Returned must not be null");
+        assertEquals(0, cartResponse.getItems().stream().filter(x -> x.getSerialNumber().equals("KMNA239")).collect(Collectors.toList()).size()
+                , "Items size must be zero");
+    }
+
+    @Test
+    public void it_should_delete_all_items_from_cart() {
+        // when
+        ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
+                .exchange("/api/cart/empty",
+                        HttpMethod.DELETE,
+                        new HttpEntity<>(null, headers),
+                        new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
+                        });
+
+        CartResponse cartResponse = response.getBody().getData();
+
+        // then
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+        assertNotNull(cartResponse, "Returned must not be null");
+        assertEquals(0, cartResponse.getItems().size(), "Items size must be zero");
+    }
+
+    @Test
+    public void it_should_update_item_from_cart() {
+        // given
+        CartItemRequest cartItemRequest = CartItemRequest.builder()
+                .serialNumber("KMNA239")
+                .quantity(5)
+                .build();
+
+        // when
+        ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
+                .exchange("/api/cart",
+                        HttpMethod.PUT,
+                        new HttpEntity<>(cartItemRequest, headers),
+                        new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
+                        });
+
+        CartResponse cartResponse = response.getBody().getData();
+
+        // then
+        assertEquals(HttpStatus.OK, response.getStatusCode(), "Status code must be equal");
+        assertEquals(HttpStatus.OK.value(), response.getBody().getStatus());
+        assertNotNull(cartResponse, "Returned must not be null");
+    }
+}
