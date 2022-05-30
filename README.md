@@ -420,3 +420,252 @@ curl -X DELETE http://localhost:8090/api/products/KAV319 \
   "data": null
 }
 ```
+
+## 7. Cart Management Services
+
+### a. Get list of all items from cart
+
+You can send a GET request to get list of all items from cart.
+
+```
+Method: GET
+URL: /api/cart
+Accept: application/json
+Authorization: Bearer {token}
+```
+
+#### Example :
+
+* Request :
+
+```curl
+curl -X GET http://localhost:8090/api/cart \
+-H "Accept: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY"
+```
+
+* Response :
+
+```json
+{
+  "data" : {
+    "items" : [
+      {
+        "description" : "Apple iPhone 14",
+        "name" : "iPhone 14",
+        "price" : 1000,
+        "quantity" : 2,
+        "serialNumber" : "KAV319"
+      },
+      {
+        "description" : "Apple iPhone 15",
+        "name" : "iPhone 15",
+        "price" : 1200,
+        "quantity" : 1,
+        "serialNumber" : "HA68VAN"
+      }
+    ],
+    "totalPrice" : 3200,
+    "totalQuantity" : 3,
+    "username" : "georgehouse"
+  },
+  "message" : "The item has been added successfully",
+  "status" : 200
+}
+```
+
+### b. Add new item to cart
+
+You can send a POST request to add item to cart.
+
+```
+Method: POST
+URL: /api/cart
+Accept: application/json
+Content: application/json
+Authorization: Bearer {token}
+```
+
+#### Example :
+
+* Request :
+
+```curl
+curl -X POST http://localhost:8090/api/cart \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" \
+-d '{"serialNumber":"KAV319","quantity":2}' 
+```
+
+* Response :
+
+```json
+{
+  "data" : {
+    "items" : [
+      {
+        "description" : "Apple iPhone 14",
+        "name" : "iPhone 14",
+        "price" : 1000,
+        "quantity" : 2,
+        "serialNumber" : "KAV319"
+      },
+      {
+        "description" : "Apple iPhone 15",
+        "name" : "iPhone 15",
+        "price" : 1200,
+        "quantity" : 1,
+        "serialNumber" : "HA68VAN"
+      }
+    ],
+    "totalPrice" : 3200,
+    "totalQuantity" : 3,
+    "username" : "georgehouse"
+  },
+  "message" : "The item has been added successfully",
+  "status" : 200
+}
+```
+
+### c. Add new items to cart
+
+#### Example :
+
+* Request :
+
+* Response :
+
+### d. Update item from cart
+
+You can send a PUT request to update item from cart.
+
+
+#### Example :
+
+* Request :
+
+```curl
+curl -X PUT http://localhost:8090/api/cart \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" \
+-d '{"serialNumber":"KAV319","quantity":5}' 
+```
+
+* Response :
+
+```json
+{
+   "data" : {
+      "items" : [
+         {
+            "description" : "Apple iPhone 14",
+            "name" : "iPhone 14",
+            "price" : 1000,
+            "quantity" : 5,
+            "serialNumber" : "KAV319"
+         },
+         {
+            "description" : "Apple iPhone 15",
+            "name" : "iPhone 15",
+            "price" : 1200,
+            "quantity" : 1,
+            "serialNumber" : "HA68VAN"
+         }
+      ],
+      "totalPrice" : 6200,
+      "totalQuantity" : 6,
+      "username" : "georgehouse"
+   },
+   "message" : "The items has been updated successfully",
+   "status" : 200
+}
+```
+
+### e. Delete item from cart
+
+You can send a DELETE request to delete item to cart.
+
+#### Example :
+
+```
+Method: DELETE
+URL: /api/cart
+Accept: application/json
+Content: application/json
+Authorization: Bearer {token}
+```
+
+* Request :
+
+```curl
+curl -X DELETE http://localhost:8090/api/cart \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" \
+-d '{"serialNumber":"KAV319"}' 
+```
+
+* Response :
+
+```json
+{
+  "data" : {
+    "items" : [
+      {
+        "description" : "Apple iPhone 15",
+        "name" : "iPhone 15",
+        "price" : 1200,
+        "quantity" : 1,
+        "serialNumber" : "HA68VAN"
+      }
+    ],
+    "totalPrice" : 1200,
+    "totalQuantity" : 1,
+    "username" : "georgehouse"
+  },
+  "message" : "The item has been deleted successfully",
+  "status" : 200
+}
+```
+
+### f. Delete all items from cart
+
+You can send a DELETE request to delete all items to cart.
+
+#### Example :
+
+```
+Method: DELETE
+URL: /api/cart/empty
+Accept: application/json
+Content: application/json
+Authorization: Bearer {token}
+```
+
+* Request :
+
+```curl
+curl -X DELETE http://localhost:8090/api/cart/empty \
+-H "Accept: application/json" \
+-H "Content-Type: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY"
+```
+
+* Response :
+
+```json
+{
+  "data" : {
+    "items" : [],
+    "totalPrice" : 0,
+    "totalQuantity" : 0,
+    "username" : "georgehouse"
+  },
+  "message" : "The items has been deleted successfully",
+  "status" : 200
+}
+```
+
+ 
