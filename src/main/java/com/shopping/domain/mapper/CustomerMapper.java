@@ -30,13 +30,6 @@ public interface CustomerMapper {
 
     @Mappings({
             @Mapping(source = "user.email", target = "email"),
-            @Mapping(source = "user.username", target = "username"),
-            @Mapping(source = "user.password", target = "password")
-    })
-    RegistrationRequest toCustomerRequestFromCustomer(Customer customer);
-
-    @Mappings({
-            @Mapping(source = "user.email", target = "email"),
             @Mapping(source = "user.username", target = "username")
     })
     List<CustomerResponse> fromCustomers(List<Customer> customers);

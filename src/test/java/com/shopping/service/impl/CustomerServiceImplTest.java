@@ -1,13 +1,13 @@
 package com.shopping.service.impl;
 
 import com.shopping.domain.dto.CustomerResponse;
+import com.shopping.domain.dto.RegistrationRequest;
 import com.shopping.domain.model.Cart;
 import com.shopping.domain.model.Customer;
 import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.domain.exception.AlreadyExistsElementException;
 import com.shopping.domain.exception.NoSuchElementFoundException;
-import com.shopping.domain.mapper.CustomerMapper;
 import com.shopping.repository.CustomerRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -62,11 +62,19 @@ class CustomerServiceImplTest {
                 .name("USER")
                 .build();
 
+        RegistrationRequest registrationRequest = RegistrationRequest.builder()
+                .firstName("Bill")
+                .lastName("King")
+                .email("billking@email.com")
+                .username("billking")
+                .password("password")
+                .build();
+
         given(customerRepository.save(any())).willReturn(customer);
         given(roleService.findByName(any())).willReturn(role);
 
         // when
-        CustomerResponse savedCustomer = customerService.save(CustomerMapper.INSTANCE.toCustomerRequestFromCustomer(customer));
+        CustomerResponse savedCustomer = customerService.save(registrationRequest);
 
         // then
         verify(customerRepository, times(1)).save(any());
@@ -160,11 +168,19 @@ class CustomerServiceImplTest {
                         .build())
                 .build();
 
+        RegistrationRequest registrationRequest = RegistrationRequest.builder()
+                .firstName("Bill")
+                .lastName("King")
+                .email("billking@email.com")
+                .username("billking")
+                .password("password")
+                .build();
+
         given(customerRepository.findByUser_Email(any())).willReturn(Optional.of(customer));
 
         // when
         Throwable throwable = catchThrowable(() -> {
-            CustomerResponse savedCustomer = customerService.save(CustomerMapper.INSTANCE.toCustomerRequestFromCustomer(customer));
+            CustomerResponse savedCustomer = customerService.save(registrationRequest);
         });
 
         // then
@@ -188,11 +204,19 @@ class CustomerServiceImplTest {
                         .build())
                 .build();
 
+        RegistrationRequest registrationRequest = RegistrationRequest.builder()
+                .firstName("Bill")
+                .lastName("King")
+                .email("billking@email.com")
+                .username("billking")
+                .password("password")
+                .build();
+
         given(customerRepository.findByUser_Username(any())).willReturn(Optional.of(customer));
 
         // when
         Throwable throwable = catchThrowable(() -> {
-            CustomerResponse savedCustomer = customerService.save(CustomerMapper.INSTANCE.toCustomerRequestFromCustomer(customer));
+            CustomerResponse savedCustomer = customerService.save(registrationRequest);
         });
 
         // then
