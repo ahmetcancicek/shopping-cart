@@ -5,5 +5,8 @@ import com.shopping.domain.dto.PaymentMethodResponse;
 
 public interface PaymentMethodService {
     PaymentMethodResponse save(String username, PaymentMethodRequest paymentMethodRequest);
-    void delete(String username, PaymentMethodResponse paymentMethodResponse);
+
+    void deleteById(String username, PaymentMethodRequest paymentMethodRequest);
+
+    PaymentMethodResponse findById(String username, Long id);
 }

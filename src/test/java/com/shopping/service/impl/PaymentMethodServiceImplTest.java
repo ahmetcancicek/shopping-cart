@@ -56,12 +56,6 @@ public class PaymentMethodServiceImplTest {
                 .customer(customer)
                 .build();
 
-        PaymentMethodResponse paymentMethodResponse = PaymentMethodResponse.builder()
-                .id(1L)
-                .paymentType(PaymentType.VISA)
-                .name("My VISA")
-                .build();
-
         PaymentMethodRequest paymentMethodRequest = PaymentMethodRequest.builder()
                 .id(1L)
                 .paymentType(PaymentType.VISA)
@@ -78,9 +72,9 @@ public class PaymentMethodServiceImplTest {
 
         // then
         verify(paymentMethodRepository, times(1)).save(any());
-        assertEquals(paymentMethodResponse.getId(), expectedPaymentMethodResponse.getId(), "Id must be equal");
-        assertEquals(paymentMethodResponse.getName(), expectedPaymentMethodResponse.getName(), "Name must be equal");
-        assertEquals(paymentMethodResponse.getPaymentType().name(), expectedPaymentMethodResponse.getPaymentType().name(), "Name must be equal");
+        assertEquals(paymentMethod.getId(), expectedPaymentMethodResponse.getId(), "Id must be equal");
+        assertEquals(paymentMethod.getName(), expectedPaymentMethodResponse.getName(), "Name must be equal");
+        assertEquals(paymentMethod.getPaymentType().name(), expectedPaymentMethodResponse.getPaymentType().name(), "Name must be equal");
     }
 
     @Test
@@ -106,12 +100,6 @@ public class PaymentMethodServiceImplTest {
                 .customer(customer)
                 .build();
 
-        PaymentMethodResponse paymentMethodResponse = PaymentMethodResponse.builder()
-                .id(1L)
-                .paymentType(PaymentType.VISA)
-                .name("My VISA")
-                .build();
-
         PaymentMethodRequest paymentMethodRequest = PaymentMethodRequest.builder()
                 .id(1L)
                 .paymentType(PaymentType.VISA)
@@ -121,20 +109,44 @@ public class PaymentMethodServiceImplTest {
         given(paymentMethodRepository.findByIdAndCustomer_User_Username(any(), any())).willReturn(Optional.of(paymentMethod));
 
         // when
-        paymentMethodService.delete(
-                customer.getUser().getUsername(),
-                paymentMethodResponse);
+        paymentMethodService.deleteById(customer.getUser().getUsername(),paymentMethodRequest);
 
         // then
-        verify(paymentMethodRepository, times(1)).delete(any());
+        verify(paymentMethodRepository, times(1)).deleteById(any());
     }
 
     @Test
     public void it_should_return_payment_method_of_that_username_of_customer() {
         // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Lucy")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .active(true)
+                        .username("lucyking")
+                        .email("lucyking@email.com")
+                        .password("LA4SD12")
+                        .build())
+                .build();
+
+        PaymentMethod paymentMethod = PaymentMethod.builder()
+                .id(1L)
+                .paymentType(PaymentType.VISA)
+                .name("My VISA")
+                .customer(customer)
+                .build();
+
+        given(paymentMethodRepository.findByIdAndCustomer_User_Username(any(), any())).willReturn(Optional.of(paymentMethod));
 
         // when
+        PaymentMethodResponse expectedPaymentMethodResponse = paymentMethodService.findById(customer.getUser().getUsername(), paymentMethod.getId());
 
         // then
+        verify(paymentMethodRepository, times(1)).findByIdAndCustomer_User_Username(any(), any());
+        assertEquals(paymentMethod.getId(), expectedPaymentMethodResponse.getId(), "Id must be equal");
+        assertEquals(paymentMethod.getName(), expectedPaymentMethodResponse.getName(), "Name must be equal");
+        assertEquals(paymentMethod.getPaymentType().name(), expectedPaymentMethodResponse.getPaymentType().name(), "Name must be equal");
     }
 }

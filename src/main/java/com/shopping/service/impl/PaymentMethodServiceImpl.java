@@ -37,13 +37,19 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Transactional
     @Override
-    public void delete(String username, PaymentMethodResponse paymentMethodResponse) {
-        PaymentMethod paymentMethod = paymentMethodRepository.findByIdAndCustomer_User_Username(paymentMethodResponse.getId(), username).orElseThrow(() -> {
-            log.error("payment method does not exist with id: {}", paymentMethodResponse.getId());
-            return new NoSuchElementFoundException(String.format("product does not exist with id: {%d}", paymentMethodResponse.getId()));
-        });
+    public void deleteById(String username, PaymentMethodRequest paymentMethodRequest) {
+        Long id = paymentMethodRequest.getId();
+        findById(username, id);
+        paymentMethodRepository.deleteById(id);
+        log.info("payment method has been deleted with id: {}", id);
+    }
 
-        paymentMethodRepository.delete(paymentMethod);
-        log.info("payment method has been deleted with id: {}", paymentMethod.getId());
+    @Override
+    public PaymentMethodResponse findById(String username, Long id) {
+        return PaymentMethodMapper.INSTANCE.fromPaymentMethod(
+                paymentMethodRepository.findByIdAndCustomer_User_Username(id, username).orElseThrow(() -> {
+                    log.error("payment method does not exist with id: {}", id);
+                    return new NoSuchElementFoundException(String.format("payment does not exist with id: {%d}", id));
+                }));
     }
 }
