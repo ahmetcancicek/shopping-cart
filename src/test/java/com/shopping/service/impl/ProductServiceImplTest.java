@@ -1,5 +1,6 @@
 package com.shopping.service.impl;
 
+import com.shopping.domain.dto.ProductRequest;
 import com.shopping.domain.dto.ProductResponse;
 import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.domain.mapper.ProductMapper;
@@ -58,10 +59,18 @@ class ProductServiceImplTest {
                 .quantity(10)
                 .build();
 
+        ProductRequest productRequest = ProductRequest.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(10)
+                .build();
+
         given(productRepository.save(any())).willReturn(product);
 
         // when
-        ProductResponse savedProduct = productService.save(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
+        ProductResponse savedProduct = productService.save(productRequest);
 
         // then
         verify(productRepository, times(1)).save(any());
@@ -88,10 +97,18 @@ class ProductServiceImplTest {
                 .quantity(quantity)
                 .build();
 
+        ProductRequest productRequest = ProductRequest.builder()
+                .serialNumber(serialNumber)
+                .name(name)
+                .description(description)
+                .price(price)
+                .quantity(quantity)
+                .build();
+
         given(productRepository.save(any())).willReturn(product);
 
         // when
-        ProductResponse savedProduct = productService.save(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
+        ProductResponse savedProduct = productService.save(productRequest);
 
         // then
         verify(productRepository, times(1)).save(any());
@@ -124,11 +141,20 @@ class ProductServiceImplTest {
                 .quantity(2)
                 .build();
 
+        ProductRequest productRequest = ProductRequest.builder()
+                .serialNumber("Y5N3DJ")
+                .name("Egg")
+                .description("Super egg")
+                .price(BigDecimal.valueOf(10.0))
+                .quantity(2)
+                .build();
+
+
         given(productRepository.findBySerialNumber(any())).willReturn(Optional.of(product));
         given(productRepository.save(any())).willReturn(productUpdate);
 
         // when
-        ProductResponse updatedProduct = productService.update(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
+        ProductResponse updatedProduct = productService.update(productRequest);
 
         // then
         verify(productRepository, times(1)).save(any());
@@ -137,14 +163,13 @@ class ProductServiceImplTest {
         assertEquals(product.getName(), updatedProduct.getName(), "Name must be equal");
         assertEquals(product.getDescription(), updatedProduct.getDescription(), "Description must be equal");
         assertEquals(product.getPrice(), updatedProduct.getPrice(), "Price must be equal");
-        assertNotEquals(product.getQuantity(), updatedProduct.getQuantity(), "Quantity must be equal");
+        assertEquals(product.getQuantity(), updatedProduct.getQuantity(), "Quantity must no be equal");
     }
 
     @Test
     public void it_should_throw_exception_when_update_product_that_does_not_exist() {
         // given
-        Product product = Product.builder()
-                .id(1L)
+        ProductRequest productRequest = ProductRequest.builder()
                 .serialNumber("Y5N3DJ")
                 .name("Egg")
                 .description("Super egg")
@@ -156,7 +181,7 @@ class ProductServiceImplTest {
 
         // when
         Throwable throwable = catchThrowable(() -> {
-            productService.update(ProductMapper.INSTANCE.toProductRequestFromProduct(product));
+            productService.update(productRequest);
         });
 
         // then

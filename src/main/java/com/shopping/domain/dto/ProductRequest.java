@@ -16,11 +16,10 @@ public class ProductRequest {
 
     @NotEmpty(message = "Serial number must not be empty")
     @Size(min = 3, message = "Serial number have at least 3 characters")
-
     private String serialNumber;
+
     @Size(min = 3, message = "Name must have at least 5 characters")
     @NotEmpty(message = "Name must not be empty")
-
     private String name;
 
     private String description;

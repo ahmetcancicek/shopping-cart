@@ -45,15 +45,15 @@ public class ProductServiceImpl implements ProductService {
 
     @Transactional
     @Override
-    public ProductResponse save(ProductRequest productPayload) {
-        productRepository.findBySerialNumber(productPayload.getSerialNumber())
+    public ProductResponse save(ProductRequest productRequest) {
+        productRepository.findBySerialNumber(productRequest.getSerialNumber())
                 .ifPresent((it) -> {
                     log.error("product already exists with serialNumber: {}", it.getSerialNumber());
                     throw new AlreadyExistsElementException(String.format("product already exist with serial number: {%s}", it.getSerialNumber()));
                 });
 
         ProductResponse savedProduct = ProductMapper.INSTANCE.fromProduct(
-                productRepository.save(ProductMapper.INSTANCE.toProduct(productPayload))
+                productRepository.save(ProductMapper.INSTANCE.toProduct(productRequest))
         );
 
         log.info("new product has been created: {}", savedProduct);
