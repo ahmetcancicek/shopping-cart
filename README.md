@@ -84,18 +84,18 @@ http://localhost:8090/swagger-ui/#/
 
 ### [Payment Method Management Services](#4-payment-method-management-services)
 
-| API                                                                          | Description                                 |
-|:-----------------------------------------------------------------------------|:--------------------------------------------|
-| [`GET/api/paymentmethods/:id`](#a-get-details-of-a-particular-paymentmethod) | Get details of a particular payment methods |
-| [`POST/api/paymentmethods`](#b-create-a-new-paymentmethod)                   | Create a new payment method                 |
-| [`DELETE/api/paymentmethods/:id`](#c-delete-a-particular-paymentmethod)      | Delete a particular payment method          |
+| API                                                                           | Description                                 |
+|:------------------------------------------------------------------------------|:--------------------------------------------|
+| [`GET/api/paymentmethods/:id`](#a-get-details-of-a-particular-payment-method) | Get details of a particular payment methods |
+| [`POST/api/paymentmethods`](#b-create-a-new-payment-method)                   | Create a new payment method                 |
+| [`DELETE/api/paymentmethods/:id`](#c-delete-a-particular-payment-method)      | Delete a particular payment method          |
 
 ### [Shipping Address Management Services](4-shipping-address-management-services)
 
 | API                                                                   | Description                          |
 |:----------------------------------------------------------------------|:-------------------------------------|
 | [`GET/api/shippingaddress`](#a-get-list-of-all-shippingaddress)       | Get list of all shipping addresses   |
-| [`POST/api/shippingaddress`](#b-post-a-new-paymentmethod)             | Create a new shipping address        |
+| [`POST/api/shippingaddress`](#b-post-a-new-shippingaddress)           | Create a new shipping address        |
 | [`DELETE/api/shippingaddress/:id`](#c-get-list-of-all-paymentmethods) | Delete a particular shipping address |
 
 ### [Payment Address Management Services](5-payment-address-management-services)
@@ -433,9 +433,16 @@ curl -X DELETE http://localhost:8090/api/products/KAV319 \
 
 ### a. Get details of a particular payment method
 
-#### Example :
-
 You can send a GET request to get details of a particular payment methods.
+
+```
+Method: GET
+URL: /api/paymentmethod/{id}
+Accept: application/json
+Authorization: Bearer {token}
+```
+
+#### Example :
 
 * Request :
 
@@ -452,6 +459,21 @@ You can send a GET request to get details of a particular payment methods.
 ### b. Create a new payment method
 
 You can send a POST request to create a new payment method.
+
+```
+Method: POST
+URL: /api/paymentmethod
+Content-Type: application/json
+Accept: application/json
+Authorization: Bearer {token}
+```
+
+#### Parameters:
+
+| Parameter  | Type     | Description                          |
+|:-----------|:---------|:-------------------------------------|
+| `name`     | `string` | **Required**. Name of payment method |
+| `type`     | `number` | **Required**. Type of payment method |
 
 #### Example :
 
@@ -470,6 +492,13 @@ You can send a POST request to create a new payment method.
 ### c. Delete a particular payment method
 
 You can send a DELETE request to delete a particular payment method.
+
+```
+Method: GET
+URL: /api/paymentmethod/{id}
+Accept: application/json
+Authorization: Bearer {token}
+```
 
 #### Example :
 
