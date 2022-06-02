@@ -37,8 +37,7 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Transactional
     @Override
-    public void deleteById(String username, PaymentMethodRequest paymentMethodRequest) {
-        Long id = paymentMethodRequest.getId();
+    public void deleteById(String username, Long id) {
         findById(username, id);
         paymentMethodRepository.deleteById(id);
         log.info("payment method has been deleted with id: {}", id);

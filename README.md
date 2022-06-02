@@ -84,11 +84,11 @@ http://localhost:8090/swagger-ui/#/
 
 ### [Payment Method Management Services](#4-payment-method-management-services)
 
-| API                                                           | Description                                 |
-|:--------------------------------------------------------------|:--------------------------------------------|
-| [`GET/api/paymentmethods`](#a-get-list-of-all-paymentmethods) | Get list of all payment methods             |
-| [`POST/api/paymentmethods`](#b-post-a-new-paymentmethod)      | Get list of all payments methods            |
-| [`DELETE/api/paymentmethods/:id`](#c-delete-a-paymentmethod)  | Get details of a particular payment methods |
+| API                                                               | Description                                 |
+|:------------------------------------------------------------------|:--------------------------------------------|
+| [`GET/api/paymentmethods/:id`](#a-get-list-of-all-paymentmethods) | Get details of a particular payment methods |
+| [`POST/api/paymentmethods`](#b-post-a-new-paymentmethod)          | Create a new payment method                 |
+| [`DELETE/api/paymentmethods/:id`](#c-delete-a-paymentmethod)      | Delete a particular payment method          |
 
 ### [Shipping Address Management Services](4-shipping-address-management-services)
 
@@ -108,14 +108,14 @@ http://localhost:8090/swagger-ui/#/
 
 ### [Cart Management Services](#6-cart-management-services)
 
-| API                                                      | Description                     |
-|:---------------------------------------------------------|:--------------------------------|
-| [`GET/api/cart`](#a-get-list-of-all-items-from-cart)     | Get list of all items from cart |
-| [`POST/api/cart`](#b-post-a-new-item-to-cart)            | Add a new item to cart          |
-| [`POST/api/cart_bulk`](#c-post-new-items-to-cart)        | Add new items to cart           |
-| [`PUT/api/cart`](#d-update-item-from-cart)               | Update item from cart           |
-| [`DELETE/api/cart`](#e-delete-item-from-cart)            | Delete item from cart           |
-| [`DELETE/api/cart/empty`](#f-delete-all-items-from-cart) | Delete all items from cart      |
+| API                                                         | Description                     |
+|:------------------------------------------------------------|:--------------------------------|
+| [`GET/api/cart`](#a-get-list-of-all-items-from-cart)        | Get list of all items from cart |
+| [`POST/api/cart`](#b-post-a-new-item-to-cart)               | Add a new item to cart          |
+| [`POST/api/cart_bulk`](#c-post-new-items-to-cart)           | Add new items to cart           |
+| [`PUT/api/cart`](#d-update-item-from-cart)                  | Update item from cart           |
+| [`DELETE/api/cart/:serialNumber`](#e-delete-item-from-cart) | Delete item from cart           |
+| [`DELETE/api/cart/empty`](#f-delete-all-items-from-cart)    | Delete all items from cart      |
 
 ### [Order API](#6-order-api)
 
@@ -599,7 +599,7 @@ You can send a DELETE request to delete item to cart.
 
 ```
 Method: DELETE
-URL: /api/cart
+URL: /api/cart/{serialNumber}
 Accept: application/json
 Content: application/json
 Authorization: Bearer {token}
@@ -608,11 +608,10 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X DELETE http://localhost:8090/api/cart \
+curl -X DELETE http://localhost:8090/api/cart/KAV319 \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
--H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" \
--d '{"serialNumber":"KAV319"}' 
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" 
 ```
 
 * Response :
@@ -676,4 +675,58 @@ curl -X DELETE http://localhost:8090/api/cart/empty \
 }
 ```
 
- 
+ ## Payment Method Management Services
+
+### a. Get details of a particular payment methods
+
+#### Example :
+
+You can send a GET request to get details of a particular payment methods.
+
+* Request :
+
+```curl
+
+```
+
+* Response :
+
+```json
+
+```
+
+### b. Create a new payment method
+
+You can send a POST request to create a new payment method.
+
+#### Example :
+
+* Request :
+
+```curl
+
+```
+
+* Response :
+
+```json
+
+```
+
+### c. Delete a particular payment method
+
+You can send a DELETE request to delete a particular payment method.
+
+#### Example :
+
+* Request :
+
+```curl
+
+```
+
+* Response :
+
+```json
+
+```

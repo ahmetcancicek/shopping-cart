@@ -100,16 +100,11 @@ public class PaymentMethodServiceImplTest {
                 .customer(customer)
                 .build();
 
-        PaymentMethodRequest paymentMethodRequest = PaymentMethodRequest.builder()
-                .id(1L)
-                .paymentType(PaymentType.VISA)
-                .name("My VISA")
-                .build();
 
         given(paymentMethodRepository.findByIdAndCustomer_User_Username(any(), any())).willReturn(Optional.of(paymentMethod));
 
         // when
-        paymentMethodService.deleteById(customer.getUser().getUsername(),paymentMethodRequest);
+        paymentMethodService.deleteById(customer.getUser().getUsername(),paymentMethod.getId());
 
         // then
         verify(paymentMethodRepository, times(1)).deleteById(any());
