@@ -429,6 +429,62 @@ curl -X DELETE http://localhost:8090/api/products/KAV319 \
 }
 ```
 
+## 4. Payment Method Management Services
+
+### a. Get details of a particular payment method
+
+#### Example :
+
+You can send a GET request to get details of a particular payment methods.
+
+* Request :
+
+```curl
+
+```
+
+* Response :
+
+```json
+
+```
+
+### b. Create a new payment method
+
+You can send a POST request to create a new payment method.
+
+#### Example :
+
+* Request :
+
+```curl
+
+```
+
+* Response :
+
+```json
+
+```
+
+### c. Delete a particular payment method
+
+You can send a DELETE request to delete a particular payment method.
+
+#### Example :
+
+* Request :
+
+```curl
+
+```
+
+* Response :
+
+```json
+
+```
+
 ## 7. Cart Management Services
 
 ### a. Get list of all items from cart
@@ -673,60 +729,4 @@ curl -X DELETE http://localhost:8090/api/cart/empty \
   "message" : "The items has been deleted successfully",
   "status" : 200
 }
-```
-
-## 4. Payment Method Management Services
-
-### a. Get details of a particular payment method
-
-#### Example :
-
-You can send a GET request to get details of a particular payment methods.
-
-* Request :
-
-```curl
-
-```
-
-* Response :
-
-```json
-
-```
-
-### b. Create a new payment method
-
-You can send a POST request to create a new payment method.
-
-#### Example :
-
-* Request :
-
-```curl
-
-```
-
-* Response :
-
-```json
-
-```
-
-### c. Delete a particular payment method
-
-You can send a DELETE request to delete a particular payment method.
-
-#### Example :
-
-* Request :
-
-```curl
-
-```
-
-* Response :
-
-```json
-
 ```
