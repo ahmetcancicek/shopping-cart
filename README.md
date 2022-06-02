@@ -44,6 +44,14 @@ To deploy this project run
   docker-compose up -d
 ```
 
+## API Documentation
+
+To review the API with Swagger
+
+```
+http://localhost:8090/swagger-ui/#/
+```
+
 ## API Routes
 
 ### [User Management Services](#1-user-management-services)
