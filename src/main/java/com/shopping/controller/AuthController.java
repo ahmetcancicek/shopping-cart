@@ -4,6 +4,8 @@ import com.shopping.config.jwt.JwtTokenUtil;
 import com.shopping.domain.dto.*;
 import com.shopping.domain.model.User;
 import com.shopping.service.CustomerService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +19,14 @@ import javax.validation.Valid;
 
 @AllArgsConstructor
 @RestController
+@Api(value = "Authentication API Documentation")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final CustomerService customerService;
 
+    @ApiOperation(value = "Login")
     @PostMapping("/api/auth/login")
     public ResponseEntity<ApiResponse<AuthToken>> login(@Valid @RequestBody AuthRequest request) throws Exception {
         Authentication authenticate = authenticationManager.authenticate(
@@ -39,6 +43,7 @@ public class AuthController {
                 .body(new ApiResponse<AuthToken>(HttpStatus.OK.value(), "Authentication is successful!", new AuthToken(token, user.getUsername())));
     }
 
+    @ApiOperation(value = "Register")
     @PostMapping("/api/auth/register")
     public ResponseEntity<ApiResponse<AuthToken>> register(@Valid @RequestBody RegistrationRequest request) throws Exception {
         customerService.save(request);
