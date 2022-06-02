@@ -14,6 +14,7 @@ INSERT IGNORE  INTO cart_item (id, price, quantity, cart_id, product_id) VALUES 
                                                                          (SELECT id FROM cart WHERE customer_id=((SELECT id FROM users WHERE email="lucycar@email.com"))),
                                                                          (SELECT id FROM product WHERE serial_number='KMNA239'));
 INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES ((SELECT id FROM users WHERE username="lucycar"), (SELECT id FROM role WHERE name="ADMIN"));
+INSERT IGNORE INTO users_roles (user_id, roles_id) VALUES ((SELECT id FROM users WHERE username="lucycar"), (SELECT id FROM role WHERE name="USER"));
 
 
 INSERT IGNORE INTO users(id,active, email, password, username) VALUES(2000,1,"billking@email.com","2a$10$E.nGzmuccDIDu6ywkiZGXezuw/HulzC.czympJow0lAN.EGtavCeu","billking");

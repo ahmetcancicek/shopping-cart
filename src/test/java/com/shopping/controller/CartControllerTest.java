@@ -41,7 +41,7 @@ public class CartControllerTest extends BaseControllerTest {
     private CartResponse cartResponse;
 
 
-    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
+    @WithMockUser(username = "stevehouse", password = "GT380ABD")
     @Test
     public void it_should_add_item_to_cart() throws Exception {
         // given
@@ -86,7 +86,7 @@ public class CartControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.data.items[0].price").value("10"));
     }
 
-    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
+    @WithMockUser(username = "stevehouse", password = "GT380ABD")
     @Test
     public void it_should_return_cart_of_that_customer() throws Exception {
         // given
@@ -131,15 +131,10 @@ public class CartControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.data.items[0].price").value("10"));
     }
 
-    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
+    @WithMockUser(username = "stevehouse", password = "GT380ABD")
     @Test
     public void it_should_delete_item_from_cart() throws Exception {
         // given
-        CartItemRequest cartItemRequest = CartItemRequest.builder()
-                .serialNumber("Y5N3DJ")
-                .quantity(1)
-                .build();
-
         CartResponse cartResponse = CartResponse.builder()
                 .username("billking")
                 .totalQuantity(0)
@@ -151,10 +146,8 @@ public class CartControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/api/cart")
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
-                .content(mapper.writeValueAsString(cartItemRequest));
+                .delete("/api/cart/{serialNumber}", "Y5N3DJ")
+                .contentType(MediaType.APPLICATION_JSON);
 
 
         // then
@@ -166,7 +159,7 @@ public class CartControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.data.totalPrice").value("0"));
     }
 
-    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
+    @WithMockUser(username = "stevehouse", password = "GT380ABD")
     @Test
     public void it_should_delete_all_items_from_cart() throws Exception {
         // given
@@ -193,7 +186,7 @@ public class CartControllerTest extends BaseControllerTest {
                 .andExpect(jsonPath("$.data.totalPrice").value("0"));
     }
 
-    @WithMockUser(username = "stevehouse", password = "GT380ABD", roles = {"ADMIN"})
+    @WithMockUser(username = "stevehouse", password = "GT380ABD")
     @Test
     public void it_should_update_item_from_cart() throws Exception {
         // given

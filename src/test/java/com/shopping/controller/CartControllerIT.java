@@ -86,9 +86,9 @@ public class CartControllerIT extends BaseIT {
 
         // when
         ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
-                .exchange("/api/cart",
+                .exchange("/api/cart/KMNA239",
                         HttpMethod.DELETE,
-                        new HttpEntity<>(cartItemRequest, headers),
+                        new HttpEntity<>(null, headers),
                         new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
                         });
 
