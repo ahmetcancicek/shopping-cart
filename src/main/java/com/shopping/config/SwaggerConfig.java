@@ -2,7 +2,6 @@ package com.shopping.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.*;
@@ -37,9 +36,6 @@ public class SwaggerConfig {
                 .title("Spring Boot Shopping Cart")
                 .description("Spring Boot Shopping Cart Demo Application")
                 .version("1.0.0")
-                .contact(new Contact("Ahmet Can Cicek",
-                        "github.com/ahmetcancicek",
-                        "ahmetcan@ahmetcancicek.com"))
                 .license("GPLv3")
                 .build();
     }
