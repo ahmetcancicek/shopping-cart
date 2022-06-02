@@ -84,11 +84,11 @@ http://localhost:8090/swagger-ui/#/
 
 ### [Payment Method Management Services](#4-payment-method-management-services)
 
-| API                                                               | Description                                 |
-|:------------------------------------------------------------------|:--------------------------------------------|
-| [`GET/api/paymentmethods/:id`](#a-get-details-of-a-paymentmethod) | Get details of a particular payment methods |
-| [`POST/api/paymentmethods`](#b-create-a-new-paymentmethod)        | Create a new payment method                 |
-| [`DELETE/api/paymentmethods/:id`](#c-delete-a-paymentmethod)      | Delete a particular payment method          |
+| API                                                                          | Description                                 |
+|:-----------------------------------------------------------------------------|:--------------------------------------------|
+| [`GET/api/paymentmethods/:id`](#a-get-details-of-a-particular-paymentmethod) | Get details of a particular payment methods |
+| [`POST/api/paymentmethods`](#b-create-a-new-paymentmethod)                   | Create a new payment method                 |
+| [`DELETE/api/paymentmethods/:id`](#c-delete-a-particular-paymentmethod)      | Delete a particular payment method          |
 
 ### [Shipping Address Management Services](4-shipping-address-management-services)
 
@@ -675,9 +675,9 @@ curl -X DELETE http://localhost:8090/api/cart/empty \
 }
 ```
 
- ## Payment Method Management Services
+## 4. Payment Method Management Services
 
-### a. Get details of a payment method
+### a. Get details of a particular payment method
 
 #### Example :
 
