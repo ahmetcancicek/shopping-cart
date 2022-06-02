@@ -75,19 +75,19 @@ http://localhost:8090/swagger-ui/#/
 
 | API                                                                                | Description                      |
 |:-----------------------------------------------------------------------------------|:---------------------------------|
-| [`POST/api/products`](#a-post-a-new-product)                                       | Create a new product             |
+| [`POST/api/products`](#a-create-a-new-product)                                     | Create a new product             |
 | [`GET/api/products`](#b-get-list-of-all-products)                                  | Get list of all products         |
 | [`GET/api/products/limit/:limit/page/:page`](#c-get-list-of-all-products-by-limit) | Get list of all products         |
-| [`GET/api/products/:serialNumber`](#d-get-details-of-a-product)                    | Get details a particular product |
-| [`PATCH/api/products/:serialNumber`](#e-update-details-of-a-product)               | Update a particular product      |
-| [`DELETE/api/products/:serialNumber`](#f-delete-a-product)                         | Delete a particular product      |
+| [`GET/api/products/:serialNumber`](#d-get-details-of-a-particular-product)         | Get details a particular product |
+| [`PATCH/api/products/:serialNumber`](#e-update-details-of-a-particular-product)    | Update a particular product      |
+| [`DELETE/api/products/:serialNumber`](#f-delete-a-particular-product)              | Delete a particular product      |
 
 ### [Payment Method Management Services](#4-payment-method-management-services)
 
 | API                                                               | Description                                 |
 |:------------------------------------------------------------------|:--------------------------------------------|
-| [`GET/api/paymentmethods/:id`](#a-get-list-of-all-paymentmethods) | Get details of a particular payment methods |
-| [`POST/api/paymentmethods`](#b-post-a-new-paymentmethod)          | Create a new payment method                 |
+| [`GET/api/paymentmethods/:id`](#a-get-details-of-a-paymentmethod) | Get details of a particular payment methods |
+| [`POST/api/paymentmethods`](#b-create-a-new-paymentmethod)        | Create a new payment method                 |
 | [`DELETE/api/paymentmethods/:id`](#c-delete-a-paymentmethod)      | Delete a particular payment method          |
 
 ### [Shipping Address Management Services](4-shipping-address-management-services)
@@ -216,7 +216,7 @@ curl -X POST 'localhost:8090/api/auth/login/' \
 
 ## 3. Product Management Services
 
-### a. Post a new product
+### a. Create a new product
 
 You can send a POST request to create a new product.
 
@@ -312,7 +312,7 @@ curl -X GET http://localhost:8090/api/products \
 }
 ```
 
-### d. Get details of a product
+### d. Get details of a particular product
 
 You can send a GET request to get details of a product.
 
@@ -348,7 +348,7 @@ curl -X GET http://localhost:8090/api/products/KAV319 \
 }
 ```
 
-### e. Update a particular product
+### e. Update details of a particular product
 
 You can send a PUT request to update a particular product.
 
@@ -677,7 +677,7 @@ curl -X DELETE http://localhost:8090/api/cart/empty \
 
  ## Payment Method Management Services
 
-### a. Get details of a particular payment methods
+### a. Get details of a payment method
 
 #### Example :
 
