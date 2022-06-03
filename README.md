@@ -447,7 +447,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X GET http://localhost:8090/api/paymentmethod/1500 \
+curl -X GET http://localhost:8090/api/paymentmethod/14 \
 -H "Accept: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk"
 ```
@@ -455,7 +455,15 @@ curl -X GET http://localhost:8090/api/paymentmethod/1500 \
 * Response :
 
 ```json
-
+{
+    "status": 200,
+    "message": "The payment method has been got successfully",
+    "data": {
+        "id": 14,
+        "paymentType": "VISA",
+        "name": "My VISA"
+    }
+}
 ```
 
 ### b. Create a new payment method
@@ -472,10 +480,10 @@ Authorization: Bearer {token}
 
 #### Parameters:
 
-| Parameter  | Type     | Description                          |
-|:-----------|:---------|:-------------------------------------|
-| `name`     | `string` | **Required**. Name of payment method |
-| `type`     | `string` | **Required**. Type of payment method |
+| Parameter     | Type     | Description                          |
+|:--------------|:---------|:-------------------------------------|
+| `name`        | `string` | **Required**. Name of payment method |
+| `paymentType` | `string` | **Required**. Type of payment method |
 
 #### Example :
 
@@ -521,7 +529,6 @@ Authorization: Bearer {token}
 ```curl
 curl -X DELETE http://localhost:8090/api/paymentmethod/13 \
 -H "Accept: application/json" \
--H "Content: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" 
 ```
 
