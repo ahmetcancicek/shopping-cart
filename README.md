@@ -447,7 +447,9 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-
+curl -X GET http://localhost:8090/api/paymentmethod/1500 \
+-H "Accept: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk"
 ```
 
 * Response :
@@ -473,20 +475,32 @@ Authorization: Bearer {token}
 | Parameter  | Type     | Description                          |
 |:-----------|:---------|:-------------------------------------|
 | `name`     | `string` | **Required**. Name of payment method |
-| `type`     | `number` | **Required**. Type of payment method |
+| `type`     | `string` | **Required**. Type of payment method |
 
 #### Example :
 
 * Request :
 
 ```curl
-
+curl -X POST http://localhost:8090/api/paymentmethod \
+-H "Accept: application/json" \
+-H "Content: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" \
+-d '{"name":"MY VISA","paymentType":"VISA"}'
 ```
 
 * Response :
 
 ```json
-
+{
+    "status": 201,
+    "message": "The payment method has added successfully",
+    "data": {
+        "id": 14,
+        "paymentType": "VISA",
+        "name": "My VISA"
+    }
+}
 ```
 
 ### c. Delete a particular payment method
@@ -505,13 +519,20 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-
+curl -X DELETE http://localhost:8090/api/paymentmethod/13 \
+-H "Accept: application/json" \
+-H "Content: application/json" \
+-H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" 
 ```
 
 * Response :
 
 ```json
-
+{
+    "status": 200,
+    "message": "The payment method has been deleted successfully",
+    "data": null
+}
 ```
 
 ## 7. Cart Management Services
@@ -578,6 +599,14 @@ Accept: application/json
 Content: application/json
 Authorization: Bearer {token}
 ```
+
+#### Parameters :
+
+
+| Parameter      | Type     | Description                            |
+|:---------------|:---------|:---------------------------------------|
+| `serialNumber` | `string` | **Required**. Serial number of product |
+| `quantity`     | `number` | **Required**. Quantity of product      |
 
 #### Example :
 
@@ -685,7 +714,6 @@ You can send a DELETE request to delete item to cart.
 ```
 Method: DELETE
 URL: /api/cart/{serialNumber}
-Accept: application/json
 Content: application/json
 Authorization: Bearer {token}
 ```
