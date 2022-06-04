@@ -32,6 +32,7 @@ To test the application
 To build and run the application
 
 ```bash
+./mvnw clean install -Dmaven.test.skip=true
 docker-compose up -d shoppingcart-mysql
 ./mvnw spring-boot:run
 ```
@@ -448,13 +449,13 @@ curl -X GET http://localhost:8090/api/paymentmethod/14 \
 
 ```json
 {
-    "status": 200,
-    "message": "The payment method has been got successfully",
-    "data": {
-        "id": 14,
-        "paymentType": "VISA",
-        "name": "My VISA"
-    }
+  "status": 200,
+  "message": "The payment method has been got successfully",
+  "data": {
+    "id": 14,
+    "paymentType": "VISA",
+    "name": "My VISA"
+  }
 }
 ```
 
@@ -493,13 +494,13 @@ curl -X POST http://localhost:8090/api/paymentmethod \
 
 ```json
 {
-    "status": 201,
-    "message": "The payment method has added successfully",
-    "data": {
-        "id": 14,
-        "paymentType": "VISA",
-        "name": "My VISA"
-    }
+  "status": 201,
+  "message": "The payment method has added successfully",
+  "data": {
+    "id": 14,
+    "paymentType": "VISA",
+    "name": "My VISA"
+  }
 }
 ```
 
@@ -528,9 +529,9 @@ curl -X DELETE http://localhost:8090/api/paymentmethod/13 \
 
 ```json
 {
-    "status": 200,
-    "message": "The payment method has been deleted successfully",
-    "data": null
+  "status": 200,
+  "message": "The payment method has been deleted successfully",
+  "data": null
 }
 ```
 
@@ -561,29 +562,29 @@ curl -X GET http://localhost:8090/api/cart \
 
 ```json
 {
-  "data" : {
-    "items" : [
+  "data": {
+    "items": [
       {
-        "description" : "Apple iPhone 14",
-        "name" : "iPhone 14",
-        "price" : 1000,
-        "quantity" : 2,
-        "serialNumber" : "KAV319"
+        "description": "Apple iPhone 14",
+        "name": "iPhone 14",
+        "price": 1000,
+        "quantity": 2,
+        "serialNumber": "KAV319"
       },
       {
-        "description" : "Apple iPhone 15",
-        "name" : "iPhone 15",
-        "price" : 1200,
-        "quantity" : 1,
-        "serialNumber" : "HA68VAN"
+        "description": "Apple iPhone 15",
+        "name": "iPhone 15",
+        "price": 1200,
+        "quantity": 1,
+        "serialNumber": "HA68VAN"
       }
     ],
-    "totalPrice" : 3200,
-    "totalQuantity" : 3,
-    "username" : "georgehouse"
+    "totalPrice": 3200,
+    "totalQuantity": 3,
+    "username": "georgehouse"
   },
-  "message" : "The item has been added successfully",
-  "status" : 200
+  "message": "The item has been added successfully",
+  "status": 200
 }
 ```
 
@@ -600,7 +601,6 @@ Authorization: Bearer {token}
 ```
 
 #### Parameters :
-
 
 | Parameter      | Type     | Description                            |
 |:---------------|:---------|:---------------------------------------|
@@ -623,29 +623,29 @@ curl -X POST http://localhost:8090/api/cart \
 
 ```json
 {
-  "data" : {
-    "items" : [
+  "data": {
+    "items": [
       {
-        "description" : "Apple iPhone 14",
-        "name" : "iPhone 14",
-        "price" : 1000,
-        "quantity" : 2,
-        "serialNumber" : "KAV319"
+        "description": "Apple iPhone 14",
+        "name": "iPhone 14",
+        "price": 1000,
+        "quantity": 2,
+        "serialNumber": "KAV319"
       },
       {
-        "description" : "Apple iPhone 15",
-        "name" : "iPhone 15",
-        "price" : 1200,
-        "quantity" : 1,
-        "serialNumber" : "HA68VAN"
+        "description": "Apple iPhone 15",
+        "name": "iPhone 15",
+        "price": 1200,
+        "quantity": 1,
+        "serialNumber": "HA68VAN"
       }
     ],
-    "totalPrice" : 3200,
-    "totalQuantity" : 3,
-    "username" : "georgehouse"
+    "totalPrice": 3200,
+    "totalQuantity": 3,
+    "username": "georgehouse"
   },
-  "message" : "The item has been added successfully",
-  "status" : 200
+  "message": "The item has been added successfully",
+  "status": 200
 }
 ```
 
@@ -660,7 +660,6 @@ curl -X POST http://localhost:8090/api/cart \
 ### d. Update item from cart
 
 You can send a PUT request to update item from cart.
-
 
 #### Example :
 
@@ -678,29 +677,29 @@ curl -X PUT http://localhost:8090/api/cart \
 
 ```json
 {
-   "data" : {
-      "items" : [
-         {
-            "description" : "Apple iPhone 14",
-            "name" : "iPhone 14",
-            "price" : 1000,
-            "quantity" : 5,
-            "serialNumber" : "KAV319"
-         },
-         {
-            "description" : "Apple iPhone 15",
-            "name" : "iPhone 15",
-            "price" : 1200,
-            "quantity" : 1,
-            "serialNumber" : "HA68VAN"
-         }
-      ],
-      "totalPrice" : 6200,
-      "totalQuantity" : 6,
-      "username" : "georgehouse"
-   },
-   "message" : "The items has been updated successfully",
-   "status" : 200
+  "data": {
+    "items": [
+      {
+        "description": "Apple iPhone 14",
+        "name": "iPhone 14",
+        "price": 1000,
+        "quantity": 5,
+        "serialNumber": "KAV319"
+      },
+      {
+        "description": "Apple iPhone 15",
+        "name": "iPhone 15",
+        "price": 1200,
+        "quantity": 1,
+        "serialNumber": "HA68VAN"
+      }
+    ],
+    "totalPrice": 6200,
+    "totalQuantity": 6,
+    "username": "georgehouse"
+  },
+  "message": "The items has been updated successfully",
+  "status": 200
 }
 ```
 
@@ -730,22 +729,22 @@ curl -X DELETE http://localhost:8090/api/cart/KAV319 \
 
 ```json
 {
-  "data" : {
-    "items" : [
+  "data": {
+    "items": [
       {
-        "description" : "Apple iPhone 15",
-        "name" : "iPhone 15",
-        "price" : 1200,
-        "quantity" : 1,
-        "serialNumber" : "HA68VAN"
+        "description": "Apple iPhone 15",
+        "name": "iPhone 15",
+        "price": 1200,
+        "quantity": 1,
+        "serialNumber": "HA68VAN"
       }
     ],
-    "totalPrice" : 1200,
-    "totalQuantity" : 1,
-    "username" : "georgehouse"
+    "totalPrice": 1200,
+    "totalQuantity": 1,
+    "username": "georgehouse"
   },
-  "message" : "The item has been deleted successfully",
-  "status" : 200
+  "message": "The item has been deleted successfully",
+  "status": 200
 }
 ```
 
@@ -776,13 +775,13 @@ curl -X DELETE http://localhost:8090/api/cart/empty \
 
 ```json
 {
-  "data" : {
-    "items" : [],
-    "totalPrice" : 0,
-    "totalQuantity" : 0,
-    "username" : "georgehouse"
+  "data": {
+    "items": [],
+    "totalPrice": 0,
+    "totalQuantity": 0,
+    "username": "georgehouse"
   },
-  "message" : "The items has been deleted successfully",
-  "status" : 200
+  "message": "The items has been deleted successfully",
+  "status": 200
 }
 ```
