@@ -90,21 +90,13 @@ http://localhost:8090/swagger-ui/#/
 | [`POST/api/paymentmethods`](#b-create-a-new-payment-method)                   | Create a new payment method                 |
 | [`DELETE/api/paymentmethods/:id`](#c-delete-a-particular-payment-method)      | Delete a particular payment method          |
 
-### [Shipping Address Management Services](4-shipping-address-management-services)
+### [Address Management Services](4-address-management-services)
 
-| API                                                                   | Description                          |
-|:----------------------------------------------------------------------|:-------------------------------------|
-| [`GET/api/shippingaddress`](#a-get-list-of-all-shippingaddress)       | Get list of all shipping addresses   |
-| [`POST/api/shippingaddress`](#b-post-a-new-shippingaddress)           | Create a new shipping address        |
-| [`DELETE/api/shippingaddress/:id`](#c-get-list-of-all-paymentmethods) | Delete a particular shipping address |
-
-### [Payment Address Management Services](5-payment-address-management-services)
-
-| API                                                                  | Description                         |
-|:---------------------------------------------------------------------|:------------------------------------|
-| [`GET/api/paymentaddress`](#a-get-list-of-all-paymentmethods)        | Get list of all payment address     |
-| [`POST/api/paymentaddress`](#b-post-a-new-paymentmethod)             | Create a new payment address        |
-| [`DELETE/api/paymentaddress/:id`](#c-get-list-of-all-paymentmethods) | Delete a particular payment address |
+| API                                                                 | Description                           |
+|:--------------------------------------------------------------------|:--------------------------------------|
+| [`GET/api/addresses/:id`](#a-get-details-of-a-particular-addresses) | Get details of a particular addresses |
+| [`POST/api/addresses`](#b-create-a-new-address)                     | Create a new address                  |
+| [`DELETE/api/addresses/:id`](#c-delete-a-particular-address)        | Delete a particular address           |
 
 ### [Cart Management Services](#6-cart-management-services)
 
