@@ -37,14 +37,14 @@ public class PaymentMethodServiceImpl implements PaymentMethodService {
 
     @Transactional
     @Override
-    public void deleteById(String username, Long id) {
-        findById(username, id);
+    public void deleteByIdAndUsername(Long id, String username) {
+        findByIdAndUsername(id, username);
         paymentMethodRepository.deleteById(id);
         log.info("payment method has been deleted with id: {}", id);
     }
 
     @Override
-    public PaymentMethodResponse findById(String username, Long id) {
+    public PaymentMethodResponse findByIdAndUsername(Long id, String username) {
         return PaymentMethodMapper.INSTANCE.fromPaymentMethod(
                 paymentMethodRepository.findByIdAndCustomer_User_Username(id, username).orElseThrow(() -> {
                     log.error("payment method does not exist with id: {}", id);

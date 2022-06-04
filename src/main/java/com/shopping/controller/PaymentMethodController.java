@@ -22,7 +22,7 @@ public class PaymentMethodController {
 
     private final PaymentMethodService paymentMethodService;
 
-    @ApiOperation(value = "Add payment method")
+    @ApiOperation(value = "Add payment")
     @PreAuthorize("hasRole('USER')")
     @PostMapping("/api/paymentmethod")
     public ResponseEntity<ApiResponse<PaymentMethodResponse>> addPaymentMethod(@Valid @RequestBody PaymentMethodRequest paymentMethodRequest) {
@@ -33,20 +33,20 @@ public class PaymentMethodController {
                 .body(new ApiResponse<>(HttpStatus.CREATED.value(), "The payment method has added successfully", paymentMethodService.save(username, paymentMethodRequest)));
     }
 
-    @ApiOperation(value = "Delete payment method")
+    @ApiOperation(value = "Delete payment")
     @PreAuthorize("hasRole('USER')")
     @DeleteMapping("/api/paymentmethod/{id}")
     public ResponseEntity<ApiResponse<String>> deletePaymentMethod(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
-        paymentMethodService.deleteById(username, Long.valueOf(id));
+        paymentMethodService.deleteByIdAndUsername(Long.valueOf(id), username);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The payment method has been deleted successfully", null));
     }
 
-    @ApiOperation(value = "Get payment method")
+    @ApiOperation(value = "Get payment")
     @PreAuthorize("hasRole('USER')")
     @GetMapping("/api/paymentmethod/{id}")
     public ResponseEntity<ApiResponse<PaymentMethodResponse>> getPaymentMethod(@PathVariable String id) {
@@ -54,6 +54,6 @@ public class PaymentMethodController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(new ApiResponse<>(HttpStatus.OK.value(), "The payment method has been got successfully", paymentMethodService.findById(username, Long.valueOf(id))));
+                .body(new ApiResponse<>(HttpStatus.OK.value(), "The payment method has been got successfully", paymentMethodService.findByIdAndUsername(Long.valueOf(id), username)));
     }
 }

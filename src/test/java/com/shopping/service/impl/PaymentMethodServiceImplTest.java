@@ -57,7 +57,6 @@ public class PaymentMethodServiceImplTest {
                 .build();
 
         PaymentMethodRequest paymentMethodRequest = PaymentMethodRequest.builder()
-                .id(1L)
                 .paymentType(PaymentType.VISA)
                 .name("My VISA")
                 .build();
@@ -104,7 +103,7 @@ public class PaymentMethodServiceImplTest {
         given(paymentMethodRepository.findByIdAndCustomer_User_Username(any(), any())).willReturn(Optional.of(paymentMethod));
 
         // when
-        paymentMethodService.deleteById(customer.getUser().getUsername(),paymentMethod.getId());
+        paymentMethodService.deleteByIdAndUsername(paymentMethod.getId(), customer.getUser().getUsername());
 
         // then
         verify(paymentMethodRepository, times(1)).deleteById(any());
@@ -136,7 +135,7 @@ public class PaymentMethodServiceImplTest {
         given(paymentMethodRepository.findByIdAndCustomer_User_Username(any(), any())).willReturn(Optional.of(paymentMethod));
 
         // when
-        PaymentMethodResponse expectedPaymentMethodResponse = paymentMethodService.findById(customer.getUser().getUsername(), paymentMethod.getId());
+        PaymentMethodResponse expectedPaymentMethodResponse = paymentMethodService.findByIdAndUsername(paymentMethod.getId(), customer.getUser().getUsername());
 
         // then
         verify(paymentMethodRepository, times(1)).findByIdAndCustomer_User_Username(any(), any());

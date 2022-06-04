@@ -75,7 +75,7 @@ public class PaymentMethodControllerTest extends BaseControllerTest {
                 .paymentType(PaymentType.VISA)
                 .build();
 
-        given(paymentMethodService.findById(any(), any())).willReturn(paymentMethodResponse);
+        given(paymentMethodService.findByIdAndUsername(any(), any())).willReturn(paymentMethodResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
@@ -97,7 +97,7 @@ public class PaymentMethodControllerTest extends BaseControllerTest {
                 .paymentType(PaymentType.VISA)
                 .build();
 
-        given(paymentMethodService.findById(any(), any())).willReturn(paymentMethodResponse);
+        given(paymentMethodService.findByIdAndUsername(any(), any())).willReturn(paymentMethodResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
