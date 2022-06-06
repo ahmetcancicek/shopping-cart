@@ -18,6 +18,8 @@ services:
 
   shoppingcart-server:
     container_name: shoppingcart-server
+    environment:
+      MYSQL_HOST: 172.26.0.2
     build:
       context: .
       dockerfile: Dockerfile
