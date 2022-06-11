@@ -1,6 +1,6 @@
 package com.shopping.service.impl;
 
-import com.shopping.domain.model.Order;
+import com.shopping.domain.model.*;
 import com.shopping.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,7 +23,34 @@ public class OrderServiceImplTest {
     @Test
     void it_should_save_order() {
         // given
+        Customer customer = Customer.builder()
+                .id(1L)
+                .firstName("Lucy")
+                .lastName("King")
+                .user(User.builder()
+                        .id(1L)
+                        .active(true)
+                        .username("lucyking")
+                        .email("lucyking@email.com")
+                        .password("LA4SD12")
+                        .build())
+                .build();
+
+        Address address = Address.builder()
+                .id(1L)
+                .street("43 Grand Street")
+                .city("New York")
+                .zipCode("00501")
+                .stateCode("+1")
+                .customer(customer)
+                .build();
+
         Order order = Order.builder()
+                .customer(customer)
+                .billingAddress(address)
+                .shippingAddress(address)
+                .orderKey("HA702790B")
+                .orderStatus(OrderStatus.NEW)
                 .build();
 
         given(orderRepository.save(any())).willReturn(order);
