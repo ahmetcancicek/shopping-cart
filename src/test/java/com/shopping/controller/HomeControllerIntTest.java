@@ -1,5 +1,6 @@
 package com.shopping.controller;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -12,16 +13,20 @@ import org.springframework.http.ResponseEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-class HomeControllerIntTest {
-
-    @LocalServerPort
-    private int port;
+class HomeControllerIntTest extends BaseIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
+    private final HttpHeaders headers = new HttpHeaders();
 
-    private HttpHeaders headers = new HttpHeaders();
+    @Override
+    @BeforeEach
+    void setUp() {
+        super.setUp();
+
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + getToken());
+    }
 
     @Test
     public void it_should_return_message() {
