@@ -6,7 +6,7 @@ import com.shopping.domain.model.User;
 import com.shopping.service.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @Api(value = "Authentication API Documentation")
 public class AuthController {

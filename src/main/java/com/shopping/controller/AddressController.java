@@ -6,7 +6,7 @@ import com.shopping.domain.dto.ApiResponse;
 import com.shopping.service.AddressService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController
 @Api(value = "Address API Documentation")
 public class AddressController {
@@ -23,7 +23,7 @@ public class AddressController {
     private final AddressService addressService;
 
     @ApiOperation(value = "Add address")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @PostMapping("/api/addresses")
     public ResponseEntity<ApiResponse<AddressResponse>> addAddress(@Valid @RequestBody AddressRequest addressRequest) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -34,7 +34,7 @@ public class AddressController {
     }
 
     @ApiOperation(value = "Delete address")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @DeleteMapping("/api/addresses/{id}")
     public ResponseEntity<ApiResponse<String>> deleteAddress(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -48,7 +48,7 @@ public class AddressController {
     }
 
     @ApiOperation(value = "Get address")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @GetMapping("/api/addresses/{id}")
     public ResponseEntity<ApiResponse<AddressResponse>> getAddress(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
