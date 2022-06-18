@@ -7,6 +7,7 @@ import com.shopping.repository.UserRepository;
 import com.shopping.service.RoleService;
 import com.shopping.service.UserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,8 +20,8 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Slf4j
-@AllArgsConstructor
 @Service(value = "userService")
+@RequiredArgsConstructor
 public class UserServiceImpl implements UserService, UserDetailsService {
 
     private final UserRepository userRepository;

@@ -7,12 +7,11 @@ import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.domain.mapper.CustomerMapper;
 import com.shopping.domain.model.Cart;
 import com.shopping.domain.model.Customer;
-import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.CustomerRepository;
 import com.shopping.service.CustomerService;
 import com.shopping.service.RoleService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -24,8 +23,8 @@ import java.util.List;
 import java.util.Set;
 
 @Slf4j
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepository customerRepository;
@@ -50,7 +49,7 @@ public class CustomerServiceImpl implements CustomerService {
         customer.getUser().setPassword(passwordEncoder.encode(customer.getUser().getPassword()));
         customer.getUser().setActive(true);
 
-        customer.getUser().setRoles(new HashSet<>(Set.of(roleService.findByName("USER"))));
+        customer.getUser().setRoles(new HashSet<>(Set.of(roleService.findByName("ROLE_USER"))));
 
         Customer savedCustomer = customerRepository.save(customer);
         log.info("new customer has been created with username: {}", savedCustomer.getUser().getUsername());

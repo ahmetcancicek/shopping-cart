@@ -12,7 +12,7 @@ import com.shopping.repository.CartRepository;
 import com.shopping.service.CartService;
 import com.shopping.service.CustomerService;
 import com.shopping.service.ProductService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,8 +21,8 @@ import java.math.BigDecimal;
 import java.util.HashSet;
 
 @Slf4j
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class CartServiceImpl implements CartService {
 
     private final CartRepository cartRepository;

@@ -9,12 +9,20 @@ import java.util.List;
 
 public interface CustomerService {
     List<CustomerResponse> findAll();
+
     CustomerResponse save(RegistrationRequest customer);
+
     CustomerResponse findById(Long id);
+
     CustomerResponse findByUser(User user);
+
     CustomerResponse findByUsername(String username);
+
     CustomerResponse findByEmail(String email);
+
     Customer findCustomerByUsername(String username);
+
     void deleteById(Long id);
+
     void deleteByUsername(String username);
 }

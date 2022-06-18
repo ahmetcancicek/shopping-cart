@@ -8,7 +8,7 @@ import com.shopping.domain.mapper.ProductMapper;
 import com.shopping.domain.model.Product;
 import com.shopping.repository.ProductRepository;
 import com.shopping.service.ProductService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,9 +17,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-@AllArgsConstructor
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;

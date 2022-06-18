@@ -5,13 +5,13 @@ import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.domain.model.Role;
 import com.shopping.repository.RoleRepository;
 import com.shopping.service.RoleService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 @Slf4j
-@AllArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
 
     private final RoleRepository roleRepository;
