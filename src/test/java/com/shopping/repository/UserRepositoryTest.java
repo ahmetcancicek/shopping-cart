@@ -32,13 +32,13 @@ class UserRepositoryTest extends BaseRepositoryTest {
                 .email("georgechair@email.com")
                 .roles(new HashSet<>(Set.of(
                         Role.builder()
-                                .id(1)
-                                .name("USER")
+                                .id(1L)
+                                .name("ROLE_USER")
                                 .build()
                         ,
                         Role.builder()
-                                .id(2)
-                                .name("ADMIN")
+                                .id(2L)
+                                .name("ROLE_ADMIN")
                                 .build()
                 )))
                 .active(true)

@@ -6,7 +6,6 @@ import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.RoleService;
 import com.shopping.service.UserService;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -93,7 +92,7 @@ public class UserServiceImpl implements UserService, UserDetailsService {
     private Set getAuthority(User user) {
         Set authorities = new HashSet();
         user.getRoles().forEach(role -> {
-            authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
         });
         return authorities;
     }

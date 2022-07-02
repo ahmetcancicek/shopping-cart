@@ -51,7 +51,7 @@ class UserServiceImplTest {
                 .build();
 
         Role role = Role.builder()
-                .name("USER")
+                .name("ROLE_USER")
                 .build();
 
         given(userRepository.save(any(User.class))).willReturn(user);
@@ -100,8 +100,8 @@ class UserServiceImplTest {
                 .email("georgechair@email.com")
                 .active(true)
                 .roles(Set.of(Role.builder()
-                        .id(1)
-                        .name("USEr")
+                        .id(1L)
+                        .name("ROLE_USER")
                         .build()))
                 .build();
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
@@ -128,8 +128,8 @@ class UserServiceImplTest {
                 .email("georgechair@email.com")
                 .active(true)
                 .roles(new HashSet<>(Set.of(
-                        Role.builder().name("ADMIN").build(),
-                        Role.builder().name("USER").build()
+                        Role.builder().name("ROLE_ADMIN").build(),
+                        Role.builder().name("ROLE_USER").build()
                 )))
                 .build();
         given(userRepository.findByUsername(user.getUsername())).willReturn(Optional.of(user));
@@ -154,7 +154,7 @@ class UserServiceImplTest {
                 .password("G9dl9B6nkm")
                 .email("georgechair@email.com")
                 .active(true)
-                .roles(Set.of(Role.builder().name("USER").build()))
+                .roles(Set.of(Role.builder().name("ROLE_USER").build()))
                 .build();
         given(userRepository.findByEmail(user.getEmail())).willReturn(Optional.of(user));
 

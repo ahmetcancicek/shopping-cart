@@ -29,7 +29,7 @@ public class RoleServiceImpl implements RoleService {
     public Role findByName(String name) {
         return roleRepository.findByName(name).orElseThrow(() -> {
             log.error("role does not exist with name: {}", name);
-            throw new NoSuchElementFoundException(String.format("role does not exist with name: %s", name));
+            return new NoSuchElementFoundException(String.format("role does not exist with name: %s", name));
         });
     }
 }

@@ -32,8 +32,8 @@ public class RoleServiceImplTest {
     public void it_should_save_role() {
         // given
         Role role = Role.builder()
-                .id(1)
-                .name("USER")
+                .id(1L)
+                .name("ROLE_USER")
                 .build();
 
         given(roleRepository.save(any())).willReturn(role);
@@ -48,11 +48,31 @@ public class RoleServiceImplTest {
     }
 
     @Test
+    public void it_should_return_role() {
+        // given
+        Role role = Role.builder()
+                .id(1L)
+                .name("ROLE_USER")
+                .build();
+
+        given(roleRepository.findByName(any())).willReturn(Optional.of(role));
+
+        // when
+        Role expectedRole = roleService.findByName(role.getName());
+
+        // then
+        assertNotNull(expectedRole, "Returned must not be null");
+        assertEquals(role.getId(), expectedRole.getId(), "Id must be equal");
+        assertEquals(role.getName(), expectedRole.getName(), "Name must be equal");
+
+    }
+
+    @Test
     public void it_should_throw_exception_when_save_role_with_existing_name() {
         // given
         Role role = Role.builder()
-                .id(1)
-                .name("USER")
+                .id(1L)
+                .name("ROLE_USER")
                 .build();
 
         given(roleRepository.findByName(any())).willReturn(Optional.ofNullable(role));

@@ -59,7 +59,7 @@ class CustomerServiceImplTest {
                 .build();
 
         Role role = Role.builder()
-                .name("USER")
+                .name("ROLE_USER")
                 .build();
 
         RegistrationRequest registrationRequest = RegistrationRequest.builder()

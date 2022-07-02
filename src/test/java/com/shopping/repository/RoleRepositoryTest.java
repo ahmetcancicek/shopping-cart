@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.dao.DataIntegrityViolationException;
 
+import java.util.Optional;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class RoleRepositoryTest extends BaseRepositoryTest {
     @Autowired
@@ -22,7 +23,7 @@ public class RoleRepositoryTest extends BaseRepositoryTest {
     public void it_should_save_role() {
         // given
         Role role = Role.builder()
-                .name("MODERATOR")
+                .name("ROLE_MODERATOR")
                 .build();
 
         // when
@@ -38,14 +39,34 @@ public class RoleRepositoryTest extends BaseRepositoryTest {
     }
 
     @Test
+    public void it_should_return_role() {
+        // given
+        Role role = Role.builder()
+                .name("ROLE_EDITOR")
+                .build();
+
+        testEntityManager.persistAndFlush(role);
+
+        // when
+        Optional<Role> expectedRole = roleRepository.findByName(role.getName());
+
+        // then
+        assertTrue(expectedRole.isPresent(), "Returned must not be null");
+        assertEquals(role.getName(), expectedRole.get().getName(), "Name must be equal");
+
+        testEntityManager.remove(role);
+        testEntityManager.flush();
+    }
+
+    @Test
     public void it_should_throw_exception_when_save_role_with_existing_name() {
         // given
         Role roleOne = Role.builder()
-                .name("EDITOR")
+                .name("ROLE_EDITOR")
                 .build();
 
         Role roleTwo = Role.builder()
-                .name("EDITOR")
+                .name("ROLE_EDITOR")
                 .build();
 
         testEntityManager.persistAndFlush(roleOne);
