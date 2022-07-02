@@ -12,7 +12,7 @@ import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class AuthControllerIT extends BaseIT {
+public class AuthControllerIT extends AbstractIT {
 
     @Autowired
     private TestRestTemplate restTemplate;

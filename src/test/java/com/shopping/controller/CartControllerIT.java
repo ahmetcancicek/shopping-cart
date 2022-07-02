@@ -12,7 +12,7 @@ import org.springframework.http.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CartControllerIT extends BaseIT {
+public class CartControllerIT extends AbstractIT {
 
     @Autowired
     private TestRestTemplate restTemplate;

@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class ProductControllerIT extends BaseIT {
+public class ProductControllerIT extends AbstractIT {
     @Autowired
     private TestRestTemplate restTemplate;
     private final HttpHeaders headers = new HttpHeaders();
