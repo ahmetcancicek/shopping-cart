@@ -7,8 +7,6 @@ public interface CartService {
 
     CartResponse findByUsername(String username);
 
-    CartResponse addItemToCart(String username, String serialNumber);
-
     CartResponse addItemToCart(String username, String serialNumber, int quantity);
 
     CartResponse addItemToCart(String username, CartItemRequest cartItemRequest);

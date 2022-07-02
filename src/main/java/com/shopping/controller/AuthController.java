@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-
-@RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/auth")
+@RequiredArgsConstructor
 @Api(value = "Authentication API Documentation")
 public class AuthController {
 
@@ -26,8 +26,8 @@ public class AuthController {
     private final JwtTokenUtil jwtTokenUtil;
     private final CustomerService customerService;
 
+    @PostMapping("/login")
     @ApiOperation(value = "Login")
-    @PostMapping("/api/auth/login")
     public ResponseEntity<ApiResponse<AuthToken>> login(@Valid @RequestBody AuthRequest request) throws Exception {
         Authentication authenticate = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -43,8 +43,8 @@ public class AuthController {
                 .body(new ApiResponse<AuthToken>(HttpStatus.OK.value(), "Authentication is successful!", new AuthToken(token, user.getUsername())));
     }
 
+    @PostMapping("/register")
     @ApiOperation(value = "Register")
-    @PostMapping("/api/auth/register")
     public ResponseEntity<ApiResponse<AuthToken>> register(@Valid @RequestBody RegistrationRequest request) throws Exception {
         customerService.save(request);
         return login(AuthRequest.builder().username(request.getUsername()).password(request.getPassword()).build());

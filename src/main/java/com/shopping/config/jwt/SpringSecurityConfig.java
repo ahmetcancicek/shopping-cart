@@ -55,7 +55,8 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
         // Set permissions on endpoints
         http = http.authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers("/api/v1/products/**").permitAll()
                 .antMatchers("/api/products/**").permitAll()
                 .antMatchers("/swagger-ui/**").permitAll()
                 .anyRequest().authenticated()

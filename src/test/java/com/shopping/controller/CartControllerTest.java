@@ -51,7 +51,7 @@ public class CartControllerTest extends BaseControllerTest {
                 .build();
 
         CartResponse cartResponse = CartResponse.builder()
-                .username("billking")
+                .username("stevehouse")
                 .totalQuantity(1)
                 .totalPrice(BigDecimal.TEN)
                 .items(new HashSet<>(Set.of(CartItemResponse.builder()
@@ -63,11 +63,11 @@ public class CartControllerTest extends BaseControllerTest {
                         .build())))
                 .build();
 
-        given(cartService.addItemToCart("stevehouse", cartItemRequest)).willReturn(cartResponse);
+        given(cartService.addItemToCart(any(), any())).willReturn(cartResponse);
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .post("/api/cart")
+                .post("/api/v1/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(cartItemRequest));
@@ -96,7 +96,7 @@ public class CartControllerTest extends BaseControllerTest {
                 .build();
 
         CartResponse cartResponse = CartResponse.builder()
-                .username("billking")
+                .username("stevehouse")
                 .totalQuantity(1)
                 .totalPrice(BigDecimal.TEN)
                 .items(new HashSet<>(Set.of(CartItemResponse.builder()
@@ -112,7 +112,7 @@ public class CartControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/api/cart")
+                .get("/api/v1/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(cartItemRequest));
@@ -136,7 +136,7 @@ public class CartControllerTest extends BaseControllerTest {
     public void it_should_delete_item_from_cart() throws Exception {
         // given
         CartResponse cartResponse = CartResponse.builder()
-                .username("billking")
+                .username("stevehouse")
                 .totalQuantity(0)
                 .totalPrice(BigDecimal.ZERO)
                 .items(new HashSet<>())
@@ -146,7 +146,7 @@ public class CartControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/api/cart/{serialNumber}", "Y5N3DJ")
+                .delete("/api/v1/cart/{serialNumber}", "Y5N3DJ")
                 .contentType(MediaType.APPLICATION_JSON);
 
 
@@ -164,7 +164,7 @@ public class CartControllerTest extends BaseControllerTest {
     public void it_should_delete_all_items_from_cart() throws Exception {
         // given
         CartResponse cartResponse = CartResponse.builder()
-                .username("billking")
+                .username("stevehouse")
                 .totalQuantity(0)
                 .totalPrice(BigDecimal.ZERO)
                 .items(new HashSet<>())
@@ -174,7 +174,7 @@ public class CartControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/api/cart/empty")
+                .delete("/api/v1/cart/empty")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON);
 
@@ -196,7 +196,7 @@ public class CartControllerTest extends BaseControllerTest {
                 .build();
 
         CartResponse cartResponse = CartResponse.builder()
-                .username("billking")
+                .username("stevehouse")
                 .totalQuantity(1)
                 .totalPrice(BigDecimal.TEN)
                 .items(new HashSet<>(Set.of(CartItemResponse.builder()
@@ -212,7 +212,7 @@ public class CartControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .put("/api/cart")
+                .put("/api/v1/cart")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(cartItemRequest));

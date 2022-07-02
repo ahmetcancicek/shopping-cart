@@ -108,7 +108,7 @@ public class ProductControllerTest extends BaseControllerTest {
         given(productService.save(any())).willReturn(productResponse);
 
         // when
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/products")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/v1/products")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(productRequest));
@@ -135,7 +135,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/api/products/{serialNumber}", productResponse.getSerialNumber());
+                .delete("/api/v1/products/{serialNumber}", productResponse.getSerialNumber());
 
         // then
         mockMvc.perform(mockRequest)
@@ -151,7 +151,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/api/products/{serialNumber}", "Y5N3DJ");
+                .delete("/api/v1/products/{serialNumber}", "Y5N3DJ");
 
         // then
         mockMvc.perform(mockRequest)
@@ -167,7 +167,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/api/products/{serialNumber}", productRequest)
+                .get("/api/v1/products/{serialNumber}", productRequest.getSerialNumber())
                 .accept(MediaType.APPLICATION_JSON);
 
         // then
@@ -188,7 +188,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/api/products/{serialNumber}", "Y5N3DJ");
+                .get("/api/v1/products/{serialNumber}", "Y5N3DJ");
 
         // then
         mockMvc.perform(mockRequest)
@@ -204,7 +204,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/api/products")
+                .get("/api/v1/products")
                 .accept(MediaType.APPLICATION_JSON);
 
         // then
@@ -231,7 +231,7 @@ public class ProductControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .put("/api/products")
+                .put("/api/v1/products")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(productRequest));

@@ -53,7 +53,7 @@ public class PaymentMethodControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .post("/api/paymentmethod")
+                .post("/api/v1/paymentmethod")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(paymentMethodRequest));
@@ -79,7 +79,7 @@ public class PaymentMethodControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/api/paymentmethod/{id}", paymentMethodResponse.getId())
+                .delete("/api/v1/paymentmethod/{id}", paymentMethodResponse.getId())
                 .accept(MediaType.APPLICATION_JSON);
 
         // then
@@ -101,7 +101,7 @@ public class PaymentMethodControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/api/paymentmethod/{id}", paymentMethodResponse.getId())
+                .get("/api/v1/paymentmethod/{id}", paymentMethodResponse.getId())
                 .accept(MediaType.APPLICATION_JSON);
 
         // then

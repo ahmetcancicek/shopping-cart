@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/paymentmethod")
+@RequiredArgsConstructor
 @Api(value = "Payment Method API Documentation")
 public class PaymentMethodController {
 
     private final PaymentMethodService paymentMethodService;
 
+    @PostMapping
     @ApiOperation(value = "Add payment")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @PostMapping("/api/paymentmethod")
     public ResponseEntity<ApiResponse<PaymentMethodResponse>> addPaymentMethod(@Valid @RequestBody PaymentMethodRequest paymentMethodRequest) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -33,9 +34,9 @@ public class PaymentMethodController {
                 .body(new ApiResponse<>(HttpStatus.CREATED.value(), "The payment method has added successfully", paymentMethodService.save(username, paymentMethodRequest)));
     }
 
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete payment")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @DeleteMapping("/api/paymentmethod/{id}")
     public ResponseEntity<ApiResponse<String>> deletePaymentMethod(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -46,9 +47,9 @@ public class PaymentMethodController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The payment method has been deleted successfully", null));
     }
 
+    @GetMapping("/{id}")
     @ApiOperation(value = "Get payment")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @GetMapping("/api/paymentmethod/{id}")
     public ResponseEntity<ApiResponse<PaymentMethodResponse>> getPaymentMethod(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 

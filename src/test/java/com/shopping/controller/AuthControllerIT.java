@@ -31,7 +31,7 @@ public class AuthControllerIT extends BaseIT {
                 .build();
 
         // when
-        ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/auth/register",
+        ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/v1/auth/register",
                 HttpMethod.POST,
                 new HttpEntity<>(request, headers),
                 new ParameterizedTypeReference<ApiResponse<AuthToken>>() {
@@ -56,7 +56,7 @@ public class AuthControllerIT extends BaseIT {
                 .build();
 
         // when
-        ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/auth/login",
+        ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/v1/auth/login",
                 HttpMethod.POST,
                 new HttpEntity<>(request, headers),
                 new ParameterizedTypeReference<ApiResponse<AuthToken>>() {
@@ -83,7 +83,7 @@ public class AuthControllerIT extends BaseIT {
                 .build();
 
         // when
-        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/auth/register",
+        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/v1/auth/register",
                 HttpMethod.POST,
                 new HttpEntity<>(request, headers),
                 new ParameterizedTypeReference<ApiResponse<CustomerResponse>>() {
@@ -106,7 +106,7 @@ public class AuthControllerIT extends BaseIT {
                 .build();
 
         // when
-        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/auth/register",
+        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/v1/auth/register",
                 HttpMethod.POST,
                 new HttpEntity<>(request, headers),
                 new ParameterizedTypeReference<ApiResponse<CustomerResponse>>() {
@@ -127,7 +127,7 @@ public class AuthControllerIT extends BaseIT {
                 .build();
 
         // when
-        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/auth/register",
+        ResponseEntity<ApiResponse<CustomerResponse>> response = restTemplate.exchange("/api/v1/auth/register",
                 HttpMethod.POST,
                 new HttpEntity<>(request, headers),
                 new ParameterizedTypeReference<ApiResponse<CustomerResponse>>() {

@@ -16,16 +16,17 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 
-@RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/cart")
+@RequiredArgsConstructor
 @Api(value = "Cart API Documentation")
 public class CartController {
 
     private final CartService cartService;
 
+    @PostMapping
     @ApiOperation(value = "Add item to cart")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @PostMapping("/api/cart")
     public ResponseEntity<ApiResponse<CartResponse>> addItemToCart(@Valid @RequestBody CartItemRequest cartItemRequest) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -34,9 +35,9 @@ public class CartController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The item has been added successfully", cartService.addItemToCart(username, cartItemRequest)));
     }
 
+    @GetMapping
     @ApiOperation(value = "Get cart")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @GetMapping("/api/cart")
     public ResponseEntity<ApiResponse<CartResponse>> getCart() {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -45,9 +46,9 @@ public class CartController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The cart has been got successfully", cartService.findByUsername(username)));
     }
 
+    @DeleteMapping("/{serialNumber}")
     @ApiOperation(value = "Delete item from cart")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @DeleteMapping("/api/cart/{serialNumber}")
     public ResponseEntity<ApiResponse<CartResponse>> deleteItemFromCart(@PathVariable String serialNumber) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -56,9 +57,9 @@ public class CartController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The item has been deleted successfully", cartService.deleteItemFromCart(username, serialNumber)));
     }
 
+    @DeleteMapping("/empty")
     @ApiOperation("Delete all items from cart")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @DeleteMapping("/api/cart/empty")
     public ResponseEntity<ApiResponse<CartResponse>> clear() {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -67,9 +68,9 @@ public class CartController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The items has been deleted successfully", cartService.clear(username)));
     }
 
+    @PutMapping
     @ApiOperation("Update item from cart")
     @PreAuthorize("hasAnyAuthority('ROLE_USER')")
-    @PutMapping("/api/cart")
     public ResponseEntity<ApiResponse<CartResponse>> updateItemFromCart(@Valid @RequestBody CartItemRequest cartItemRequest) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 

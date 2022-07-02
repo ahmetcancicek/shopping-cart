@@ -16,14 +16,15 @@ import javax.validation.Valid;
 import java.util.List;
 
 
-@RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/products")
+@RequiredArgsConstructor
 @Api(value = "Product API Documentation")
 public class ProductController {
 
     private final ProductService productService;
 
-    @GetMapping("/api/products")
+    @GetMapping
     @ApiOperation(value = "Get products")
     public ResponseEntity<ApiResponse<List<ProductResponse>>> getProducts() {
         return ResponseEntity
@@ -31,7 +32,7 @@ public class ProductController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The product has been got successfully.", productService.findAll()));
     }
 
-    @GetMapping("/api/products/{serialNumber}")
+    @GetMapping("/{serialNumber}")
     @ApiOperation(value = "Get product")
     public ResponseEntity<ApiResponse<ProductResponse>> getProduct(@PathVariable String serialNumber) {
         return ResponseEntity
@@ -39,8 +40,8 @@ public class ProductController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The products has been got successfully.", productService.findBySerialNumber(serialNumber)));
     }
 
+    @PostMapping
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @PostMapping("/api/products")
     @ApiOperation(value = "Add product")
     public ResponseEntity<ApiResponse<ProductResponse>> addProduct(@Valid @RequestBody ProductRequest request) {
         return ResponseEntity
@@ -48,8 +49,8 @@ public class ProductController {
                 .body(new ApiResponse<>(HttpStatus.CREATED.value(), "The product has been added successfully.", productService.save(request)));
     }
 
+    @DeleteMapping("/{serialNumber}")
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @DeleteMapping("/api/products/{serialNumber}")
     @ApiOperation(value = "Delete product")
     public ResponseEntity<ApiResponse<String>> deleteProduct(@PathVariable String serialNumber) {
         productService.deleteBySerialNumber(serialNumber);
@@ -58,8 +59,8 @@ public class ProductController {
                 .body(new ApiResponse<>(HttpStatus.OK.value(), "The product has been deleted successfully.", null));
     }
 
+    @PutMapping
     @PreAuthorize("hasAnyAuthority('ROLE_ADMIN')")
-    @PutMapping("/api/products")
     @ApiOperation(value = "Update product")
     public ResponseEntity<ApiResponse<ProductResponse>> updateProduct(@Valid @RequestBody ProductRequest request) {
         return ResponseEntity

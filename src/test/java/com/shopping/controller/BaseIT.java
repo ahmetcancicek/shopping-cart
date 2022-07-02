@@ -57,7 +57,7 @@ public abstract class BaseIT {
                     .password("DHN827D9N")
                     .build();
 
-            ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/auth/login",
+            ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/v1/auth/login",
                     HttpMethod.POST,
                     new HttpEntity<>(request, headers),
                     new ParameterizedTypeReference<ApiResponse<AuthToken>>() {

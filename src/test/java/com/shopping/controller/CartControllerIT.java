@@ -37,7 +37,7 @@ public class CartControllerIT extends BaseIT {
 
         // when
         ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
-                .exchange("/api/cart",
+                .exchange("/api/v1/cart",
                         HttpMethod.POST,
                         new HttpEntity<>(cartItemRequest, headers),
                         new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
@@ -60,7 +60,7 @@ public class CartControllerIT extends BaseIT {
     public void it_should_return_cart_of_that_customer() {
         // when
         ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
-                .exchange("/api/cart",
+                .exchange("/api/v1/cart",
                         HttpMethod.GET,
                         new HttpEntity<>(null, headers),
                         new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
@@ -86,7 +86,7 @@ public class CartControllerIT extends BaseIT {
 
         // when
         ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
-                .exchange("/api/cart/KMNA239",
+                .exchange("/api/v1/cart/KMNA239",
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, headers),
                         new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
@@ -105,7 +105,7 @@ public class CartControllerIT extends BaseIT {
     public void it_should_delete_all_items_from_cart() {
         // when
         ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
-                .exchange("/api/cart/empty",
+                .exchange("/api/v1/cart/empty",
                         HttpMethod.DELETE,
                         new HttpEntity<>(null, headers),
                         new ParameterizedTypeReference<ApiResponse<CartResponse>>() {
@@ -131,7 +131,7 @@ public class CartControllerIT extends BaseIT {
 
         // when
         ResponseEntity<ApiResponse<CartResponse>> response = restTemplate
-                .exchange("/api/cart",
+                .exchange("/api/v1/cart",
                         HttpMethod.PUT,
                         new HttpEntity<>(cartItemRequest, headers),
                         new ParameterizedTypeReference<ApiResponse<CartResponse>>() {

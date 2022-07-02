@@ -28,7 +28,7 @@ class HomeControllerIT extends BaseIT {
 
     @Test
     public void it_should_return_message() {
-        ResponseEntity<String> getString = restTemplate.exchange("/hello",
+        ResponseEntity<String> getString = restTemplate.exchange("/api/v1/hello",
                 HttpMethod.GET,
                 new HttpEntity<>(null, headers),
                 String.class);
@@ -38,7 +38,7 @@ class HomeControllerIT extends BaseIT {
 
     @Test
     public void it_should_return_message_when_given_parameter() {
-        ResponseEntity<String> getString = restTemplate.exchange("/hello?name=John",
+        ResponseEntity<String> getString = restTemplate.exchange("/api/v1/hello?name=John",
                 HttpMethod.GET,
                 new HttpEntity<>(null, headers),
                 String.class);

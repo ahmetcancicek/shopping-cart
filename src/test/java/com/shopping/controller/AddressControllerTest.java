@@ -56,7 +56,7 @@ public class AddressControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .post("/api/addresses")
+                .post("/api/v1/addresses")
                 .accept(MediaType.APPLICATION_JSON)
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(addressRequest));
@@ -87,7 +87,7 @@ public class AddressControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .delete("/api/addresses/{id}", addressResponse.getId())
+                .delete("/api/v1/addresses/{id}", addressResponse.getId())
                 .accept(MediaType.APPLICATION_JSON);
 
         // then
@@ -111,7 +111,7 @@ public class AddressControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders
-                .get("/api/addresses/{id}", addressResponse.getId())
+                .get("/api/v1/addresses/{id}", addressResponse.getId())
                 .accept(MediaType.APPLICATION_JSON);
 
         // then

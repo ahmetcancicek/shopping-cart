@@ -42,7 +42,7 @@ public class ProductControllerIT extends BaseIT {
 
         // when
         ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate
-                .exchange("/api/products",
+                .exchange("/api/v1/products",
                         HttpMethod.POST,
                         new HttpEntity<>(productRequest, headers),
                         new ParameterizedTypeReference<ApiResponse<ProductResponse>>() {
@@ -64,7 +64,7 @@ public class ProductControllerIT extends BaseIT {
     @Test
     public void it_should_delete_product_of_that_serialNumber() {
         // when
-        ResponseEntity<ApiResponse<String>> response = restTemplate.exchange("/api/products/{serialNumber}",
+        ResponseEntity<ApiResponse<String>> response = restTemplate.exchange("/api/v1/products/{serialNumber}",
                 HttpMethod.DELETE,
                 new HttpEntity<>(null, headers),
                 new ParameterizedTypeReference<ApiResponse<String>>() {
@@ -97,7 +97,7 @@ public class ProductControllerIT extends BaseIT {
     public void it_should_return_product_of_that_serialNumber() {
         // when
         ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate
-                .exchange("/api/products/{serialNumber}",
+                .exchange("/api/v1/products/{serialNumber}",
                         HttpMethod.GET,
                         HttpEntity.EMPTY,
                         new ParameterizedTypeReference<ApiResponse<ProductResponse>>() {
@@ -121,7 +121,7 @@ public class ProductControllerIT extends BaseIT {
     public void it_should_return_bad_request_when_product_does_not_exist() {
         // when
         ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate
-                .exchange("/api/products/{serialNumber}",
+                .exchange("/api/v1/products/{serialNumber}",
                         HttpMethod.GET,
                         HttpEntity.EMPTY,
                         new ParameterizedTypeReference<ApiResponse<ProductResponse>>() {
@@ -136,7 +136,7 @@ public class ProductControllerIT extends BaseIT {
     public void it_should_return_list_of_all_products() {
         // when
         ResponseEntity<ApiResponse<List<ProductResponse>>> response = restTemplate
-                .exchange("/api/products",
+                .exchange("/api/v1/products",
                         HttpMethod.GET,
                         HttpEntity.EMPTY,
                         new ParameterizedTypeReference<ApiResponse<List<ProductResponse>>>() {
@@ -170,7 +170,7 @@ public class ProductControllerIT extends BaseIT {
 
         // when
         ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate
-                .exchange("/api/products",
+                .exchange("/api/v1/products",
                         HttpMethod.PUT,
                         new HttpEntity<>(productRequest, headers),
                         new ParameterizedTypeReference<ApiResponse<ProductResponse>>() {

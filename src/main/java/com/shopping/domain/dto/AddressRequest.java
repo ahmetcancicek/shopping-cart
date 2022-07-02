@@ -2,9 +2,7 @@ package com.shopping.domain.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotEmpty;
@@ -12,6 +10,8 @@ import javax.validation.constraints.NotEmpty;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "Address Request DTO", description = "Address Request Data Transfer Object")
 public class AddressRequest {
 

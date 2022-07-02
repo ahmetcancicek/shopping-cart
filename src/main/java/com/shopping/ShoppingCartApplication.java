@@ -9,15 +9,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
-
-
+@EnableSwagger2
 @SpringBootApplication
 @RequiredArgsConstructor
-@EnableSwagger2
 public class ShoppingCartApplication {
-
-//    private final RoleService roleService;
-//    private final CustomerRepository customerRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ShoppingCartApplication.class, args);
@@ -28,19 +23,7 @@ public class ShoppingCartApplication {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
-//                roleService.save(Role.builder().name("ROLE_USER").build());
-//                roleService.save(Role.builder().name("ROLE_ADMIN").build());
-//
-//                customerRepository.save(Customer.builder()
-//                        .firstName("George")
-//                        .lastName("House")
-//                        .user(User.builder()
-//                                .roles(Set.of(Role.builder().name("ADMIN").build()))
-//                                .username("georgehouse")
-//                                .password(new BCryptPasswordEncoder().encode("DHN827D9N"))
-//                                .email("georgehouse@email.com")
-//                                .build())
-//                        .build());
+
             }
         };
     }

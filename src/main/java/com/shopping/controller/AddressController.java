@@ -15,16 +15,17 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequiredArgsConstructor
 @RestController
+@RequestMapping("/api/v1/addresses")
+@RequiredArgsConstructor
 @PreAuthorize("hasAnyAuthority('ROLE_USER')")
 @Api(value = "Address API Documentation")
 public class AddressController {
 
     private final AddressService addressService;
 
+    @PostMapping
     @ApiOperation(value = "Add address")
-    @PostMapping("/api/addresses")
     public ResponseEntity<ApiResponse<AddressResponse>> addAddress(@Valid @RequestBody AddressRequest addressRequest) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -33,8 +34,8 @@ public class AddressController {
                 .body(new ApiResponse<>(HttpStatus.CREATED.value(), "The address has been added successfully", addressService.save(username, addressRequest)));
     }
 
+    @DeleteMapping("/{id}")
     @ApiOperation(value = "Delete address")
-    @DeleteMapping("/api/addresses/{id}")
     public ResponseEntity<ApiResponse<String>> deleteAddress(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 
@@ -46,8 +47,8 @@ public class AddressController {
 
     }
 
+    @GetMapping("/{id}")
     @ApiOperation(value = "Get address")
-    @GetMapping("/api/addresses/{id}")
     public ResponseEntity<ApiResponse<AddressResponse>> getAddress(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
 

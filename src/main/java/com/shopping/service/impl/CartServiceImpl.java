@@ -41,12 +41,6 @@ public class CartServiceImpl implements CartService {
 
     @Transactional
     @Override
-    public CartResponse addItemToCart(String username, String serialNumber) {
-        return addItemToCart(username, serialNumber, 1);
-    }
-
-    @Transactional
-    @Override
     public CartResponse addItemToCart(String username, String serialNumber, int quantity) {
         Product product = productService.findProductBySerialNumber(serialNumber);
         Customer customer = customerService.findCustomerByUsername(username);

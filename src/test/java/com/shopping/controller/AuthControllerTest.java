@@ -74,7 +74,7 @@ class AuthControllerTest extends BaseControllerTest {
         given(customerService.save(any())).willReturn(customerResponse);
 
         // when
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/auth/register")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/v1/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(customerRequest));
@@ -100,7 +100,7 @@ class AuthControllerTest extends BaseControllerTest {
 
 
         // when
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/auth/login")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/v1/auth/login")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(authRequest));
@@ -122,7 +122,7 @@ class AuthControllerTest extends BaseControllerTest {
 
         // when
         MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders
-                .post("/api/auth/register")
+                .post("/api/v1/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(customerRequest));
 
@@ -136,7 +136,7 @@ class AuthControllerTest extends BaseControllerTest {
     @Test
     public void it_should_return_client_error_when_register_customer_with_body_isNotValid() throws Exception {
         // when
-        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/auth/register")
+        MockHttpServletRequestBuilder mockRequest = MockMvcRequestBuilders.post("/api/v1/auth/register")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .content(mapper.writeValueAsString(RegistrationRequest.builder().build()));

@@ -2,8 +2,7 @@ package com.shopping.domain.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.validation.constraints.DecimalMin;
@@ -12,8 +11,11 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.math.BigDecimal;
 
-@Data
+@Getter
+@Setter
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @ApiModel(value = "Product Request DTO", description = "Product Request Data Transfer Object")
 public class ProductRequest {
 
