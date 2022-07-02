@@ -57,68 +57,68 @@ http://localhost:8090/swagger-ui/#/
 
 ### [User Management Services](#1-user-management-services)
 
-| API                                                     | Description              |
-|:--------------------------------------------------------|:-------------------------|
-| [`POST/api/auth/register`](#a-register-a-new-user)      | Register a new user      |
-| [`POST/api/auth/login`](#b-login-a-user)                | Login a user             |
-| [`POST/api/auth/logout`](#c-logout-a-user)              | Logout a user            |
-| [`POST/api/auth/refreshtoken`](#d-refrest-token-a-user) | Refresh token for a user |
+| API                                                        | Description              |
+|:-----------------------------------------------------------|:-------------------------|
+| [`POST/api/v1/auth/register`](#a-register-a-new-user)      | Register a new user      |
+| [`POST/api/v1/auth/login`](#b-login-a-user)                | Login a user             |
+| [`POST/api/v1/auth/logout`](#c-logout-a-user)              | Logout a user            |
+| [`POST/api/v1/auth/refreshtoken`](#d-refrest-token-a-user) | Refresh token for a user |
 
 ### [Account Management Services](#2-account-mangement-services)
 
-| API                                                                    | Description                                           |
-|:-----------------------------------------------------------------------|:------------------------------------------------------|
-| [`GET/api/account/:username`](#a-get-details-of-a-user)                | Get details of a particular customer that had a login |
-| [`PATCH/api/account/:username`](#b-update-details-of-a-user)           | Update a particular customer                          |
-| [`PATCH/api/account/:username/password`](#c-update-password-of-a-user) | Update password of a particular  customer             |
+| API                                                                       | Description                                           |
+|:--------------------------------------------------------------------------|:------------------------------------------------------|
+| [`GET/api/v1/account/:username`](#a-get-details-of-a-user)                | Get details of a particular customer that had a login |
+| [`PATCH/api/v1/account/:username`](#b-update-details-of-a-user)           | Update a particular customer                          |
+| [`PATCH/api/v1/account/:username/password`](#c-update-password-of-a-user) | Update password of a particular  customer             |
 
 ### [Product Management Services](#3-product-management-services)
 
-| API                                                                                | Description                      |
-|:-----------------------------------------------------------------------------------|:---------------------------------|
-| [`POST/api/products`](#a-create-a-new-product)                                     | Create a new product             |
-| [`GET/api/products`](#b-get-list-of-all-products)                                  | Get list of all products         |
-| [`GET/api/products/limit/:limit/page/:page`](#c-get-list-of-all-products-by-limit) | Get list of all products         |
-| [`GET/api/products/:serialNumber`](#d-get-details-of-a-particular-product)         | Get details a particular product |
-| [`PATCH/api/products/:serialNumber`](#e-update-details-of-a-particular-product)    | Update a particular product      |
-| [`DELETE/api/products/:serialNumber`](#f-delete-a-particular-product)              | Delete a particular product      |
+| API                                                                                   | Description                      |
+|:--------------------------------------------------------------------------------------|:---------------------------------|
+| [`POST/api/v1/products`](#a-create-a-new-product)                                     | Create a new product             |
+| [`GET/api/v1/products`](#b-get-list-of-all-products)                                  | Get list of all products         |
+| [`GET/api/v1/products/limit/:limit/page/:page`](#c-get-list-of-all-products-by-limit) | Get list of all products         |
+| [`GET/api/v1/products/:serialNumber`](#d-get-details-of-a-particular-product)         | Get details a particular product |
+| [`PATCH/api/v1/products/:serialNumber`](#e-update-details-of-a-particular-product)    | Update a particular product      |
+| [`DELETE/api/v1/products/:serialNumber`](#f-delete-a-particular-product)              | Delete a particular product      |
 
 ### [Payment Method Management Services](#4-payment-method-management-services)
 
-| API                                                                           | Description                                 |
-|:------------------------------------------------------------------------------|:--------------------------------------------|
-| [`GET/api/paymentmethods/:id`](#a-get-details-of-a-particular-payment-method) | Get details of a particular payment methods |
-| [`POST/api/paymentmethods`](#b-create-a-new-payment-method)                   | Create a new payment method                 |
-| [`DELETE/api/paymentmethods/:id`](#c-delete-a-particular-payment-method)      | Delete a particular payment method          |
+| API                                                                              | Description                                 |
+|:---------------------------------------------------------------------------------|:--------------------------------------------|
+| [`GET/api/v1/paymentmethods/:id`](#a-get-details-of-a-particular-payment-method) | Get details of a particular payment methods |
+| [`POST/api/v1/paymentmethods`](#b-create-a-new-payment-method)                   | Create a new payment method                 |
+| [`DELETE/api/v1/paymentmethods/:id`](#c-delete-a-particular-payment-method)      | Delete a particular payment method          |
 
 ### [Address Management Services](4-address-management-services)
 
-| API                                                                 | Description                           |
-|:--------------------------------------------------------------------|:--------------------------------------|
-| [`GET/api/addresses/:id`](#a-get-details-of-a-particular-addresses) | Get details of a particular addresses |
-| [`POST/api/addresses`](#b-create-a-new-address)                     | Create a new address                  |
-| [`DELETE/api/addresses/:id`](#c-delete-a-particular-address)        | Delete a particular address           |
+| API                                                                    | Description                           |
+|:-----------------------------------------------------------------------|:--------------------------------------|
+| [`GET/api/v1/addresses/:id`](#a-get-details-of-a-particular-addresses) | Get details of a particular addresses |
+| [`POST/api/v1/addresses`](#b-create-a-new-address)                     | Create a new address                  |
+| [`DELETE/api/v1/addresses/:id`](#c-delete-a-particular-address)        | Delete a particular address           |
 
 ### [Cart Management Services](#6-cart-management-services)
 
-| API                                                         | Description                     |
-|:------------------------------------------------------------|:--------------------------------|
-| [`GET/api/cart`](#a-get-list-of-all-items-from-cart)        | Get list of all items from cart |
-| [`POST/api/cart`](#b-post-a-new-item-to-cart)               | Add a new item to cart          |
-| [`POST/api/cart_bulk`](#c-post-new-items-to-cart)           | Add new items to cart           |
-| [`PUT/api/cart`](#d-update-item-from-cart)                  | Update item from cart           |
-| [`DELETE/api/cart/:serialNumber`](#e-delete-item-from-cart) | Delete item from cart           |
-| [`DELETE/api/cart/empty`](#f-delete-all-items-from-cart)    | Delete all items from cart      |
+| API                                                            | Description                     |
+|:---------------------------------------------------------------|:--------------------------------|
+| [`GET/api/v1/cart`](#a-get-list-of-all-items-from-cart)        | Get list of all items from cart |
+| [`POST/api/v1/cart`](#b-post-a-new-item-to-cart)               | Add a new item to cart          |
+| [`POST/api/v1/cart_bulk`](#c-post-new-items-to-cart)           | Add new items to cart           |
+| [`PUT/api/v1/cart`](#d-update-item-from-cart)                  | Update item from cart           |
+| [`DELETE/api/v1/cart/:serialNumber`](#e-delete-item-from-cart) | Delete item from cart           |
+| [`DELETE/api/v1/cart/empty`](#f-delete-all-items-from-cart)    | Delete all items from cart      |
 
 ### [Order API](#6-order-api)
 
-| API                                                                           | Description                      |
-|:------------------------------------------------------------------------------|:---------------------------------|
-| [`POST/api/orders`](#b-post-a-new-order)                                      | Create a new order               |
-| [`GET/api/orders/limit/:limit/page/:page`](#b-get-list-of-all-order-by-limit) | Get list of all orders           |
-| [`GET/api/orders`](#c-get-list-of-all-orders)                                 | Get list of all orders           |
-| [`GET/api/orders/:orderNumber`](#d-get-details-of-a-order)                    | Get details of a particular oder |
-| [`DELETE/api/orders/:orderNumber`](#e-get-delete-a-order)                     | Delete a particular oder         |
+| API                                                                              | Description                      |
+|:---------------------------------------------------------------------------------|:---------------------------------|
+| [`POST/api/v1/orders`](#b-post-a-new-order)                                      | Create a new order               |
+| [`GET/api/v1/orders/limit/:limit/page/:page`](#b-get-list-of-all-order-by-limit) | Get list of all orders           |
+| [`GET/api/v1/orders`](#c-get-list-of-all-orders)                                 | Get list of all orders           |
+| [`GET/api/v1/orders/:orderNumber`](#d-get-details-of-a-order)                    | Get details of a particular oder |
+| [`DELETE/v1/api/orders/:orderNumber`](#e-get-delete-a-order)                     | Delete a particular oder         |
 
 ## 1. User Management Services
 
@@ -128,7 +128,7 @@ You can send a POST request to register a new user and returns a web token for a
 
 ```
 Method: POST
-URL: /api/auth/register
+URL: /api/v1/auth/register
 Content-Type: application/json
 Accept: application/json
 ```
@@ -148,7 +148,7 @@ Accept: application/json
 * Request :
 
 ```curl
-curl -X POST 'localhost:8090/api/auth/register/' \
+curl -X POST 'localhost:8090/api/v1/auth/register/' \
 -H 'Content-Type: application/json' \
 -d '{"username":"stevekey","password":"KHG279BD","email":"stevekey@email.com","firstname":"Steve","lastname":"Key"}'
 ```
@@ -172,7 +172,7 @@ You can send a POST request to login a user and returns a web token for authenti
 
 ```
 Method: POST
-URL: /api/auth/login
+URL: /api/v1/auth/login
 Content-Type: application/json
 Accept: application/json
 ```
@@ -189,7 +189,7 @@ Accept: application/json
 * Request :
 
 ```curl
-curl -X POST 'localhost:8090/api/auth/login/' \
+curl -X POST 'localhost:8090/api/v1/auth/login/' \
 -H 'Content-Type: application/json' \
 -d '{"username":"georgehouse","password":"DHN827D9N"}'
 ```
@@ -215,7 +215,7 @@ You can send a POST request to create a new product.
 
 ```
 Method: POST
-URL: /api/products
+URL: /api/v1/products
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {token}
@@ -236,7 +236,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl http://localhost:8090/api/products \
+curl http://localhost:8090/api/v1/products \
    -H "Accept: application/json" \
    -H "Content-Type: application/json" \
    -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" \
@@ -265,7 +265,7 @@ You can send a GET request to get list of all products.
 
 ```
 Method: GET
-URL: /api/products
+URL: /api/v1/products
 Accept: application/json
 Authorization: Bearer {token}
 ```
@@ -275,7 +275,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X GET http://localhost:8090/api/products \
+curl -X GET http://localhost:8090/api/v1/products \
    -H "Accept: application/json" \
    -H "Content-Type: application/json"
 ```
@@ -311,7 +311,7 @@ You can send a GET request to get details of a product.
 
 ```
 Method: GET
-URL: /api/products/{serialNumber}
+URL: /api/v1/products/{serialNumber}
 Accept: application/json
 ```
 
@@ -320,7 +320,7 @@ Accept: application/json
 * Request :
 
 ```curl
-curl -X GET http://localhost:8090/api/products/KAV319 \
+curl -X GET http://localhost:8090/api/v1/products/KAV319 \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" 
 ```
@@ -347,7 +347,7 @@ You can send a PUT request to update a particular product.
 
 ```
 Method: PUT
-URL: /api/products
+URL: /api/v1/products
 Content: application/json
 Accept: application/json
 Authorization: Bearer {token}
@@ -368,7 +368,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X PUT http://localhost:8090/api/products \
+curl -X PUT http://localhost:8090/api/v1/products \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" \
@@ -397,7 +397,7 @@ You can send a DELETE request to delete a particular product.
 
 ```
 Method: DELETE
-URL: /api/products/{serialNumber}
+URL: /api/v1/products/{serialNumber}
 Accept: application/json
 Authorization: Bearer {token}
 ```
@@ -407,7 +407,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X DELETE http://localhost:8090/api/products/KAV319 \
+curl -X DELETE http://localhost:8090/api/v1/products/KAV319 \
 -H "Accept: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk"
 ```
@@ -430,7 +430,7 @@ You can send a GET request to get details of a particular payment methods.
 
 ```
 Method: GET
-URL: /api/paymentmethod/{id}
+URL: /api/v1/paymentmethod/{id}
 Accept: application/json
 Authorization: Bearer {token}
 ```
@@ -440,7 +440,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X GET http://localhost:8090/api/paymentmethod/14 \
+curl -X GET http://localhost:8090/api/v1/paymentmethod/14 \
 -H "Accept: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk"
 ```
@@ -465,7 +465,7 @@ You can send a POST request to create a new payment method.
 
 ```
 Method: POST
-URL: /api/paymentmethod
+URL: /api/v1/paymentmethod
 Content-Type: application/json
 Accept: application/json
 Authorization: Bearer {token}
@@ -483,7 +483,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X POST http://localhost:8090/api/paymentmethod \
+curl -X POST http://localhost:8090/api/v1/paymentmethod \
 -H "Accept: application/json" \
 -H "Content: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" \
@@ -510,7 +510,7 @@ You can send a DELETE request to delete a particular payment method.
 
 ```
 Method: GET
-URL: /api/paymentmethod/{id}
+URL: /api/v1/paymentmethod/{id}
 Accept: application/json
 Authorization: Bearer {token}
 ```
@@ -520,7 +520,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X DELETE http://localhost:8090/api/paymentmethod/13 \
+curl -X DELETE http://localhost:8090/api/v1/paymentmethod/13 \
 -H "Accept: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTI3OTA2NzcsImlhdCI6MTY1Mjc3MjY3Nywic3ViIjoiZ2VvcmdlaG91c2UifQ.mbAgLq-o0T4v20qoYW10C1D9PM6LzDOvOIl8nZDwrLk" 
 ```
@@ -543,7 +543,7 @@ You can send a GET request to get list of all items from cart.
 
 ```
 Method: GET
-URL: /api/cart
+URL: /api/v1/cart
 Accept: application/json
 Authorization: Bearer {token}
 ```
@@ -553,7 +553,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X GET http://localhost:8090/api/cart \
+curl -X GET http://localhost:8090/api/v1/cart \
 -H "Accept: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY"
 ```
@@ -594,7 +594,7 @@ You can send a POST request to add item to cart.
 
 ```
 Method: POST
-URL: /api/cart
+URL: /api/v1/cart
 Accept: application/json
 Content: application/json
 Authorization: Bearer {token}
@@ -612,7 +612,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X POST http://localhost:8090/api/cart \
+curl -X POST http://localhost:8090/api/v1/cart \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" \
@@ -666,7 +666,7 @@ You can send a PUT request to update item from cart.
 * Request :
 
 ```curl
-curl -X PUT http://localhost:8090/api/cart \
+curl -X PUT http://localhost:8090/api/v1/cart \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" \
@@ -711,7 +711,7 @@ You can send a DELETE request to delete item to cart.
 
 ```
 Method: DELETE
-URL: /api/cart/{serialNumber}
+URL: /api/v1/cart/{serialNumber}
 Content: application/json
 Authorization: Bearer {token}
 ```
@@ -719,7 +719,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X DELETE http://localhost:8090/api/cart/KAV319 \
+curl -X DELETE http://localhost:8090/api/v1/cart/KAV319 \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY" 
@@ -756,7 +756,7 @@ You can send a DELETE request to delete all items to cart.
 
 ```
 Method: DELETE
-URL: /api/cart/empty
+URL: /api/v1/cart/empty
 Accept: application/json
 Content: application/json
 Authorization: Bearer {token}
@@ -765,7 +765,7 @@ Authorization: Bearer {token}
 * Request :
 
 ```curl
-curl -X DELETE http://localhost:8090/api/cart/empty \
+curl -X DELETE http://localhost:8090/api/v1/cart/empty \
 -H "Accept: application/json" \
 -H "Content-Type: application/json" \
 -H "Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJleHAiOjE2NTM5MjEyNTEsImlhdCI6MTY1MzkwMzI1MSwic3ViIjoiZ2VvcmdlaG91c2UifQ.VvKRulyV9TYVrTIb5XxAjmsaYNMUxlhLySHfb9GCOWY"
