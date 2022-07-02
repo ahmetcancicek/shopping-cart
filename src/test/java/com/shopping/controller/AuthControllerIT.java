@@ -7,14 +7,17 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 
+
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class AuthControllerIT extends BaseIT {
+public class AuthControllerIT extends BaseIT {
+
     @Autowired
     private TestRestTemplate restTemplate;
-    private final HttpHeaders headers = new HttpHeaders();
+
+    private HttpHeaders headers = new HttpHeaders();
 
     @Test
     public void it_should_register_customer() {

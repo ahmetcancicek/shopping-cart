@@ -1,13 +1,14 @@
 package com.shopping.controller;
 
-import com.shopping.domain.dto.*;
+import com.shopping.domain.dto.ApiResponse;
+import com.shopping.domain.dto.ProductRequest;
+import com.shopping.domain.dto.ProductResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
-
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -186,6 +187,5 @@ public class ProductControllerIT extends BaseIT {
         assertEquals(productRequest.getDescription(), productResponse.getDescription(), "Description must be equal");
         assertEquals(productRequest.getPrice(), productResponse.getPrice(), "Price must be equal");
         assertEquals(productRequest.quantity, productResponse.getQuantity(), "Quantity must be equal");
-
     }
 }

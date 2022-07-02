@@ -1,9 +1,6 @@
 package com.shopping;
 
-
-import com.shopping.repository.CustomerRepository;
-import com.shopping.service.RoleService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -15,12 +12,12 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 @SpringBootApplication
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableSwagger2
 public class ShoppingCartApplication {
 
-    private final RoleService roleService;
-    private final CustomerRepository customerRepository;
+//    private final RoleService roleService;
+//    private final CustomerRepository customerRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(ShoppingCartApplication.class, args);
@@ -31,8 +28,8 @@ public class ShoppingCartApplication {
         return new CommandLineRunner() {
             @Override
             public void run(String... args) throws Exception {
-//                roleService.save(Role.builder().name("USER").build());
-//                roleService.save(Role.builder().name("ADMIN").build());
+//                roleService.save(Role.builder().name("ROLE_USER").build());
+//                roleService.save(Role.builder().name("ROLE_ADMIN").build());
 //
 //                customerRepository.save(Customer.builder()
 //                        .firstName("George")

@@ -14,6 +14,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.springframework.test.context.jdbc.Sql;
@@ -21,23 +22,25 @@ import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-
-import java.util.Objects;
-
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+@DirtiesContext
 @Testcontainers
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(value = {"/import.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 public abstract class BaseIT {
 
     @LocalServerPort
     private int port;
+
     @Container
-    private static final MySQLContainer<?> mysql = new MySQLContainer<>("mysql");
+    private static MySQLContainer<?> mysql = new MySQLContainer<>("mysql");
+
     @Autowired
     private TestRestTemplate restTemplate;
-    private final HttpHeaders headers = new HttpHeaders();
+
+    private HttpHeaders headers = new HttpHeaders();
+
     private static boolean init = false;
 
     private static String token = null;
@@ -54,15 +57,15 @@ public abstract class BaseIT {
                     .password("DHN827D9N")
                     .build();
 
-            // when
             ResponseEntity<ApiResponse<AuthToken>> response = restTemplate.exchange("/api/auth/login",
                     HttpMethod.POST,
                     new HttpEntity<>(request, headers),
                     new ParameterizedTypeReference<ApiResponse<AuthToken>>() {
                     });
 
-            AuthToken user = Objects.requireNonNull(response.getBody()).getData();
+            AuthToken user = response.getBody().getData();
             token = user.getToken();
+            init = true;
         }
     }
 
@@ -70,7 +73,6 @@ public abstract class BaseIT {
     public void it_should_db_run() {
         assertTrue(mysql.isRunning(), "MySQL is not running");
     }
-
 
     @DynamicPropertySource
     public static void properties(DynamicPropertyRegistry registry) {
