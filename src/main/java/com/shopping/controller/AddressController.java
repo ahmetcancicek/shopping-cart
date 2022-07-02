@@ -17,13 +17,13 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
+@PreAuthorize("hasAnyAuthority('ROLE_USER')")
 @Api(value = "Address API Documentation")
 public class AddressController {
 
     private final AddressService addressService;
 
     @ApiOperation(value = "Add address")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @PostMapping("/api/addresses")
     public ResponseEntity<ApiResponse<AddressResponse>> addAddress(@Valid @RequestBody AddressRequest addressRequest) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -34,7 +34,6 @@ public class AddressController {
     }
 
     @ApiOperation(value = "Delete address")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @DeleteMapping("/api/addresses/{id}")
     public ResponseEntity<ApiResponse<String>> deleteAddress(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
@@ -48,7 +47,6 @@ public class AddressController {
     }
 
     @ApiOperation(value = "Get address")
-    @PreAuthorize("hasAnyAuthority('ROLE_USER')")
     @GetMapping("/api/addresses/{id}")
     public ResponseEntity<ApiResponse<AddressResponse>> getAddress(@PathVariable String id) {
         final String username = SecurityContextHolder.getContext().getAuthentication().getName();
