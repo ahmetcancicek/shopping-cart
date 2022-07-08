@@ -1,4 +1,4 @@
-package com.shopping.controller;
+package com.shopping.controller.integration;
 
 import com.shopping.domain.dto.ApiResponse;
 import com.shopping.domain.dto.CartItemRequest;
