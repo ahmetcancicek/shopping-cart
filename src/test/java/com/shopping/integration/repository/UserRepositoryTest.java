@@ -1,7 +1,8 @@
-package com.shopping.repository;
+package com.shopping.integration.repository;
 
 import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
+import com.shopping.repository.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;

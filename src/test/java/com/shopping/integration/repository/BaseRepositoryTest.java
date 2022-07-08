@@ -1,4 +1,4 @@
-package com.shopping.repository;
+package com.shopping.integration.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;

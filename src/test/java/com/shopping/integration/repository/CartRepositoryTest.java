@@ -1,6 +1,7 @@
-package com.shopping.repository;
+package com.shopping.integration.repository;
 
 import com.shopping.domain.model.*;
+import com.shopping.repository.CartRepository;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
