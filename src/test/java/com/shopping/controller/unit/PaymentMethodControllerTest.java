@@ -1,6 +1,7 @@
-package com.shopping.controller;
+package com.shopping.controller.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shopping.controller.PaymentMethodController;
 import com.shopping.domain.dto.PaymentMethodRequest;
 import com.shopping.domain.dto.PaymentMethodResponse;
 import com.shopping.domain.model.PaymentType;

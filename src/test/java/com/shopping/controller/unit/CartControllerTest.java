@@ -1,6 +1,7 @@
-package com.shopping.controller;
+package com.shopping.controller.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shopping.controller.CartController;
 import com.shopping.domain.dto.CartItemRequest;
 import com.shopping.domain.dto.CartItemResponse;
 import com.shopping.domain.dto.CartResponse;

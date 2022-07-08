@@ -1,7 +1,8 @@
-package com.shopping.controller;
+package com.shopping.controller.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.shopping.controller.ProductController;
 import com.shopping.domain.dto.ProductRequest;
 import com.shopping.domain.dto.ProductResponse;
 import com.shopping.domain.exception.NoSuchElementFoundException;

@@ -1,6 +1,7 @@
-package com.shopping.controller;
+package com.shopping.controller.unit;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.shopping.controller.AddressController;
 import com.shopping.domain.dto.AddressRequest;
 import com.shopping.domain.dto.AddressResponse;
 import com.shopping.service.AddressService;

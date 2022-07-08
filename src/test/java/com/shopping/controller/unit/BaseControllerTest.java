@@ -1,4 +1,4 @@
-package com.shopping.controller;
+package com.shopping.controller.unit;
 
 import com.shopping.config.jwt.JwtTokenUtil;
 import com.shopping.repository.CustomerRepository;
