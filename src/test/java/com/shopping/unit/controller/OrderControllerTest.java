@@ -1,4 +1,4 @@
-package com.shopping.controller.unit;
+package com.shopping.unit.controller;
 
 public class OrderControllerTest {
 }

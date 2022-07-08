@@ -1,10 +1,13 @@
-package com.shopping.service.impl;
+package com.shopping.unit.service.impl;
 
 import com.shopping.domain.dto.CartItemRequest;
 import com.shopping.domain.dto.CartResponse;
 import com.shopping.domain.model.*;
 import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.repository.CartRepository;
+import com.shopping.service.impl.CartServiceImpl;
+import com.shopping.service.impl.CustomerServiceImpl;
+import com.shopping.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

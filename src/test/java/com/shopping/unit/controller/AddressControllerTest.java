@@ -1,4 +1,4 @@
-package com.shopping.controller.unit;
+package com.shopping.unit.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.shopping.controller.AddressController;

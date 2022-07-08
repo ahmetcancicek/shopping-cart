@@ -1,10 +1,11 @@
-package com.shopping.service.impl;
+package com.shopping.unit.service.impl;
 
 import com.shopping.domain.dto.ProductRequest;
 import com.shopping.domain.dto.ProductResponse;
 import com.shopping.domain.exception.NoSuchElementFoundException;
 import com.shopping.domain.model.Product;
 import com.shopping.repository.ProductRepository;
+import com.shopping.service.impl.ProductServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;

@@ -1,4 +1,4 @@
-package com.shopping.service.impl;
+package com.shopping.unit.service.impl;
 
 import com.shopping.domain.dto.AddressRequest;
 import com.shopping.domain.dto.AddressResponse;
@@ -6,6 +6,8 @@ import com.shopping.domain.model.Address;
 import com.shopping.domain.model.Customer;
 import com.shopping.domain.model.User;
 import com.shopping.repository.AddressRepository;
+import com.shopping.service.impl.AddressServiceImpl;
+import com.shopping.service.impl.CustomerServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

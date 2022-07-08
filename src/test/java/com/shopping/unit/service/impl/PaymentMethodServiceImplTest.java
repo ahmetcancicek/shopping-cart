@@ -1,4 +1,4 @@
-package com.shopping.service.impl;
+package com.shopping.unit.service.impl;
 
 import com.shopping.domain.dto.PaymentMethodRequest;
 import com.shopping.domain.dto.PaymentMethodResponse;
@@ -7,6 +7,8 @@ import com.shopping.domain.model.PaymentMethod;
 import com.shopping.domain.model.PaymentType;
 import com.shopping.domain.model.User;
 import com.shopping.repository.PaymentMethodRepository;
+import com.shopping.service.impl.CustomerServiceImpl;
+import com.shopping.service.impl.PaymentMethodServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;

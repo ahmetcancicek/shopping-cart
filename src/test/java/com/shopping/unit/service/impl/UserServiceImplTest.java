@@ -1,4 +1,4 @@
-package com.shopping.service.impl;
+package com.shopping.unit.service.impl;
 
 import com.shopping.domain.exception.AlreadyExistsElementException;
 import com.shopping.domain.exception.NoSuchElementFoundException;
@@ -6,6 +6,7 @@ import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
 import com.shopping.service.RoleService;
+import com.shopping.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
