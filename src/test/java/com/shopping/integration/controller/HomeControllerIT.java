@@ -1,4 +1,4 @@
-package com.shopping.controller.integration;
+package com.shopping.integration.controller;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
