@@ -1,5 +1,6 @@
 package com.shopping.integration;
 
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.MySQLContainer;
@@ -8,6 +9,9 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @Testcontainers
 public abstract class AbstractIT {
+
+    @LocalServerPort
+    private int port;
 
     @Container
     private static MySQLContainer<?> mysql = new MySQLContainer<>("mysql");
