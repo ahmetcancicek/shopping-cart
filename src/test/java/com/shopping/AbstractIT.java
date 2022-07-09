@@ -1,4 +1,4 @@
-package com.shopping.integration;
+package com.shopping;
 
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.test.context.DynamicPropertyRegistry;
