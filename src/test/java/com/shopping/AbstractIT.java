@@ -14,13 +14,13 @@ public abstract class AbstractIT {
     private int port;
 
     @Container
-    private static MySQLContainer<?> mysql = new MySQLContainer<>("mysql");
+    private static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.28");
 
     @DynamicPropertySource
     public static void properties(DynamicPropertyRegistry registry) {
         registry.add("spring.sql.init.mode", () -> " always");
         registry.add("spring.jpa.defer-datasource-initialization", () -> "true");
-        registry.add("spring.jpa.hibernate.dll-auto", () -> "create-drop");
+        registry.add("spring.jpa.hibernate.ddl-auto", () -> "create-drop");
         registry.add("spring.jpa.properties.hibernate.dialect", () -> "org.hibernate.dialect.MySQL8Dialect");
         registry.add("spring.datasource.initialization-mode", () -> "never");
         registry.add("spring.datasource.url", mysql::getJdbcUrl);
