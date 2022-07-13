@@ -7,9 +7,9 @@ spring:
       name: admin
       password: admin
   datasource:
-    url: "jdbc:mysql://${MYSQL_HOST:localhost}:3306/shopping_cart"
-    username: "user"
-    password: "password"
+    url: "jdbc:mysql://${MYSQL_HOST}:3306/shopping_cart"
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
     driver-class-name: "com.mysql.jdbc.Driver"
     hikari:
       connection-timeout: 60000
