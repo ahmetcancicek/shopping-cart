@@ -11,7 +11,7 @@ boot application. The application uses maven as a build tool and Docker as a con
 2. Spring Security
 3. Spring Data
 4. Hibernate
-5. Maven
+5. Maven (3.8.6)
 6. JWT (0.11.5)
 7. MySQL
 8. Java 11
@@ -32,9 +32,14 @@ To test the application
 To build and run the application
 
 ```bash
-./mvnw clean install -Dmaven.test.skip=true
-docker-compose up -d shoppingcart-mysql
-./mvnw spring-boot:run
+docker-compose -f docker-compose.dev.yml up -d
+./mvnw spring-boot:run -Dspring-boot.run.profiles=dev
+```
+
+To update the maven wapper
+
+```bash
+mvn wrapper:wrapper
 ```
 
 ## Deployment
@@ -42,7 +47,8 @@ docker-compose up -d shoppingcart-mysql
 To deploy this project run
 
 ```bash
-  docker-compose up -d
+./mvnw clean install -Dmaven.test.skip=true
+docker-compose up -d
 ```
 
 ## API Documentation
