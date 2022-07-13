@@ -19,7 +19,10 @@ services:
   shoppingcart-server:
     container_name: shoppingcart-server
     environment:
-      MYSQL_HOST: 172.26.0.2
+      MYSQL_HOST: shoppingcart-mysql
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+      SPRING_PROFILES_ACTIVE: production
     build:
       context: .
       dockerfile: Dockerfile
