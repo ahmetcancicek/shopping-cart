@@ -1,37 +1,37 @@
 package com.shopping.integration.controller;
 
+import com.shopping.AbstractIT;
+import com.shopping.IT;
 import com.shopping.domain.dto.ApiResponse;
 import com.shopping.domain.dto.ProductRequest;
 import com.shopping.domain.dto.ProductResponse;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.jdbc.Sql;
 
 import java.math.BigDecimal;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@IT
+@Sql(value = {"/sql/product.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/sql/cleanup.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class ProductControllerIT extends AbstractIT {
+
     @Autowired
     private TestRestTemplate restTemplate;
-    private final HttpHeaders headers = new HttpHeaders();
-
-    @Override
-    @BeforeEach
-    void setUp() {
-        super.setUp();
-
-        headers.add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + getToken());
-    }
+    private HttpHeaders headers = new HttpHeaders();
 
     @Test
     public void it_should_add_product() {
         // given
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + generateAdminToken());
+
         ProductRequest productRequest = ProductRequest.builder()
                 .serialNumber("Y5N3DJ")
                 .name("Egg")
@@ -63,6 +63,10 @@ public class ProductControllerIT extends AbstractIT {
 
     @Test
     public void it_should_delete_product_of_that_serialNumber() {
+        // given
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + generateAdminToken());
+
         // when
         ResponseEntity<ApiResponse<String>> response = restTemplate.exchange("/api/v1/products/{serialNumber}",
                 HttpMethod.DELETE,
@@ -79,6 +83,10 @@ public class ProductControllerIT extends AbstractIT {
 
     @Test
     public void it_should_return_bad_request_when_delete_product_of_that_serialNumber_does_not_exist() {
+        // given
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + generateAdminToken());
+
         // when
         ResponseEntity<ApiResponse<String>> response = restTemplate.exchange("/api/products/{serialNumber}",
                 HttpMethod.DELETE,
@@ -95,6 +103,10 @@ public class ProductControllerIT extends AbstractIT {
 
     @Test
     public void it_should_return_product_of_that_serialNumber() {
+        // given
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + generateUserToken());
+
         // when
         ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate
                 .exchange("/api/v1/products/{serialNumber}",
@@ -119,6 +131,9 @@ public class ProductControllerIT extends AbstractIT {
 
     @Test
     public void it_should_return_bad_request_when_product_does_not_exist() {
+        // given
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + generateUserToken());
         // when
         ResponseEntity<ApiResponse<ProductResponse>> response = restTemplate
                 .exchange("/api/v1/products/{serialNumber}",
@@ -134,6 +149,10 @@ public class ProductControllerIT extends AbstractIT {
 
     @Test
     public void it_should_return_list_of_all_products() {
+        // given
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + generateUserToken());
+
         // when
         ResponseEntity<ApiResponse<List<ProductResponse>>> response = restTemplate
                 .exchange("/api/v1/products",
@@ -159,6 +178,10 @@ public class ProductControllerIT extends AbstractIT {
 
     @Test
     public void it_should_update_product_of_that_serialNumber() {
+        // given
+        headers.add(HttpHeaders.AUTHORIZATION,
+                "Bearer " + generateAdminToken());
+
         // given
         ProductRequest productRequest = ProductRequest.builder()
                 .serialNumber("KMNA239")

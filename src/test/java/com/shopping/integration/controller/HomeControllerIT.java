@@ -1,5 +1,7 @@
 package com.shopping.integration.controller;
 
+import com.shopping.AbstractIT;
+import com.shopping.IT;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,22 +10,23 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@IT
+@Sql(value = {"/sql/auth.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/sql/cleanup.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class HomeControllerIT extends AbstractIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
-    private final HttpHeaders headers = new HttpHeaders();
+    private HttpHeaders headers = new HttpHeaders();
 
-    @Override
     @BeforeEach
     void setUp() {
-        super.setUp();
-
         headers.add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + getToken());
+                "Bearer " + generateUserToken());
     }
 
     @Test

@@ -22,7 +22,7 @@ public class AuthControllerIT extends AbstractIT {
     @Autowired
     private TestRestTemplate restTemplate;
 
-    private final HttpHeaders headers = new HttpHeaders();
+    private HttpHeaders headers = new HttpHeaders();
 
     @Test
     public void it_should_register_customer() {

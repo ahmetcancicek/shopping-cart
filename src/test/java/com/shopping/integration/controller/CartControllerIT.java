@@ -1,5 +1,7 @@
 package com.shopping.integration.controller;
 
+import com.shopping.AbstractIT;
+import com.shopping.IT;
 import com.shopping.domain.dto.ApiResponse;
 import com.shopping.domain.dto.CartItemRequest;
 import com.shopping.domain.dto.CartResponse;
@@ -9,22 +11,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
+import org.springframework.test.context.jdbc.Sql;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@IT
+@Sql(value = {"/sql/cart.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(value = {"/sql/cleanup.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class CartControllerIT extends AbstractIT {
 
     @Autowired
     private TestRestTemplate restTemplate;
-    private final HttpHeaders headers = new HttpHeaders();
 
-    @Override
+    private HttpHeaders headers = new HttpHeaders();
+
     @BeforeEach
     void setUp() {
-        super.setUp();
-
         headers.add(HttpHeaders.AUTHORIZATION,
-                "Bearer " + getToken());
+                "Bearer " + generateUserToken());
     }
 
     @Test
