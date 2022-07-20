@@ -13,12 +13,11 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@ActiveProfiles("test")
 @DirtiesContext
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-public class BaseRepositoryTest {
+public abstract class AbstractRepositoryTest {
 
     @Container
     private static MySQLContainer<?> mysql = new MySQLContainer<>("mysql:8.0.27");

@@ -15,13 +15,9 @@ import org.springframework.test.context.jdbc.Sql;
 import static org.junit.jupiter.api.Assertions.*;
 
 @IT
-@Sql(value = {"/sql/auth.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/cleanup.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:sql/auth.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 class HomeControllerIT extends AbstractIT {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-    private HttpHeaders headers = new HttpHeaders();
 
     @BeforeEach
     void setUp() {

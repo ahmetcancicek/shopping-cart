@@ -16,7 +16,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class CartRepositoryTest extends BaseRepositoryTest {
+public class CartRepositoryTest extends AbstractRepositoryTest {
     @Autowired
     private TestEntityManager testEntityManager;
 
