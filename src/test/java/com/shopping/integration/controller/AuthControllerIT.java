@@ -4,25 +4,19 @@ import com.shopping.IT;
 import com.shopping.domain.dto.*;
 import com.shopping.AbstractIT;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.jdbc.Sql;
+
 
 import java.util.Objects;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 @IT
-@Sql(value = {"/sql/auth.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(value = {"/sql/cleanup.sql"}, executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = "classpath:sql/auth.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
+@Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class AuthControllerIT extends AbstractIT {
-
-    @Autowired
-    private TestRestTemplate restTemplate;
-
-    private HttpHeaders headers = new HttpHeaders();
 
     @Test
     public void it_should_register_customer() {
