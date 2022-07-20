@@ -1,23 +1,17 @@
-DELETE
-FROM users_roles;
+SET FOREIGN_KEY_CHECKS=0;
 
-DELETE
-FROM cart_item;
+TRUNCATE TABLE users_roles;
 
-DELETE
-FROM cart;
+TRUNCATE TABLE cart_item;
 
-DELETE
-FROM product;
+TRUNCATE TABLE cart;
 
-DELETE
-FROM customer;
+TRUNCATE TABLE product;
 
-DELETE
-FROM users;
+TRUNCATE TABLE customer;
 
-DELETE
-FROM users_roles;
+TRUNCATE TABLE users;
 
-DELETE
-FROM role;
+TRUNCATE TABLE role;
+
+SET FOREIGN_KEY_CHECKS=1;

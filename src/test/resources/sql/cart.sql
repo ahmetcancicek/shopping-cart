@@ -1,10 +1,13 @@
+
 INSERT INTO role(id, name) VALUES (1, 'ROLE_USER');
+
 INSERT INTO role(id, name) VALUES (2, 'ROLE_ADMIN');
 
 
-INSERT IGNORE INTO product (id, serial_number, description, name, price, quantity) VALUES (3000, 'KMNA239', 'Apple iPhone 13 PRO', 'iPhone 13 PRO', 1000, 5);
 
-INSERT IGNORE INTO product (id, serial_number, description, name, price, quantity) VALUES (3001, 'PADMA232', 'Samsung Galaxy S22', 'Galaxy S22', 1100, 3);
+INSERT INTO product (id, serial_number, description, name, price, quantity) VALUES (3000, 'KMNA239', 'Apple iPhone 13 PRO', 'iPhone 13 PRO', 1000, 5);
+
+INSERT INTO product (id, serial_number, description, name, price, quantity) VALUES (3001, 'PADMA232', 'Samsung Galaxy S22', 'Galaxy S22', 1100, 3);
 
 
 
