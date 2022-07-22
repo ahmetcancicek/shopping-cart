@@ -2,17 +2,17 @@ package com.shopping.common;
 
 import org.testcontainers.containers.MySQLContainer;
 
-public class ShoppingCartMySQLApplicationContainer extends MySQLContainer<ShoppingCartMySQLApplicationContainer> {
+public class EcommerceStarterMySQLApplicationContainer extends MySQLContainer<EcommerceStarterMySQLApplicationContainer> {
     private static final String IMAGE_VERSION = "mysql:8.0.28";
-    private static ShoppingCartMySQLApplicationContainer container;
+    private static EcommerceStarterMySQLApplicationContainer container;
 
-    private ShoppingCartMySQLApplicationContainer() {
+    private EcommerceStarterMySQLApplicationContainer() {
         super(IMAGE_VERSION);
     }
 
-    public static ShoppingCartMySQLApplicationContainer getInstance() {
+    public static EcommerceStarterMySQLApplicationContainer getInstance() {
         if (container == null) {
-            container = new ShoppingCartMySQLApplicationContainer();
+            container = new EcommerceStarterMySQLApplicationContainer();
         }
         return container;
     }
