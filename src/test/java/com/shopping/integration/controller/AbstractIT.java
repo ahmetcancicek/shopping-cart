@@ -1,6 +1,6 @@
-package com.shopping;
+package com.shopping.integration.controller;
 
-import com.shopping.common.ShoppingCartMySQLApplicationContainer;
+import com.shopping.common.EcommerceStarterMySQLApplicationContainer;
 import com.shopping.config.jwt.JwtTokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -31,7 +31,7 @@ public abstract class AbstractIT {
     private JwtTokenUtil jwtTokenUtil;
 
     @Container
-    private static ShoppingCartMySQLApplicationContainer container = ShoppingCartMySQLApplicationContainer.getInstance();
+    private static EcommerceStarterMySQLApplicationContainer container = EcommerceStarterMySQLApplicationContainer.getInstance();
 
     protected String generateUserToken() {
         return jwtTokenUtil.generateToken(new UserDetails() {

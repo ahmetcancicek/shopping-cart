@@ -7,6 +7,4 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 @DataJpaTest
 public class OrderRepositoryTest {
 
-    @Autowired
-    private TestEntityManager testEntityManager;
 }

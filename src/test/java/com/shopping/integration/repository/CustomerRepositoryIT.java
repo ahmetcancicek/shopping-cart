@@ -15,10 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 
-class CustomerRepositoryTest extends AbstractRepositoryTest {
-
-    @Autowired
-    private TestEntityManager testEntityManager;
+class CustomerRepositoryIT extends AbstractIT {
 
     @Autowired
     private CustomerRepository customerRepository;

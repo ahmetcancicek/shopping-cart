@@ -1,6 +1,5 @@
 package com.shopping.integration.controller;
 
-import com.shopping.AbstractIT;
 import com.shopping.IT;
 
 @IT

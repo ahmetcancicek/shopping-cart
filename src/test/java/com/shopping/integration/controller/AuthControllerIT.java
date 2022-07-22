@@ -2,7 +2,6 @@ package com.shopping.integration.controller;
 
 import com.shopping.IT;
 import com.shopping.domain.dto.*;
-import com.shopping.AbstractIT;
 import org.junit.jupiter.api.Test;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
