@@ -131,7 +131,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <finalName>shopping-cart</finalName>
+                    <finalName>ecommerce-starter</finalName>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>
