@@ -2,16 +2,21 @@ version: '3.1'
 
 services:
 
-  ecommerce-starter-mysql:
-    container_name: ecommerce-starter-mysql
+  mysql:
+    container_name: ecommercestarter_mysql
     image: mysql:8.0.27
-    restart: "no"
+    restart: "always"
     environment:
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: ecommerce-starter
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     volumes:
-      - $HOME/docker/volumes/ecommerce-starter-mysql:/var/lib/mysql
+      - mysql_data:/var/lib/mysql
     ports:
       - "3306:3306"
+
+
+volumes:
+  mysql_data:
+    name: ecommercestarter_mysql_data
