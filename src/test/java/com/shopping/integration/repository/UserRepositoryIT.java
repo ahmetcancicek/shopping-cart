@@ -1,5 +1,6 @@
 package com.shopping.integration.repository;
 
+import com.shopping.IT;
 import com.shopping.domain.model.Role;
 import com.shopping.domain.model.User;
 import com.shopping.repository.UserRepository;
@@ -16,7 +17,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 
-
+@IT
 class UserRepositoryIT extends AbstractIT {
 
     @Autowired

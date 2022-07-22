@@ -2,6 +2,7 @@ package com.shopping.integration.controller;
 
 import com.shopping.common.EcommerceStarterMySQLApplicationContainer;
 import com.shopping.config.jwt.JwtTokenUtil;
+import org.junit.jupiter.api.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;

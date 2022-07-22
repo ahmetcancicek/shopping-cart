@@ -1,5 +1,6 @@
 package com.shopping.integration.repository;
 
+import com.shopping.IT;
 import com.shopping.domain.model.Product;
 import com.shopping.repository.ProductRepository;
 import org.junit.jupiter.api.Test;
@@ -18,6 +19,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
 import static org.junit.jupiter.api.Assertions.*;
 
+@IT
 public class ProductRepositoryIT extends AbstractIT {
     @Autowired
     private ProductRepository productRepository;

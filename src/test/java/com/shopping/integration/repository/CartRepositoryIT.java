@@ -1,5 +1,6 @@
 package com.shopping.integration.repository;
 
+import com.shopping.IT;
 import com.shopping.domain.model.*;
 import com.shopping.repository.CartRepository;
 import org.junit.jupiter.api.AfterEach;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
+@IT
 public class CartRepositoryIT extends AbstractIT {
 
     @Autowired

@@ -3,6 +3,7 @@ package com.shopping.integration.controller;
 import com.shopping.IT;
 import com.shopping.domain.dto.*;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.test.context.jdbc.Sql;
@@ -13,6 +14,7 @@ import java.util.Objects;
 import static org.junit.jupiter.api.Assertions.*;
 
 @IT
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Sql(scripts = "classpath:sql/auth.sql", executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
 @Sql(scripts = "classpath:sql/cleanup.sql", executionPhase = Sql.ExecutionPhase.AFTER_TEST_METHOD)
 public class AuthControllerIT extends AbstractIT {
