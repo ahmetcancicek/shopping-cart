@@ -2,24 +2,24 @@ version: '3.1'
 
 services:
 
-  shoppingcart-mysql:
-    container_name: shoppingcart-mysql
+  ecommerce-starter-mysql:
+    container_name: ecommerce-starter-mysql
     image: mysql:8.0.27
     restart: "no"
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: shopping_cart
+      MYSQL_DATABASE: ecommerce-starter
       MYSQL_USER: user
       MYSQL_PASSWORD: password
     volumes:
-      - $HOME/docker/volumes/shoppingcart-mysql:/var/lib/mysql
+      - $HOME/docker/volumes/ecommerce-starter-mysql:/var/lib/mysql
     ports:
       - "3306:3306"
 
-  shoppingcart-server:
-    container_name: shoppingcart-server
+  ecommerce-starter-server:
+    container_name: ecommerce-starter-server
     environment:
-      MYSQL_HOST: shoppingcart-mysql
+      MYSQL_HOST: ecommerce-starter-mysql
       MYSQL_USER: user
       MYSQL_PASSWORD: password
       SPRING_PROFILES_ACTIVE: production
@@ -27,6 +27,6 @@ services:
       context: .
       dockerfile: Dockerfile
     depends_on:
-      - shoppingcart-mysql
+      - ecommerce-starter-mysql
     ports:
       - "8090:8090"
