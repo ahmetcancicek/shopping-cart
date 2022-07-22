@@ -22,6 +22,7 @@ services:
       MYSQL_HOST: ecommerce-starter-mysql
       MYSQL_USER: user
       MYSQL_PASSWORD: password
+      MYSQL_DATABASE: ecommerce-starter
       SPRING_PROFILES_ACTIVE: production
     build:
       context: .
